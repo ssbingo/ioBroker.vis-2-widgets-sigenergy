@@ -167,6 +167,9 @@ modelType, serialNumber, firmwareVersion, runningState, outputPower, gridFrequen
 所有小部件均支持**浅色和深色模式**,可通过小部件设置 `Dark mode` 切换。
 
 ## 更新日志
+### 1.8.1 (2026-06-08)
+* (ssbingo) 修复 io-package.json 中的 JSON 语法错误；文档中添加了控件截图
+
 ### 1.8.0 (2026-06-08)
 * (ssbingo) 新控件：「车辆电量显示」——显示可配置的电动汽车图片，带动画 SOC 进度条、颜色编码电量（红/黄/绿）和可选闪烁充电徽章
 

@@ -1,20 +1,20 @@
 {
   "common": {
     "name": "vis-2-widgets-sigenergy",
-    "version": "1.8.0",
+    "version": "1.8.1",
     "news": {
-      "1.8.0": {
-        "en": "New widget: Fahrzeug-Ladestand — configurable EV image with animated SOC bar, color-coded charge level, and optional charging badge",
-        "de": "Neues Widget: Fahrzeug-Ladestand — konfigurierbares Fahrzeugbild mit animiertem SOC-Balken, farbkodiertem Ladestand und optionalem Lade-Badge",
-        "ru": "Новый виджет: Уровень заряда автомобиля — настраиваемое изображение ЭМ с анимированной полосой SOC, цветовой индикацией уровня заряда и опциональным значком зарядки",
-        "pt": "Novo widget: Nível de carga do veículo — imagem EV configurável com barra SOC animada, nível de carga em cor e badge de carregamento opcional",
-        "nl": "Nieuw widget: Voertuig laadniveau — configureerbaar EV-afbeelding met geanimeerde SOC-balk, kleurgecodeerd laadniveau en optionele laad-badge",
-        "fr": "Nouveau widget : Niveau de charge du véhicule — image EV configurable avec barre SOC animée, niveau de charge en couleur et badge de charge optionnel",
-        "it": "Nuovo widget: Livello di carica del veicolo — immagine EV configurabile con barra SOC animata, livello di carica a colori e badge di ricarica opzionale",
-        "es": "Nuevo widget: Nivel de carga del vehículo — imagen EV configurable con barra SOC animada, nivel de carga en color y badge de carga opcional",
-        "pl": "Nowy widżet: Poziom naładowania pojazdu — konfigurowalne zdjęcie pojazdu EV z animowanym paskiem SOC, kolorowym poziomem naładowania i opcjonalną odznaką ładowania",
-        "uk": "Новий віджет: Рівень заряду автомобіля — налаштовуване зображення ЕМ з анімованою смугою SOC, кольоровим рівнем заряду та опціональним значком зарядки",
-        "zh-cn": "新控件：车辆电量显示——可配置的电动汽车图片，带动画 SOC 进度条、颜色编码电量和可选充电徽章"
+      "1.8.1": {
+        "en": "Fixed JSON syntax error in io-package.json; added widget screenshot to documentation",
+        "de": "JSON-Syntaxfehler in io-package.json behoben; Widget-Screenshot zur Dokumentation hinzugefügt",
+        "ru": "Исправлена синтаксическая ошибка JSON в io-package.json; в документацию добавлен снимок экрана виджета",
+        "pt": "Corrigido erro de sintaxe JSON em io-package.json; captura de ecrã do widget adicionada à documentação",
+        "nl": "JSON-syntaxisfout in io-package.json opgelost; widget-screenshot toegevoegd aan documentatie",
+        "fr": "Correction d'une erreur de syntaxe JSON dans io-package.json ; capture d'écran du widget ajoutée à la documentation",
+        "it": "Correto errore di sintassi JSON in io-package.json; screenshot del widget aggiunto alla documentazione",
+        "es": "Corregido error de sintaxis JSON en io-package.json; captura de pantalla del widget añadida a la documentación",
+        "pl": "Naprawiono błąd składni JSON w io-package.json; zrzut ekranu widżetu dodany do dokumentacji",
+        "uk": "Виправлено синтаксичну помилку JSON у io-package.json; до документації додано знімок екрана віджета",
+        "zh-cn": "修复 io-package.json 中的 JSON 语法错误；文档中添加了控件截图"
       }
     },
     "titleLang": {

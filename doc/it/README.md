@@ -135,6 +135,9 @@ Mostra un'immagine del veicolo configurabile (ad es. Fiat 500e) come elemento vi
 Tutti i widget supportano una **modalità chiara e scura**, commutabile tramite l'impostazione widget `Modalità scura`.
 
 ## Changelog
+### 1.8.1 (2026-06-08)
+* (ssbingo) Correto errore di sintassi JSON in io-package.json; screenshot del widget aggiunto alla documentazione
+
 ### 1.8.0 (2026-06-08)
 * (ssbingo) Nuovo widget: "Livello di carica del veicolo" — mostra un'immagine EV configurabile con barra SOC animata, livello di carica a colori (rosso/giallo/verde) e badge di ricarica lampeggiante opzionale
 

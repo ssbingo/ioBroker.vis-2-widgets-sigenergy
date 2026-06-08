@@ -167,6 +167,9 @@ Displays a configurable vehicle image (e.g. Fiat 500e) as the central visual ele
 All widgets support a **light and dark mode**, switchable via the widget setting `Dark mode`.
 
 ## Changelog
+### 1.8.1 (2026-06-08)
+* (ssbingo) Fixed JSON syntax error in io-package.json; added widget screenshot to documentation
+
 ### 1.8.0 (2026-06-08)
 * (ssbingo) New widget: "Fahrzeug-Ladestand" — shows a configurable EV image with animated SOC bar, color-coded charge level (red/yellow/green), and optional blinking charging badge
 

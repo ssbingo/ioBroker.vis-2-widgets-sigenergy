@@ -134,6 +134,9 @@ Toont een configureerbaar voertuigafbeelding (bijv. Fiat 500e) als centraal visu
 Alle widgets ondersteunen een **lichte en donkere modus**, die kan worden omgeschakeld via de widget-instelling `Donkere modus`.
 
 ## Changelog
+### 1.8.1 (2026-06-08)
+* (ssbingo) JSON-syntaxisfout in io-package.json opgelost; widget-screenshot toegevoegd aan documentatie
+
 ### 1.8.0 (2026-06-08)
 * (ssbingo) Nieuw widget: "Voertuig laadniveau" — toont een configureerbaar EV-afbeelding met geanimeerde SOC-balk, kleurgecodeerd laadniveau (rood/geel/groen) en optionele knipperende laad-badge
 

@@ -167,6 +167,9 @@ Zeigt ein konfigurierbares Fahrzeugbild (z.B. Fiat 500e) als zentrales Sichtelem
 Alle Widgets unterstützen einen **Hell- und Dunkelmodus**, der über die Widget-Einstellung `Dunkelmodus` umgeschaltet werden kann.
 
 ## Changelog
+### 1.8.1 (2026-06-08)
+* (ssbingo) JSON-Syntaxfehler in io-package.json behoben; Widget-Screenshot zur Dokumentation hinzugefügt
+
 ### 1.8.0 (2026-06-08)
 * (ssbingo) Neues Widget: „Fahrzeug-Ladestand" — zeigt ein konfigurierbares Fahrzeugbild mit animiertem SOC-Balken, farbkodiertem Ladestand (rot/gelb/grün) und optionalem blinkendem Lade-Badge
 

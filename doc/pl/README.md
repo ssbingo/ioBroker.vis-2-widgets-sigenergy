@@ -135,6 +135,9 @@ Wyświetla konfigurowalne zdjęcie pojazdu (np. Fiat 500e) jako centralny elemen
 Wszystkie widżety obsługują **tryb jasny i ciemny**, przełączany przez ustawienie widżetu `Tryb ciemny`.
 
 ## Changelog
+### 1.8.1 (2026-06-08)
+* (ssbingo) Naprawiono błąd składni JSON w io-package.json; zrzut ekranu widżetu dodany do dokumentacji
+
 ### 1.8.0 (2026-06-08)
 * (ssbingo) Nowy widżet: "Poziom naładowania pojazdu" — wyświetla konfigurowalne zdjęcie pojazdu elektrycznego z animowanym paskiem SOC, kolorowym poziomem naładowania (czerwony/żółty/zielony) i opcjonalną migającą odznaką ładowania
 

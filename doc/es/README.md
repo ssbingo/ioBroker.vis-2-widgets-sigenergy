@@ -135,6 +135,9 @@ Muestra una imagen de vehículo configurable (p. ej. Fiat 500e) como elemento vi
 Todos los widgets admiten un **modo claro y oscuro**, conmutable mediante el ajuste de widget `Modo oscuro`.
 
 ## Changelog
+### 1.8.1 (2026-06-08)
+* (ssbingo) Corregido error de sintaxis JSON en io-package.json; captura de pantalla del widget añadida a la documentación
+
 ### 1.8.0 (2026-06-08)
 * (ssbingo) Nuevo widget: "Nivel de carga del vehículo" — muestra una imagen EV configurable con barra SOC animada, nivel de carga en color (rojo/amarillo/verde) y badge de carga parpadeante opcional
 
