@@ -116,11 +116,25 @@ Przegląd i widok szczegółowy wszystkich mikrofalowników SigenMicro na szynie
 | 11–15 | 2 wiersze | 46 × 52 px |
 | 16–20 | 2 wiersze | 40 × 46 px |
 
+### Poziom naładowania pojazdu (EV SOC)
+Wyświetla konfigurowalne zdjęcie pojazdu (np. Fiat 500e) jako centralny element wizualny. Kolorowa odznaka w prawym górnym rogu pokazuje symbol błyskawicy, aktualny poziom naładowania w procentach i etykietę „LADESTAND". Pasek postępu na dole odzwierciedla aktualny SOC. Gdy opcjonalny stan ładowania jest aktywny, odznaka pulsuje zielonym blaskiem.
+
+#### Logika kolorów
+| Poziom naładowania | Kolor |
+|---|---|
+| ≤ 15 % | Czerwony (#f87171) |
+| ≤ 35 % | Żółty (#fbbf24) |
+| > 35 % | Zielony (#4ade80) |
+
+**OIDs:** `oid_ev_soc`, `oid_charging`
+
 ## Wygląd
 
 Wszystkie widżety obsługują **tryb jasny i ciemny**, przełączany przez ustawienie widżetu `Tryb ciemny`.
 
 ## Changelog
+### 1.8.0 (2026-06-08)
+* (ssbingo) Nowy widżet: "Poziom naładowania pojazdu" — wyświetla konfigurowalne zdjęcie pojazdu elektrycznego z animowanym paskiem SOC, kolorowym poziomem naładowania (czerwony/żółty/zielony) i opcjonalną migającą odznaką ładowania
 
 ### 1.7.9 (2026-05-27)
 * (ssbingo) Usunięto przestarzałe .eslintrc.json i .prettierignore

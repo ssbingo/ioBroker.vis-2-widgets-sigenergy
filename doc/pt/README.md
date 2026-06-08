@@ -116,11 +116,25 @@ Visão geral e detalhe de todos os micro-inversores SigenMicro no barramento Mod
 | 11–15 | 2 linhas | 46 × 52 px |
 | 16–20 | 2 linhas | 40 × 46 px |
 
+### Nível de carga do veículo (EV SOC)
+Mostra uma imagem de veículo configurável (p. ex. Fiat 500e) como elemento visual central. Um badge colorido no canto superior direito mostra um símbolo de relâmpago, o nível de carga atual em percentagem e a etiqueta «LADESTAND». Uma barra de progresso na parte inferior reflete o SOC atual. Quando o estado de carga opcional está ativo, o badge emite um brilho verde pulsante.
+
+#### Lógica de cores
+| Nível de carga | Cor |
+|---|---|
+| ≤ 15 % | Vermelho (#f87171) |
+| ≤ 35 % | Amarelo (#fbbf24) |
+| > 35 % | Verde (#4ade80) |
+
+**OIDs:** `oid_ev_soc`, `oid_charging`
+
 ## Aparência
 
 Todos os widgets suportam um **modo claro e escuro**, comutável através da definição do widget `Modo escuro`.
 
 ## Changelog
+### 1.8.0 (2026-06-08)
+* (ssbingo) Novo widget: "Nível de carga do veículo" — mostra uma imagem de EV configurável com barra SOC animada, nível de carga em cor (vermelho/amarelo/verde) e badge de carregamento intermitente opcional
 
 ### 1.7.9 (2026-05-27)
 * (ssbingo) Removidos .eslintrc.json e .prettierignore obsoletos

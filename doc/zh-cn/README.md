@@ -139,11 +139,34 @@ The horizontal backbone line and the vertical drop lines show animated dashes th
 **OIDs (per device, prefix sigenergy.0.sigenmicro.<slaveId>):**
 modelType, serialNumber, firmwareVersion, runningState, outputPower, gridFrequency, temperature, mppt1Voltage, mppt1Current, mppt1Power, mppt2Voltage, mppt2Current, mppt2Power, dailyYield, totalYield
 
+### 车辆电量显示 (EV SOC)
+将可配置的车辆图片（如 Fiat 500e）作为中心视觉元素显示。右上角的彩色徽章显示闪电符号、当前电量百分比和标签"LADESTAND"。底部的进度条反映当前 SOC。当可选充电状态激活时，徽章会发出绿色脉冲光晕。
+
+#### 颜色逻辑
+| 电量 | 颜色 |
+|---|---|
+| ≤ 15 % | 红色 (#f87171) |
+| ≤ 35 % | 黄色 (#fbbf24) |
+| > 35 % | 绿色 (#4ade80) |
+
+#### 控件设置
+| 参数 | 类型 | 默认值 | 说明 |
+|---|---|---|---|
+| oid_ev_soc | OID | — | 电量 0–100 |
+| oid_charging | OID | — | 充电状态（可选）— 充电时绿色光晕 |
+| sig_title | 文本 | Fahrzeug-Ladestand | 图片下方显示的车辆名称 |
+| sig_car_image | 图片 | — | 来自 ioBroker 文件浏览器的车辆图片（如 /vis-2/img/） |
+| sig_darkmode | 复选框 | true | 深色 / 浅色模式 |
+
+**OIDs:** `oid_ev_soc`, `oid_charging`
+
 ## 外观
 
 所有小部件均支持**浅色和深色模式**,可通过小部件设置 `Dark mode` 切换。
 
 ## 更新日志
+### 1.8.0 (2026-06-08)
+* (ssbingo) 新控件：「车辆电量显示」——显示可配置的电动汽车图片，带动画 SOC 进度条、颜色编码电量（红/黄/绿）和可选闪烁充电徽章
 
 ### 1.7.9 (2026-05-27)
 * (ssbingo) 删除了过时的 .eslintrc.json 和 .prettierignore

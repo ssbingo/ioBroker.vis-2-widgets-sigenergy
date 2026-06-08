@@ -139,11 +139,34 @@ Die waagerechte Backbone-Linie und die senkrechten Stichleitungen zeigen animier
 **OIDs (je Gerät, Präfix sigenergy.0.sigenmicro.<slaveId>):**
 modelType, serialNumber, firmwareVersion, runningState, outputPower, gridFrequency, temperature, mppt1Voltage, mppt1Current, mppt1Power, mppt2Voltage, mppt2Current, mppt2Power, dailyYield, totalYield
 
+### Fahrzeug-Ladestand (EV SOC)
+Zeigt ein konfigurierbares Fahrzeugbild (z.B. Fiat 500e) als zentrales Sichtelement. Ein farbkodierter Badge in der oberen rechten Ecke zeigt ein Blitz-Symbol, den aktuellen Ladestand in Prozent und die Beschriftung „LADESTAND". Ein Ladebalken am unteren Rand spiegelt den aktuellen SOC wider. Wenn der optionale Lade-Status aktiv ist, pulsiert der Badge mit einem grünen Leuchten.
+
+#### Farb-Logik
+| Ladestand | Farbe |
+|---|---|
+| ≤ 15 % | Rot (#f87171) |
+| ≤ 35 % | Gelb (#fbbf24) |
+| > 35 % | Grün (#4ade80) |
+
+#### Widget-Einstellungen
+| Parameter | Typ | Standard | Beschreibung |
+|---|---|---|---|
+| oid_ev_soc | OID | — | Ladestand 0–100 |
+| oid_charging | OID | — | Lade-Status (optional) — grüner Glow bei aktivem Laden |
+| sig_title | Text | Fahrzeug-Ladestand | Fahrzeugname unter dem Bild |
+| sig_car_image | Bild | — | Fahrzeugbild aus dem ioBroker-Datei-Browser (z.B. /vis-2/img/) |
+| sig_darkmode | Checkbox | true | Dunkel- / Hellmodus |
+
+**OIDs:** `oid_ev_soc`, `oid_charging`
+
 ## Darstellung
 
 Alle Widgets unterstützen einen **Hell- und Dunkelmodus**, der über die Widget-Einstellung `Dunkelmodus` umgeschaltet werden kann.
 
 ## Changelog
+### 1.8.0 (2026-06-08)
+* (ssbingo) Neues Widget: „Fahrzeug-Ladestand" — zeigt ein konfigurierbares Fahrzeugbild mit animiertem SOC-Balken, farbkodiertem Ladestand (rot/gelb/grün) und optionalem blinkendem Lade-Badge
 
 ### 1.7.9 (2026-05-27)
 * (ssbingo) Veraltete .eslintrc.json und .prettierignore entfernt

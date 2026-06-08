@@ -116,11 +116,25 @@ Panoramica e visualizzazione dettagliata di tutti i micro-inverter SigenMicro su
 | 11–15 | 2 righe | 46 × 52 px |
 | 16–20 | 2 righe | 40 × 46 px |
 
+### Livello di carica del veicolo (EV SOC)
+Mostra un'immagine del veicolo configurabile (ad es. Fiat 500e) come elemento visivo centrale. Un badge colorato in alto a destra mostra un simbolo di fulmine, il livello di carica attuale in percentuale e l'etichetta «LADESTAND». Una barra di avanzamento in basso riflette il SOC attuale. Quando lo stato di carica opzionale è attivo, il badge emette un bagliore verde pulsante.
+
+#### Logica dei colori
+| Livello di carica | Colore |
+|---|---|
+| ≤ 15 % | Rosso (#f87171) |
+| ≤ 35 % | Giallo (#fbbf24) |
+| > 35 % | Verde (#4ade80) |
+
+**OIDs:** `oid_ev_soc`, `oid_charging`
+
 ## Aspetto
 
 Tutti i widget supportano una **modalità chiara e scura**, commutabile tramite l'impostazione widget `Modalità scura`.
 
 ## Changelog
+### 1.8.0 (2026-06-08)
+* (ssbingo) Nuovo widget: "Livello di carica del veicolo" — mostra un'immagine EV configurabile con barra SOC animata, livello di carica a colori (rosso/giallo/verde) e badge di ricarica lampeggiante opzionale
 
 ### 1.7.9 (2026-05-27)
 * (ssbingo) Rimossi .eslintrc.json e .prettierignore obsoleti

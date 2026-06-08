@@ -1,47 +1,21 @@
 {
   "common": {
     "name": "vis-2-widgets-sigenergy",
-    "version": "1.7.9",
+    "version": "1.8.0",
     "news": {
-      "1.7.9": {
-        "en": "Removed obsolete .eslintrc.json and .prettierignore",
-        "de": "Veraltete .eslintrc.json und .prettierignore entfernt",
-        "ru": "Удалены устаревшие .eslintrc.json и .prettierignore",
-        "pt": "Removidos .eslintrc.json e .prettierignore obsoletos",
-        "nl": "Verouderde .eslintrc.json en .prettierignore verwijderd",
-        "fr": ".eslintrc.json et .prettierignore obsolètes supprimés",
-        "it": "Rimossi .eslintrc.json e .prettierignore obsoleti",
-        "es": "Eliminados .eslintrc.json y .prettierignore obsoletos",
-        "pl": "Usunięto przestarzałe .eslintrc.json i .prettierignore",
-        "uk": "Видалено застарілі .eslintrc.json і .prettierignore",
-        "zh-cn": "删除了过时的 .eslintrc.json 和 .prettierignore"
+      "1.8.0": {
+        "en": "New widget: Fahrzeug-Ladestand — configurable EV image with animated SOC bar, color-coded charge level, and optional charging badge",
+        "de": "Neues Widget: Fahrzeug-Ladestand — konfigurierbares Fahrzeugbild mit animiertem SOC-Balken, farbkodiertem Ladestand und optionalem Lade-Badge",
+        "ru": "Новый виджет: Уровень заряда автомобиля — настраиваемое изображение ЭМ с анимированной полосой SOC, цветовой индикацией уровня заряда и опциональным значком зарядки",
+        "pt": "Novo widget: Nível de carga do veículo — imagem EV configurável com barra SOC animada, nível de carga em cor e badge de carregamento opcional",
+        "nl": "Nieuw widget: Voertuig laadniveau — configureerbaar EV-afbeelding met geanimeerde SOC-balk, kleurgecodeerd laadniveau en optionele laad-badge",
+        "fr": "Nouveau widget : Niveau de charge du véhicule — image EV configurable avec barre SOC animée, niveau de charge en couleur et badge de charge optionnel",
+        "it": "Nuovo widget: Livello di carica del veicolo — immagine EV configurabile con barra SOC animata, livello di carica a colori e badge di ricarica opzionale",
+        "es": "Nuevo widget: Nivel de carga del vehículo — imagen EV configurable con barra SOC animada, nivel de carga en color y badge de carga opcional",
+        "pl": "Nowy widżet: Poziom naładowania pojazdu — konfigurowalne zdjęcie pojazdu EV z animowanym paskiem SOC, kolorowym poziomem naładowania i opcjonalną odznaką ładowania",
+        "uk": "Новий віджет: Рівень заряду автомобіля — налаштовуване зображення ЕМ з анімованою смугою SOC, кольоровим рівнем заряду та опціональним значком зарядки",
+        "zh-cn": "新控件：车辆电量显示——可配置的电动汽车图片，带动画 SOC 进度条、颜色编码电量和可选充电徽章"
       },
-      "1.7.8": {
-        "en": "Added ESLint linting, updated CI to Node.js 24; adapter requires node.js >= 22",
-        "de": "ESLint-Linting hinzugefügt, CI auf Node.js 24 aktualisiert; Adapter erfordert node.js >= 22",
-        "ru": "Добавлено ESLint-линтование, CI обновлён до Node.js 24; адаптер требует node.js >= 22",
-        "pt": "Adicionado ESLint, CI atualizado para Node.js 24; adaptador requer node.js >= 22",
-        "nl": "ESLint-linting toegevoegd, CI bijgewerkt naar Node.js 24; adapter vereist node.js >= 22",
-        "fr": "Ajout de l'ESLint, CI mis à jour vers Node.js 24 ; l'adaptateur nécessite node.js >= 22",
-        "it": "Aggiunto ESLint, CI aggiornato a Node.js 24; l'adattatore richiede node.js >= 22",
-        "es": "ESLint añadido, CI actualizado a Node.js 24; el adaptador requiere node.js >= 22",
-        "pl": "Dodano ESLint, CI zaktualizowano do Node.js 24; adapter wymaga node.js >= 22",
-        "uk": "Додано ESLint, CI оновлено до Node.js 24; адаптер вимагає node.js >= 22",
-        "zh-cn": "添加了 ESLint 代码检查，CI 更新至 Node.js 24；适配器需要 node.js >= 22"
-      },
-      "1.7.7": {
-        "en": "Text no longer distorts under non-uniform scaling — letters keep their proportions while containers continue to fill the widget area",
-        "de": "Schrift wird bei non-uniform Skalierung nicht mehr verzerrt — Buchstaben behalten ihre Proportionen, während Container die Widget-Fläche weiterhin füllen",
-        "ru": "Текст больше не искажается при неравномерном масштабировании — буквы сохраняют пропорции, а контейнеры продолжают заполнять область виджета",
-        "pt": "O texto já não se distorce com escalonamento não uniforme — as letras mantêm as suas proporções enquanto os contêineres continuam a preencher a área do widget",
-        "nl": "Tekst vervormt niet meer bij non-uniforme schaling — letters behouden hun proporties terwijl containers het widget-oppervlak blijven vullen",
-        "fr": "Le texte ne se déforme plus en mise à l'échelle non uniforme — les lettres conservent leurs proportions tandis que les conteneurs continuent à remplir la zone du widget",
-        "it": "Il testo non si deforma più con il ridimensionamento non uniforme — le lettere mantengono le proporzioni mentre i contenitori continuano a riempire l'area del widget",
-        "es": "El texto ya no se distorsiona con el escalado no uniforme — las letras mantienen sus proporciones mientras los contenedores siguen ocupando el área del widget",
-        "pl": "Tekst nie zniekształca się już przy nierównomiernym skalowaniu — litery zachowują proporcje, a kontenery nadal wypełniają obszar widżetu",
-        "uk": "Текст більше не спотворюється при нерівномірному масштабуванні — літери зберігають пропорції, а контейнери продовжують заповнювати область віджета",
-        "zh-cn": "文本在非等比缩放时不再变形 — 字母保持原有比例,同时容器继续填满小部件区域"
-      }
     },
     "titleLang": {
       "en": "Vis 2 Widgets Sigenergy",

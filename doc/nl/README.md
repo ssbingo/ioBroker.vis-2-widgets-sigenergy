@@ -115,11 +115,25 @@ Overzicht en detailweergave van alle SigenMicro micro-omvormers op de Modbus-bus
 | 11–15 | 2 rijen | 46 × 52 px |
 | 16–20 | 2 rijen | 40 × 46 px |
 
+### Voertuig laadniveau (EV SOC)
+Toont een configureerbaar voertuigafbeelding (bijv. Fiat 500e) als centraal visueel element. Een kleurgecodeerde badge rechtsboven toont een bliksemschicht, het huidige laadniveau in procent en het label "LADESTAND". Een voortgangsbalk onderaan weerspiegelt de huidige SOC. Wanneer de optionele laadstatus actief is, pulseert de badge met een groene gloed.
+
+#### Kleurlogica
+| Laadniveau | Kleur |
+|---|---|
+| ≤ 15 % | Rood (#f87171) |
+| ≤ 35 % | Geel (#fbbf24) |
+| > 35 % | Groen (#4ade80) |
+
+**OIDs:** `oid_ev_soc`, `oid_charging`
+
 ## Weergave
 
 Alle widgets ondersteunen een **lichte en donkere modus**, die kan worden omgeschakeld via de widget-instelling `Donkere modus`.
 
 ## Changelog
+### 1.8.0 (2026-06-08)
+* (ssbingo) Nieuw widget: "Voertuig laadniveau" — toont een configureerbaar EV-afbeelding met geanimeerde SOC-balk, kleurgecodeerd laadniveau (rood/geel/groen) en optionele knipperende laad-badge
 
 ### 1.7.9 (2026-05-27)
 * (ssbingo) Verouderde .eslintrc.json en .prettierignore verwijderd

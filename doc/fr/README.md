@@ -115,11 +115,25 @@ Vue d'ensemble et vue détaillée de tous les micro-onduleurs SigenMicro sur le 
 | 11–15 | 2 lignes | 46 × 52 px |
 | 16–20 | 2 lignes | 40 × 46 px |
 
+### Niveau de charge du véhicule (EV SOC)
+Affiche une image de véhicule configurable (p. ex. Fiat 500e) comme élément visuel central. Un badge coloré en haut à droite montre un symbole d'éclair, le niveau de charge actuel en pourcentage et le libellé « LADESTAND ». Une barre de progression en bas reflète le SOC actuel. Lorsque l'état de charge optionnel est actif, le badge émet une lueur verte pulsante.
+
+#### Logique de couleur
+| Niveau de charge | Couleur |
+|---|---|
+| ≤ 15 % | Rouge (#f87171) |
+| ≤ 35 % | Jaune (#fbbf24) |
+| > 35 % | Vert (#4ade80) |
+
+**OIDs:** `oid_ev_soc`, `oid_charging`
+
 ## Apparence
 
 Tous les widgets prennent en charge un **mode clair et sombre**, commutable via le paramètre de widget `Mode sombre`.
 
 ## Changelog
+### 1.8.0 (2026-06-08)
+* (ssbingo) Nouveau widget : « Niveau de charge du véhicule » — affiche une image de VE configurable avec une barre SOC animée, un niveau de charge en couleur (rouge/jaune/vert) et un badge de charge clignotant optionnel
 
 ### 1.7.9 (2026-05-27)
 * (ssbingo) .eslintrc.json et .prettierignore obsolètes supprimés
