@@ -15,7 +15,7 @@
         "pl": "Nowy widżet: Poziom naładowania pojazdu — konfigurowalne zdjęcie pojazdu EV z animowanym paskiem SOC, kolorowym poziomem naładowania i opcjonalną odznaką ładowania",
         "uk": "Новий віджет: Рівень заряду автомобіля — налаштовуване зображення ЕМ з анімованою смугою SOC, кольоровим рівнем заряду та опціональним значком зарядки",
         "zh-cn": "新控件：车辆电量显示——可配置的电动汽车图片，带动画 SOC 进度条、颜色编码电量和可选充电徽章"
-      },
+      }
     },
     "titleLang": {
       "en": "Vis 2 Widgets Sigenergy",
