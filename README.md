@@ -158,6 +158,8 @@ Displays a configurable vehicle image (e.g. Fiat 500e) as the central visual ele
 | sig_car_image | image | — | Vehicle image from ioBroker file browser (e.g. /vis-2/img/) |
 | sig_darkmode | checkbox | true | Dark / Light mode |
 
+![Fahrzeug-Ladestand Widget](img/widget-autoLadestand.png)
+
 **OIDs:** `oid_ev_soc`, `oid_charging`
 
 ## Appearance

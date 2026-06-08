@@ -158,6 +158,8 @@ Zeigt ein konfigurierbares Fahrzeugbild (z.B. Fiat 500e) als zentrales Sichtelem
 | sig_car_image | Bild | — | Fahrzeugbild aus dem ioBroker-Datei-Browser (z.B. /vis-2/img/) |
 | sig_darkmode | Checkbox | true | Dunkel- / Hellmodus |
 
+![Fahrzeug-Ladestand Widget](../../img/widget-autoLadestand.png)
+
 **OIDs:** `oid_ev_soc`, `oid_charging`
 
 ## Darstellung

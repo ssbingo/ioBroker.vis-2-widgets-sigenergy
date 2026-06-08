@@ -125,6 +125,8 @@
 | ≤ 35 % | Жёлтый (#fbbf24) |
 | > 35 % | Зелёный (#4ade80) |
 
+![Fahrzeug-Ladestand Widget](../../img/widget-autoLadestand.png)
+
 **OIDs:** `oid_ev_soc`, `oid_charging`
 
 ## Оформление

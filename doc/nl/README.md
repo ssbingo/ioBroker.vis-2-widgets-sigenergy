@@ -125,6 +125,8 @@ Toont een configureerbaar voertuigafbeelding (bijv. Fiat 500e) als centraal visu
 | ≤ 35 % | Geel (#fbbf24) |
 | > 35 % | Groen (#4ade80) |
 
+![Fahrzeug-Ladestand Widget](../../img/widget-autoLadestand.png)
+
 **OIDs:** `oid_ev_soc`, `oid_charging`
 
 ## Weergave

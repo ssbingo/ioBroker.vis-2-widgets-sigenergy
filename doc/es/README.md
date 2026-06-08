@@ -126,6 +126,8 @@ Muestra una imagen de vehículo configurable (p. ej. Fiat 500e) como elemento vi
 | ≤ 35 % | Amarillo (#fbbf24) |
 | > 35 % | Verde (#4ade80) |
 
+![Fahrzeug-Ladestand Widget](../../img/widget-autoLadestand.png)
+
 **OIDs:** `oid_ev_soc`, `oid_charging`
 
 ## Apariencia

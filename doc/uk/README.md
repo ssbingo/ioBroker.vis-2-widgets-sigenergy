@@ -158,6 +158,8 @@ modelType, serialNumber, firmwareVersion, runningState, outputPower, gridFrequen
 | sig_car_image | зображення | — | Зображення автомобіля з файлового браузера ioBroker (напр. /vis-2/img/) |
 | sig_darkmode | прапорець | true | Темний / Світлий режим |
 
+![Fahrzeug-Ladestand Widget](../../img/widget-autoLadestand.png)
+
 **OIDs:** `oid_ev_soc`, `oid_charging`
 
 ## Зовнішній вигляд

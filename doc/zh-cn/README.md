@@ -158,6 +158,8 @@ modelType, serialNumber, firmwareVersion, runningState, outputPower, gridFrequen
 | sig_car_image | 图片 | — | 来自 ioBroker 文件浏览器的车辆图片（如 /vis-2/img/） |
 | sig_darkmode | 复选框 | true | 深色 / 浅色模式 |
 
+![Fahrzeug-Ladestand Widget](../../img/widget-autoLadestand.png)
+
 **OIDs:** `oid_ev_soc`, `oid_charging`
 
 ## 外观
