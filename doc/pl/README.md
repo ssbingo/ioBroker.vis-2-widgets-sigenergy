@@ -135,6 +135,9 @@ Wyświetla konfigurowalne zdjęcie pojazdu (np. Fiat 500e) jako centralny elemen
 Wszystkie widżety obsługują **tryb jasny i ciemny**, przełączany przez ustawienie widżetu `Tryb ciemny`.
 
 ## Changelog
+### 1.8.2 (2026-06-28)
+* (ssbingo) Zaktualizowano akcje CI: actions/checkout do v7.0.0, ioBroker/testing-action-deploy do v1.5.0
+
 ### 1.8.1 (2026-06-08)
 * (ssbingo) Naprawiono błąd składni JSON w io-package.json; zrzut ekranu widżetu dodany do dokumentacji
 

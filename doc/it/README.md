@@ -135,6 +135,9 @@ Mostra un'immagine del veicolo configurabile (ad es. Fiat 500e) come elemento vi
 Tutti i widget supportano una **modalità chiara e scura**, commutabile tramite l'impostazione widget `Modalità scura`.
 
 ## Changelog
+### 1.8.2 (2026-06-28)
+* (ssbingo) Azioni CI aggiornate: actions/checkout a v7.0.0, ioBroker/testing-action-deploy a v1.5.0
+
 ### 1.8.1 (2026-06-08)
 * (ssbingo) Correto errore di sintassi JSON in io-package.json; screenshot del widget aggiunto alla documentazione
 

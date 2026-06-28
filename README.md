@@ -167,6 +167,9 @@ Displays a configurable vehicle image (e.g. Fiat 500e) as the central visual ele
 All widgets support a **light and dark mode**, switchable via the widget setting `Dark mode`.
 
 ## Changelog
+### 1.8.2 (2026-06-28)
+* (ssbingo) Updated CI actions: actions/checkout to v7.0.0, ioBroker/testing-action-deploy to v1.5.0
+
 ### 1.8.1 (2026-06-08)
 * (ssbingo) Fixed JSON syntax error in io-package.json; added widget screenshot to documentation
 

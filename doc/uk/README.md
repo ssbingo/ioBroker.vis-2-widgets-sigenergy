@@ -167,6 +167,9 @@ modelType, serialNumber, firmwareVersion, runningState, outputPower, gridFrequen
 Усі віджети підтримують **світлий і темний режим**, що перемикається через налаштування `Dark mode`.
 
 ## Журнал змін
+### 1.8.2 (2026-06-28)
+* (ssbingo) Оновлено CI-дії: actions/checkout до v7.0.0, ioBroker/testing-action-deploy до v1.5.0
+
 ### 1.8.1 (2026-06-08)
 * (ssbingo) Виправлено синтаксичну помилку JSON у io-package.json; до документації додано знімок екрана віджета
 

@@ -167,6 +167,9 @@ modelType, serialNumber, firmwareVersion, runningState, outputPower, gridFrequen
 所有小部件均支持**浅色和深色模式**,可通过小部件设置 `Dark mode` 切换。
 
 ## 更新日志
+### 1.8.2 (2026-06-28)
+* (ssbingo) 更新 CI actions：actions/checkout 至 v7.0.0，ioBroker/testing-action-deploy 至 v1.5.0
+
 ### 1.8.1 (2026-06-08)
 * (ssbingo) 修复 io-package.json 中的 JSON 语法错误；文档中添加了控件截图
 

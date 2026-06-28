@@ -134,6 +134,9 @@ Toont een configureerbaar voertuigafbeelding (bijv. Fiat 500e) als centraal visu
 Alle widgets ondersteunen een **lichte en donkere modus**, die kan worden omgeschakeld via de widget-instelling `Donkere modus`.
 
 ## Changelog
+### 1.8.2 (2026-06-28)
+* (ssbingo) CI-acties bijgewerkt: actions/checkout naar v7.0.0, ioBroker/testing-action-deploy naar v1.5.0
+
 ### 1.8.1 (2026-06-08)
 * (ssbingo) JSON-syntaxisfout in io-package.json opgelost; widget-screenshot toegevoegd aan documentatie
 

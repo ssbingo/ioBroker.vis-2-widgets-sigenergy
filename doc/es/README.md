@@ -135,6 +135,9 @@ Muestra una imagen de vehículo configurable (p. ej. Fiat 500e) como elemento vi
 Todos los widgets admiten un **modo claro y oscuro**, conmutable mediante el ajuste de widget `Modo oscuro`.
 
 ## Changelog
+### 1.8.2 (2026-06-28)
+* (ssbingo) Acciones CI actualizadas: actions/checkout a v7.0.0, ioBroker/testing-action-deploy a v1.5.0
+
 ### 1.8.1 (2026-06-08)
 * (ssbingo) Corregido error de sintaxis JSON en io-package.json; captura de pantalla del widget añadida a la documentación
 

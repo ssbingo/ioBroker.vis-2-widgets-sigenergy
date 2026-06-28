@@ -1,20 +1,20 @@
 {
   "common": {
     "name": "vis-2-widgets-sigenergy",
-    "version": "1.8.1",
+    "version": "1.8.2",
     "news": {
-      "1.8.1": {
-        "en": "Fixed JSON syntax error in io-package.json; added widget screenshot to documentation",
-        "de": "JSON-Syntaxfehler in io-package.json behoben; Widget-Screenshot zur Dokumentation hinzugefügt",
-        "ru": "Исправлена синтаксическая ошибка JSON в io-package.json; в документацию добавлен снимок экрана виджета",
-        "pt": "Corrigido erro de sintaxe JSON em io-package.json; captura de ecrã do widget adicionada à documentação",
-        "nl": "JSON-syntaxisfout in io-package.json opgelost; widget-screenshot toegevoegd aan documentatie",
-        "fr": "Correction d'une erreur de syntaxe JSON dans io-package.json ; capture d'écran du widget ajoutée à la documentation",
-        "it": "Correto errore di sintassi JSON in io-package.json; screenshot del widget aggiunto alla documentazione",
-        "es": "Corregido error de sintaxis JSON en io-package.json; captura de pantalla del widget añadida a la documentación",
-        "pl": "Naprawiono błąd składni JSON w io-package.json; zrzut ekranu widżetu dodany do dokumentacji",
-        "uk": "Виправлено синтаксичну помилку JSON у io-package.json; до документації додано знімок екрана віджета",
-        "zh-cn": "修复 io-package.json 中的 JSON 语法错误；文档中添加了控件截图"
+      "1.8.2": {
+        "en": "Updated CI actions: actions/checkout to v7.0.0, ioBroker/testing-action-deploy to v1.5.0",
+        "de": "CI-Actions aktualisiert: actions/checkout auf v7.0.0, ioBroker/testing-action-deploy auf v1.5.0",
+        "ru": "Обновлены CI-действия: actions/checkout до v7.0.0, ioBroker/testing-action-deploy до v1.5.0",
+        "pt": "Ações CI atualizadas: actions/checkout para v7.0.0, ioBroker/testing-action-deploy para v1.5.0",
+        "nl": "CI-acties bijgewerkt: actions/checkout naar v7.0.0, ioBroker/testing-action-deploy naar v1.5.0",
+        "fr": "Actions CI mises à jour : actions/checkout vers v7.0.0, ioBroker/testing-action-deploy vers v1.5.0",
+        "it": "Azioni CI aggiornate: actions/checkout a v7.0.0, ioBroker/testing-action-deploy a v1.5.0",
+        "es": "Acciones CI actualizadas: actions/checkout a v7.0.0, ioBroker/testing-action-deploy a v1.5.0",
+        "pl": "Zaktualizowano akcje CI: actions/checkout do v7.0.0, ioBroker/testing-action-deploy do v1.5.0",
+        "uk": "Оновлено CI-дії: actions/checkout до v7.0.0, ioBroker/testing-action-deploy до v1.5.0",
+        "zh-cn": "更新 CI actions：actions/checkout 至 v7.0.0，ioBroker/testing-action-deploy 至 v1.5.0"
       }
     },
     "titleLang": {
