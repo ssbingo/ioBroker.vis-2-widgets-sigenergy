@@ -167,6 +167,10 @@ modelType, serialNumber, firmwareVersion, runningState, outputPower, gridFrequen
 所有小部件均支持**浅色和深色模式**,可通过小部件设置 `Dark mode` 切换。
 
 ## 更新日志
+### 1.8.3 (2026-08-05)
+* (ssbingo) 已声明最低要求：js-controller >=6.0.11、admin >=8.0.0、Node.js >=22
+* (ssbingo) 更新依赖：actions/checkout 7.0.1、ioBroker/testing-action-deploy 1.5.2、@iobroker/testing 5.3.0
+
 ### 1.8.2 (2026-06-28)
 * (ssbingo) 更新 CI actions：actions/checkout 至 v7.0.0，ioBroker/testing-action-deploy 至 v1.5.0
 

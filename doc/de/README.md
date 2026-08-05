@@ -167,6 +167,10 @@ Zeigt ein konfigurierbares Fahrzeugbild (z.B. Fiat 500e) als zentrales Sichtelem
 Alle Widgets unterstützen einen **Hell- und Dunkelmodus**, der über die Widget-Einstellung `Dunkelmodus` umgeschaltet werden kann.
 
 ## Changelog
+### 1.8.3 (2026-08-05)
+* (ssbingo) Mindestanforderungen deklariert: js-controller >=6.0.11, admin >=8.0.0, Node.js >=22
+* (ssbingo) Abhängigkeiten aktualisiert: actions/checkout 7.0.1, ioBroker/testing-action-deploy 1.5.2, @iobroker/testing 5.3.0
+
 ### 1.8.2 (2026-06-28)
 * (ssbingo) CI-Actions aktualisiert: actions/checkout auf v7.0.0, ioBroker/testing-action-deploy auf v1.5.0
 

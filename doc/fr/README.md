@@ -134,6 +134,10 @@ Affiche une image de véhicule configurable (p. ex. Fiat 500e) comme élément v
 Tous les widgets prennent en charge un **mode clair et sombre**, commutable via le paramètre de widget `Mode sombre`.
 
 ## Changelog
+### 1.8.3 (2026-08-05)
+* (ssbingo) Exigences minimales déclarées : js-controller >=6.0.11, admin >=8.0.0, Node.js >=22
+* (ssbingo) Dépendances mises à jour : actions/checkout 7.0.1, ioBroker/testing-action-deploy 1.5.2, @iobroker/testing 5.3.0
+
 ### 1.8.2 (2026-06-28)
 * (ssbingo) Actions CI mises à jour : actions/checkout vers v7.0.0, ioBroker/testing-action-deploy vers v1.5.0
 

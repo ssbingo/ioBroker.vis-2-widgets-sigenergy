@@ -135,6 +135,10 @@ Muestra una imagen de vehículo configurable (p. ej. Fiat 500e) como elemento vi
 Todos los widgets admiten un **modo claro y oscuro**, conmutable mediante el ajuste de widget `Modo oscuro`.
 
 ## Changelog
+### 1.8.3 (2026-08-05)
+* (ssbingo) Requisitos mínimos declarados: js-controller >=6.0.11, admin >=8.0.0, Node.js >=22
+* (ssbingo) Dependencias actualizadas: actions/checkout 7.0.1, ioBroker/testing-action-deploy 1.5.2, @iobroker/testing 5.3.0
+
 ### 1.8.2 (2026-06-28)
 * (ssbingo) Acciones CI actualizadas: actions/checkout a v7.0.0, ioBroker/testing-action-deploy a v1.5.0
 

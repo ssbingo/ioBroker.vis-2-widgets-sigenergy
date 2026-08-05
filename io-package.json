@@ -1,20 +1,20 @@
 {
   "common": {
     "name": "vis-2-widgets-sigenergy",
-    "version": "1.8.2",
+    "version": "1.8.3",
     "news": {
-      "1.8.2": {
-        "en": "Updated CI actions: actions/checkout to v7.0.0, ioBroker/testing-action-deploy to v1.5.0",
-        "de": "CI-Actions aktualisiert: actions/checkout auf v7.0.0, ioBroker/testing-action-deploy auf v1.5.0",
-        "ru": "Обновлены CI-действия: actions/checkout до v7.0.0, ioBroker/testing-action-deploy до v1.5.0",
-        "pt": "Ações CI atualizadas: actions/checkout para v7.0.0, ioBroker/testing-action-deploy para v1.5.0",
-        "nl": "CI-acties bijgewerkt: actions/checkout naar v7.0.0, ioBroker/testing-action-deploy naar v1.5.0",
-        "fr": "Actions CI mises à jour : actions/checkout vers v7.0.0, ioBroker/testing-action-deploy vers v1.5.0",
-        "it": "Azioni CI aggiornate: actions/checkout a v7.0.0, ioBroker/testing-action-deploy a v1.5.0",
-        "es": "Acciones CI actualizadas: actions/checkout a v7.0.0, ioBroker/testing-action-deploy a v1.5.0",
-        "pl": "Zaktualizowano akcje CI: actions/checkout do v7.0.0, ioBroker/testing-action-deploy do v1.5.0",
-        "uk": "Оновлено CI-дії: actions/checkout до v7.0.0, ioBroker/testing-action-deploy до v1.5.0",
-        "zh-cn": "更新 CI actions：actions/checkout 至 v7.0.0，ioBroker/testing-action-deploy 至 v1.5.0"
+      "1.8.3": {
+        "en": "Declared minimum requirements: js-controller >=6.0.11, admin >=8.0.0, Node.js >=22; updated dependencies: actions/checkout 7.0.1, ioBroker/testing-action-deploy 1.5.2, @iobroker/testing 5.3.0",
+        "de": "Mindestanforderungen deklariert: js-controller >=6.0.11, admin >=8.0.0, Node.js >=22; Abhängigkeiten aktualisiert: actions/checkout 7.0.1, ioBroker/testing-action-deploy 1.5.2, @iobroker/testing 5.3.0",
+        "ru": "Объявлены минимальные требования: js-controller >=6.0.11, admin >=8.0.0, Node.js >=22; обновлены зависимости: actions/checkout 7.0.1, ioBroker/testing-action-deploy 1.5.2, @iobroker/testing 5.3.0",
+        "pt": "Requisitos mínimos declarados: js-controller >=6.0.11, admin >=8.0.0, Node.js >=22; dependências atualizadas: actions/checkout 7.0.1, ioBroker/testing-action-deploy 1.5.2, @iobroker/testing 5.3.0",
+        "nl": "Minimumvereisten gedeclareerd: js-controller >=6.0.11, admin >=8.0.0, Node.js >=22; afhankelijkheden bijgewerkt: actions/checkout 7.0.1, ioBroker/testing-action-deploy 1.5.2, @iobroker/testing 5.3.0",
+        "fr": "Exigences minimales déclarées : js-controller >=6.0.11, admin >=8.0.0, Node.js >=22 ; dépendances mises à jour : actions/checkout 7.0.1, ioBroker/testing-action-deploy 1.5.2, @iobroker/testing 5.3.0",
+        "it": "Requisiti minimi dichiarati: js-controller >=6.0.11, admin >=8.0.0, Node.js >=22; dipendenze aggiornate: actions/checkout 7.0.1, ioBroker/testing-action-deploy 1.5.2, @iobroker/testing 5.3.0",
+        "es": "Requisitos mínimos declarados: js-controller >=6.0.11, admin >=8.0.0, Node.js >=22; dependencias actualizadas: actions/checkout 7.0.1, ioBroker/testing-action-deploy 1.5.2, @iobroker/testing 5.3.0",
+        "pl": "Zadeklarowano minimalne wymagania: js-controller >=6.0.11, admin >=8.0.0, Node.js >=22; zaktualizowano zależności: actions/checkout 7.0.1, ioBroker/testing-action-deploy 1.5.2, @iobroker/testing 5.3.0",
+        "uk": "Оголошено мінімальні вимоги: js-controller >=6.0.11, admin >=8.0.0, Node.js >=22; оновлено залежності: actions/checkout 7.0.1, ioBroker/testing-action-deploy 1.5.2, @iobroker/testing 5.3.0",
+        "zh-cn": "已声明最低要求：js-controller >=6.0.11、admin >=8.0.0、Node.js >=22；更新依赖：actions/checkout 7.0.1、ioBroker/testing-action-deploy 1.5.2、@iobroker/testing 5.3.0"
       }
     },
     "titleLang": {
@@ -74,10 +74,17 @@
     },
     "dependencies": [
       {
+        "js-controller": ">=6.0.11"
+      },
+      {
         "vis-2": ">=2.0.0"
       }
     ],
-    "globalDependencies": []
+    "globalDependencies": [
+      {
+        "admin": ">=8.0.0"
+      }
+    ]
   },
   "native": {},
   "objects": [],
