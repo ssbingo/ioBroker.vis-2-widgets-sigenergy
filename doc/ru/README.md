@@ -134,6 +134,11 @@
 Все виджеты поддерживают **светлый и тёмный режим**, переключаемый через настройку виджета `Тёмный режим`.
 
 ## Changelog
+### 1.8.4 (2026-09-04)
+* (ssbingo) Минимальное требование к admin снижено до >=7.8.23 (admin 8 больше не требуется)
+* (ssbingo) CI: ioBroker/testing-action-deploy закреплён на мажорной версии v1; исправлен workflow автослияния Dependabot
+* (ssbingo) Обновлены зависимости: @tsconfig/node22 22.0.6, @alcalzone/release-script-plugin-license 5.2.2
+
 ### 1.8.3 (2026-08-05)
 * (ssbingo) Объявлены минимальные требования: js-controller >=6.0.11, admin >=8.0.0, Node.js >=22
 * (ssbingo) Обновлены зависимости: actions/checkout 7.0.1, ioBroker/testing-action-deploy 1.5.2, @iobroker/testing 5.3.0

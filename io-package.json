@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "vis-2-widgets-sigenergy",
-    "version": "1.8.3",
+    "version": "1.8.4",
     "news": {
+      "1.8.4": {
+        "en": "Lowered minimum admin requirement to >=7.8.23 (admin 8 is no longer required); CI: locked ioBroker/testing-action-deploy to major version v1; fixed Dependabot auto-merge workflow; updated dependencies: @tsconfig/node22 22.0.6, @alcalzone/release-script-plugin-license 5.2.2",
+        "de": "Admin-Mindestanforderung auf >=7.8.23 gesenkt (admin 8 ist nicht mehr erforderlich); CI: ioBroker/testing-action-deploy auf Hauptversion v1 gelockt; Dependabot-Auto-Merge-Workflow repariert; abhängigkeiten aktualisiert: @tsconfig/node22 22.0.6, @alcalzone/release-script-plugin-license 5.2.2",
+        "es": "Requisito mínimo de admin reducido a >=7.8.23 (admin 8 ya no es necesario); CI: ioBroker/testing-action-deploy fijado a la versión mayor v1; corregido el workflow de auto-merge de Dependabot; dependencias actualizadas: @tsconfig/node22 22.0.6, @alcalzone/release-script-plugin-license 5.2.2",
+        "fr": "Exigence minimale d'admin abaissée à >=7.8.23 (admin 8 n'est plus requis); CI : ioBroker/testing-action-deploy verrouillé sur la version majeure v1 ; workflow d'auto-merge Dependabot corrigé; dépendances mises à jour : @tsconfig/node22 22.0.6, @alcalzone/release-script-plugin-license 5.2.2",
+        "it": "Requisito minimo di admin abbassato a >=7.8.23 (admin 8 non è più necessario); CI: ioBroker/testing-action-deploy bloccato alla versione maggiore v1; corretto il workflow di auto-merge di Dependabot; dipendenze aggiornate: @tsconfig/node22 22.0.6, @alcalzone/release-script-plugin-license 5.2.2",
+        "nl": "Minimale admin-vereiste verlaagd naar >=7.8.23 (admin 8 is niet langer vereist); CI: ioBroker/testing-action-deploy vastgezet op hoofdversie v1; Dependabot auto-merge-workflow gerepareerd; afhankelijkheden bijgewerkt: @tsconfig/node22 22.0.6, @alcalzone/release-script-plugin-license 5.2.2",
+        "pl": "Minimalne wymaganie admin obniżone do >=7.8.23 (admin 8 nie jest już wymagany); CI: ioBroker/testing-action-deploy przypięty do wersji głównej v1; naprawiono workflow auto-merge Dependabota; zaktualizowano zależności: @tsconfig/node22 22.0.6, @alcalzone/release-script-plugin-license 5.2.2",
+        "pt": "Requisito mínimo do admin reduzido para >=7.8.23 (admin 8 não é mais necessário); CI: ioBroker/testing-action-deploy fixado na versão principal v1; workflow de auto-merge do Dependabot corrigido; dependências atualizadas: @tsconfig/node22 22.0.6, @alcalzone/release-script-plugin-license 5.2.2",
+        "ru": "Минимальное требование к admin снижено до >=7.8.23 (admin 8 больше не требуется); CI: ioBroker/testing-action-deploy закреплён на мажорной версии v1; исправлен workflow автослияния Dependabot; обновлены зависимости: @tsconfig/node22 22.0.6, @alcalzone/release-script-plugin-license 5.2.2",
+        "uk": "Мінімальну вимогу до admin знижено до >=7.8.23 (admin 8 більше не потрібен); CI: ioBroker/testing-action-deploy закріплено на мажорній версії v1; виправлено workflow автозлиття Dependabot; оновлено залежності: @tsconfig/node22 22.0.6, @alcalzone/release-script-plugin-license 5.2.2",
+        "zh-cn": "最低 admin 要求降至 >=7.8.23（不再需要 admin 8）；CI：ioBroker/testing-action-deploy 锁定为主版本 v1；修复 Dependabot 自动合并工作流；更新依赖：@tsconfig/node22 22.0.6、@alcalzone/release-script-plugin-license 5.2.2"
+      },
       "1.8.3": {
         "en": "Declared minimum requirements: js-controller >=6.0.11, admin >=8.0.0, Node.js >=22; updated dependencies: actions/checkout 7.0.1, ioBroker/testing-action-deploy 1.5.2, @iobroker/testing 5.3.0",
         "de": "Mindestanforderungen deklariert: js-controller >=6.0.11, admin >=8.0.0, Node.js >=22; Abhängigkeiten aktualisiert: actions/checkout 7.0.1, ioBroker/testing-action-deploy 1.5.2, @iobroker/testing 5.3.0",

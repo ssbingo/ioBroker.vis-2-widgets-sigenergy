@@ -167,6 +167,11 @@ modelType, serialNumber, firmwareVersion, runningState, outputPower, gridFrequen
 所有小部件均支持**浅色和深色模式**,可通过小部件设置 `Dark mode` 切换。
 
 ## 更新日志
+### 1.8.4 (2026-09-04)
+* (ssbingo) 最低 admin 要求降至 >=7.8.23（不再需要 admin 8）
+* (ssbingo) CI：ioBroker/testing-action-deploy 锁定为主版本 v1；修复 Dependabot 自动合并工作流
+* (ssbingo) 更新依赖：@tsconfig/node22 22.0.6、@alcalzone/release-script-plugin-license 5.2.2
+
 ### 1.8.3 (2026-08-05)
 * (ssbingo) 已声明最低要求：js-controller >=6.0.11、admin >=8.0.0、Node.js >=22
 * (ssbingo) 更新依赖：actions/checkout 7.0.1、ioBroker/testing-action-deploy 1.5.2、@iobroker/testing 5.3.0

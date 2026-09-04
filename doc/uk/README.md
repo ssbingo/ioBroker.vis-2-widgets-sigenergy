@@ -167,6 +167,11 @@ modelType, serialNumber, firmwareVersion, runningState, outputPower, gridFrequen
 Усі віджети підтримують **світлий і темний режим**, що перемикається через налаштування `Dark mode`.
 
 ## Журнал змін
+### 1.8.4 (2026-09-04)
+* (ssbingo) Мінімальну вимогу до admin знижено до >=7.8.23 (admin 8 більше не потрібен)
+* (ssbingo) CI: ioBroker/testing-action-deploy закріплено на мажорній версії v1; виправлено workflow автозлиття Dependabot
+* (ssbingo) Оновлено залежності: @tsconfig/node22 22.0.6, @alcalzone/release-script-plugin-license 5.2.2
+
 ### 1.8.3 (2026-08-05)
 * (ssbingo) Оголошено мінімальні вимоги: js-controller >=6.0.11, admin >=8.0.0, Node.js >=22
 * (ssbingo) Оновлено залежності: actions/checkout 7.0.1, ioBroker/testing-action-deploy 1.5.2, @iobroker/testing 5.3.0

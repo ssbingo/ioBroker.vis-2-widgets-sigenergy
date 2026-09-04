@@ -134,6 +134,11 @@ Affiche une image de véhicule configurable (p. ex. Fiat 500e) comme élément v
 Tous les widgets prennent en charge un **mode clair et sombre**, commutable via le paramètre de widget `Mode sombre`.
 
 ## Changelog
+### 1.8.4 (2026-09-04)
+* (ssbingo) Exigence minimale d'admin abaissée à >=7.8.23 (admin 8 n'est plus requis)
+* (ssbingo) CI : ioBroker/testing-action-deploy verrouillé sur la version majeure v1 ; workflow d'auto-merge Dependabot corrigé
+* (ssbingo) Dépendances mises à jour : @tsconfig/node22 22.0.6, @alcalzone/release-script-plugin-license 5.2.2
+
 ### 1.8.3 (2026-08-05)
 * (ssbingo) Exigences minimales déclarées : js-controller >=6.0.11, admin >=8.0.0, Node.js >=22
 * (ssbingo) Dépendances mises à jour : actions/checkout 7.0.1, ioBroker/testing-action-deploy 1.5.2, @iobroker/testing 5.3.0

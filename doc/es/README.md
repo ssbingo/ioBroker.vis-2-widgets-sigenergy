@@ -135,6 +135,11 @@ Muestra una imagen de vehículo configurable (p. ej. Fiat 500e) como elemento vi
 Todos los widgets admiten un **modo claro y oscuro**, conmutable mediante el ajuste de widget `Modo oscuro`.
 
 ## Changelog
+### 1.8.4 (2026-09-04)
+* (ssbingo) Requisito mínimo de admin reducido a >=7.8.23 (admin 8 ya no es necesario)
+* (ssbingo) CI: ioBroker/testing-action-deploy fijado a la versión mayor v1; corregido el workflow de auto-merge de Dependabot
+* (ssbingo) Dependencias actualizadas: @tsconfig/node22 22.0.6, @alcalzone/release-script-plugin-license 5.2.2
+
 ### 1.8.3 (2026-08-05)
 * (ssbingo) Requisitos mínimos declarados: js-controller >=6.0.11, admin >=8.0.0, Node.js >=22
 * (ssbingo) Dependencias actualizadas: actions/checkout 7.0.1, ioBroker/testing-action-deploy 1.5.2, @iobroker/testing 5.3.0

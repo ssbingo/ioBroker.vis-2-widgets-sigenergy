@@ -134,6 +134,11 @@ Toont een configureerbaar voertuigafbeelding (bijv. Fiat 500e) als centraal visu
 Alle widgets ondersteunen een **lichte en donkere modus**, die kan worden omgeschakeld via de widget-instelling `Donkere modus`.
 
 ## Changelog
+### 1.8.4 (2026-09-04)
+* (ssbingo) Minimale admin-vereiste verlaagd naar >=7.8.23 (admin 8 is niet langer vereist)
+* (ssbingo) CI: ioBroker/testing-action-deploy vastgezet op hoofdversie v1; Dependabot auto-merge-workflow gerepareerd
+* (ssbingo) Afhankelijkheden bijgewerkt: @tsconfig/node22 22.0.6, @alcalzone/release-script-plugin-license 5.2.2
+
 ### 1.8.3 (2026-08-05)
 * (ssbingo) Minimumvereisten gedeclareerd: js-controller >=6.0.11, admin >=8.0.0, Node.js >=22
 * (ssbingo) Afhankelijkheden bijgewerkt: actions/checkout 7.0.1, ioBroker/testing-action-deploy 1.5.2, @iobroker/testing 5.3.0
