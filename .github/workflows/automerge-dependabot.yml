@@ -12,6 +12,11 @@ jobs:
   auto-merge:
     if: github.actor == 'dependabot[bot]'
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pull-requests: write
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v7.0.1
@@ -19,9 +24,9 @@ jobs:
       - name: Check if PR should be auto-merged
         uses: iobroker-bot-orga/action-automerge-dependabot@v1
         with:
-          # In order to use this, you need to go to https://github.com/settings/tokens and
-          # create a Personal Access Token with the permission "public_repo".
-          # Enter this token in your repository settings under "Secrets" and name it AUTO_MERGE_TOKEN
-          github-token: ${{ secrets.AUTO_MERGE_TOKEN }}
+          # Uses the repository secret AUTO_MERGE_TOKEN (a Personal Access Token with
+          # "public_repo" permission) if it exists, otherwise falls back to GITHUB_TOKEN.
+          # Note: merges done with GITHUB_TOKEN do not trigger further workflow runs.
+          github-token: ${{ secrets.AUTO_MERGE_TOKEN || secrets.GITHUB_TOKEN }}
           # By default, squash and merge, so Github chooses nice commit messages
-          command: squash and merge
+          merge-method: squash
