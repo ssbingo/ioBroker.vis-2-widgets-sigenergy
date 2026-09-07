@@ -135,6 +135,9 @@ Mostra un'immagine del veicolo configurabile (ad es. Fiat 500e) come elemento vi
 Tutti i widget supportano una **modalità chiara e scura**, commutabile tramite l'impostazione widget `Modalità scura`.
 
 ## Changelog
+### 1.8.10 (2026-09-07)
+* (ssbingo) Rimossa la voce `admin` da `globalDependencies`: un set di widget non ha un'interfaccia di amministrazione, quindi non è necessario richiedere alcuna versione di admin (repository checker S1091)
+
 ### 1.8.9 (2026-09-07)
 * (ssbingo) Caricatore DC: una stazione che contrassegna il registro dello stato operativo come non valido non appare più con un badge rosso «Unbekannt». Il protocollo Sigenergy segnala «registro non valido» impostando tutti i bit, e un SigenStor EC **con** caricatore DC risponde così per il registro 31513 mentre i registri vicini (potenza nominale, produzione FV, contatori) si leggono normalmente. In tal caso il badge viene derivato dalla potenza di uscita e il tooltip chiarisce che non si tratta né di un problema dell'adapter né di configurazione
 * (ssbingo) Caricatore DC: viene riconosciuto anche il valore grezzo 65535, così il badge è corretto anche con versioni dell'adapter precedenti alla 3.3.1, che passano il valore invece di non riportarne alcuno

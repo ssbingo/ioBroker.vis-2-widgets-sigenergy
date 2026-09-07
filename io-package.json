@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "vis-2-widgets-sigenergy",
-    "version": "1.8.9",
+    "version": "1.8.10",
     "news": {
+      "1.8.10": {
+        "en": "Removed the admin entry from globalDependencies: a widget set has no admin UI, so no admin version needs to be required (repository checker S1091)",
+        "de": "Eintrag admin aus globalDependencies entfernt: Ein Widget-Set hat keine Admin-Oberfläche, daher muss keine admin-Version vorausgesetzt werden (Repository-Checker S1091)",
+        "es": "Eliminada la entrada admin de globalDependencies: un conjunto de widgets no tiene interfaz de administración, por lo que no es necesario exigir ninguna versión de admin (comprobador de repositorio S1091)",
+        "fr": "Entrée admin retirée de globalDependencies : un ensemble de widgets n'a pas d'interface d'administration, aucune version d'admin n'a donc à être exigée (vérificateur de dépôt S1091)",
+        "it": "Rimossa la voce admin da globalDependencies: un set di widget non ha un'interfaccia di amministrazione, quindi non è necessario richiedere alcuna versione di admin (repository checker S1091)",
+        "nl": "Vermelding admin uit globalDependencies verwijderd: een widgetset heeft geen admin-interface, dus hoeft geen admin-versie te worden vereist (repository checker S1091)",
+        "pl": "Usunięto wpis admin z globalDependencies: zestaw widżetów nie ma interfejsu administracyjnego, więc nie trzeba wymagać żadnej wersji admin (repository checker S1091)",
+        "pt": "Entrada admin removida de globalDependencies: um conjunto de widgets não tem interface de administração, pelo que não é necessário exigir nenhuma versão do admin (repository checker S1091)",
+        "ru": "Запись admin удалена из globalDependencies: набор виджетов не имеет интерфейса администратора, поэтому требовать версию admin не нужно (repository checker S1091)",
+        "uk": "Запис admin видалено з globalDependencies: набір віджетів не має інтерфейсу адміністратора, тому вимагати версію admin не потрібно (repository checker S1091)",
+        "zh-cn": "从 globalDependencies 中移除了 admin 条目：微件集没有管理界面，因此无需要求任何 admin 版本（仓库检查器 S1091）"
+      },
       "1.8.9": {
         "en": "DC charger: a station marking its running state register as not valid (0xFFFF / 65535) no longer shows a red 'Unbekannt' badge; the badge is derived from the output power and the tooltip explains that this is neither an adapter nor a configuration problem; new OID setting oid_protocol (default sigenergy.0.info.protocolVersion) so the protocol version is subscribed and readable; tooltips reworded accordingly",
         "de": "DC-Charger: Kennzeichnet die Säule ihr Betriebszustands-Register als ungültig (0xFFFF / 65535), erscheint kein rotes „Unbekannt“-Badge mehr; der Badge wird aus der Ausgangsleistung abgeleitet und der Tooltip stellt klar, dass weder ein Adapter- noch ein Konfigurationsproblem vorliegt; neue OID-Einstellung oid_protocol (Vorbelegung sigenergy.0.info.protocolVersion), damit die Protokollversion abonniert und ablesbar ist; Tooltips entsprechend umformuliert",
@@ -80,20 +93,8 @@
         "ru": "Минимальное требование к admin снижено до >=7.8.23 (admin 8 больше не требуется); CI: ioBroker/testing-action-deploy закреплён на мажорной версии v1; исправлен workflow автослияния Dependabot; обновлены зависимости: @tsconfig/node22 22.0.6, @alcalzone/release-script-plugin-license 5.2.2",
         "uk": "Мінімальну вимогу до admin знижено до >=7.8.23 (admin 8 більше не потрібен); CI: ioBroker/testing-action-deploy закріплено на мажорній версії v1; виправлено workflow автозлиття Dependabot; оновлено залежності: @tsconfig/node22 22.0.6, @alcalzone/release-script-plugin-license 5.2.2",
         "zh-cn": "最低 admin 要求降至 >=7.8.23（不再需要 admin 8）；CI：ioBroker/testing-action-deploy 锁定为主版本 v1；修复 Dependabot 自动合并工作流；更新依赖：@tsconfig/node22 22.0.6、@alcalzone/release-script-plugin-license 5.2.2"
-      },
-      "1.8.3": {
-        "en": "Declared minimum requirements: js-controller >=6.0.11, admin >=8.0.0, Node.js >=22; updated dependencies: actions/checkout 7.0.1, ioBroker/testing-action-deploy 1.5.2, @iobroker/testing 5.3.0",
-        "de": "Mindestanforderungen deklariert: js-controller >=6.0.11, admin >=8.0.0, Node.js >=22; Abhängigkeiten aktualisiert: actions/checkout 7.0.1, ioBroker/testing-action-deploy 1.5.2, @iobroker/testing 5.3.0",
-        "ru": "Объявлены минимальные требования: js-controller >=6.0.11, admin >=8.0.0, Node.js >=22; обновлены зависимости: actions/checkout 7.0.1, ioBroker/testing-action-deploy 1.5.2, @iobroker/testing 5.3.0",
-        "pt": "Requisitos mínimos declarados: js-controller >=6.0.11, admin >=8.0.0, Node.js >=22; dependências atualizadas: actions/checkout 7.0.1, ioBroker/testing-action-deploy 1.5.2, @iobroker/testing 5.3.0",
-        "nl": "Minimumvereisten gedeclareerd: js-controller >=6.0.11, admin >=8.0.0, Node.js >=22; afhankelijkheden bijgewerkt: actions/checkout 7.0.1, ioBroker/testing-action-deploy 1.5.2, @iobroker/testing 5.3.0",
-        "fr": "Exigences minimales déclarées : js-controller >=6.0.11, admin >=8.0.0, Node.js >=22 ; dépendances mises à jour : actions/checkout 7.0.1, ioBroker/testing-action-deploy 1.5.2, @iobroker/testing 5.3.0",
-        "it": "Requisiti minimi dichiarati: js-controller >=6.0.11, admin >=8.0.0, Node.js >=22; dipendenze aggiornate: actions/checkout 7.0.1, ioBroker/testing-action-deploy 1.5.2, @iobroker/testing 5.3.0",
-        "es": "Requisitos mínimos declarados: js-controller >=6.0.11, admin >=8.0.0, Node.js >=22; dependencias actualizadas: actions/checkout 7.0.1, ioBroker/testing-action-deploy 1.5.2, @iobroker/testing 5.3.0",
-        "pl": "Zadeklarowano minimalne wymagania: js-controller >=6.0.11, admin >=8.0.0, Node.js >=22; zaktualizowano zależności: actions/checkout 7.0.1, ioBroker/testing-action-deploy 1.5.2, @iobroker/testing 5.3.0",
-        "uk": "Оголошено мінімальні вимоги: js-controller >=6.0.11, admin >=8.0.0, Node.js >=22; оновлено залежності: actions/checkout 7.0.1, ioBroker/testing-action-deploy 1.5.2, @iobroker/testing 5.3.0",
-        "zh-cn": "已声明最低要求：js-controller >=6.0.11、admin >=8.0.0、Node.js >=22；更新依赖：actions/checkout 7.0.1、ioBroker/testing-action-deploy 1.5.2、@iobroker/testing 5.3.0"
       }
+
     },
     "titleLang": {
       "en": "Vis 2 Widgets Sigenergy",

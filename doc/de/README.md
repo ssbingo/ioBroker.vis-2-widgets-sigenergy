@@ -167,6 +167,9 @@ Zeigt ein konfigurierbares Fahrzeugbild (z.B. Fiat 500e) als zentrales Sichtelem
 Alle Widgets unterstützen einen **Hell- und Dunkelmodus**, der über die Widget-Einstellung `Dunkelmodus` umgeschaltet werden kann.
 
 ## Changelog
+### 1.8.10 (2026-09-07)
+* (ssbingo) Eintrag `admin` aus `globalDependencies` entfernt: Ein Widget-Set hat keine Admin-Oberfläche, daher muss keine admin-Version vorausgesetzt werden (Repository-Checker S1091)
+
 ### 1.8.9 (2026-09-07)
 * (ssbingo) DC-Charger: Meldet die Säule ihr Betriebszustands-Register als ungültig, erscheint kein rotes „Unbekannt“-Badge mehr. Das Sigenergy-Protokoll kennzeichnet „Register ungültig“ durch Setzen aller Bits, und ein SigenStor EC **mit** DC-Charger antwortet so für Register 31513, während die Nachbarregister (Nennleistung, PV-Ertrag, Zähler) normal lesen. Der Badge wird dann aus der Ausgangsleistung abgeleitet und der Tooltip stellt klar, dass weder ein Adapter- noch ein Konfigurationsproblem vorliegt
 * (ssbingo) DC-Charger: Auch der rohe Kennwert 65535 wird erkannt, damit der Badge auch mit Adapter-Versionen vor 3.3.1 stimmt, die den Wert durchreichen statt keinen Wert zu melden

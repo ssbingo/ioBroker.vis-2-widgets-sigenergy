@@ -135,6 +135,9 @@ Wyświetla konfigurowalne zdjęcie pojazdu (np. Fiat 500e) jako centralny elemen
 Wszystkie widżety obsługują **tryb jasny i ciemny**, przełączany przez ustawienie widżetu `Tryb ciemny`.
 
 ## Changelog
+### 1.8.10 (2026-09-07)
+* (ssbingo) Usunięto wpis `admin` z `globalDependencies`: zestaw widżetów nie ma interfejsu administracyjnego, więc nie trzeba wymagać żadnej wersji admin (repository checker S1091)
+
 ### 1.8.9 (2026-09-07)
 * (ssbingo) Ładowarka DC: stacja, która oznacza rejestr stanu pracy jako nieprawidłowy, nie jest już wyświetlana z czerwoną plakietką „Unbekannt”. Protokół Sigenergy sygnalizuje „rejestr nieprawidłowy” przez ustawienie wszystkich bitów, a SigenStor EC **z** ładowarką DC odpowiada tak dla rejestru 31513, podczas gdy sąsiednie rejestry (moc znamionowa, uzysk PV, liczniki) są odczytywane normalnie. Plakietka jest wtedy wyprowadzana z mocy wyjściowej, a podpowiedź wyjaśnia, że nie jest to problem adaptera ani konfiguracji
 * (ssbingo) Ładowarka DC: rozpoznawana jest również surowa wartość 65535, dzięki czemu plakietka jest poprawna także z wersjami adaptera sprzed 3.3.1, które przekazują tę wartość zamiast nie zgłaszać żadnej

@@ -135,6 +135,9 @@ Muestra una imagen de vehículo configurable (p. ej. Fiat 500e) como elemento vi
 Todos los widgets admiten un **modo claro y oscuro**, conmutable mediante el ajuste de widget `Modo oscuro`.
 
 ## Changelog
+### 1.8.10 (2026-09-07)
+* (ssbingo) Eliminada la entrada `admin` de `globalDependencies`: un conjunto de widgets no tiene interfaz de administración, por lo que no es necesario exigir ninguna versión de admin (comprobador de repositorio S1091)
+
 ### 1.8.9 (2026-09-07)
 * (ssbingo) Cargador DC: una estación que marca su registro de estado operativo como no válido ya no muestra una insignia roja «Unbekannt». El protocolo Sigenergy señala «registro no válido» poniendo todos los bits a uno, y un SigenStor EC **con** cargador DC responde así para el registro 31513 mientras los registros vecinos (potencia nominal, producción FV, contadores) se leen con normalidad. En ese caso la insignia se deriva de la potencia de salida y la información emergente aclara que no se trata de un problema del adaptador ni de configuración
 * (ssbingo) Cargador DC: también se reconoce el valor bruto 65535, por lo que la insignia es correcta igualmente con versiones del adaptador anteriores a 3.3.1, que transmiten el valor en lugar de no informar ninguno

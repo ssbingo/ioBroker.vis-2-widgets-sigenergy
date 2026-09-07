@@ -167,6 +167,9 @@ modelType, serialNumber, firmwareVersion, runningState, outputPower, gridFrequen
 所有小部件均支持**浅色和深色模式**,可通过小部件设置 `Dark mode` 切换。
 
 ## 更新日志
+### 1.8.10 (2026-09-07)
+* (ssbingo) 从 `globalDependencies` 中移除了 `admin` 条目：微件集没有管理界面，因此无需要求任何 admin 版本（仓库检查器 S1091）
+
 ### 1.8.9 (2026-09-07)
 * (ssbingo) DC 充电桩：充电桩将运行状态寄存器标记为无效时，不再显示红色的“Unbekannt”标记。Sigenergy 协议通过将所有位置一来表示“寄存器无效”，带有 DC 充电桩的 SigenStor EC 对寄存器 31513 就是这样应答的，而相邻寄存器（额定功率、PV 发电量、计量值）读取正常。此时状态标记根据输出功率推导，提示信息说明这既不是适配器问题也不是配置问题
 * (ssbingo) DC 充电桩：原始哨兵值 65535 同样会被识别，因此在 3.3.1 之前的适配器版本（直接透传该值而不是报告无值）上状态标记也正确

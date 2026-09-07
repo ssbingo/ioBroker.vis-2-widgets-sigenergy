@@ -135,6 +135,9 @@ Mostra uma imagem de veículo configurável (p. ex. Fiat 500e) como elemento vis
 Todos os widgets suportam um **modo claro e escuro**, comutável através da definição do widget `Modo escuro`.
 
 ## Changelog
+### 1.8.10 (2026-09-07)
+* (ssbingo) Entrada `admin` removida de `globalDependencies`: um conjunto de widgets não tem interface de administração, pelo que não é necessário exigir nenhuma versão do admin (repository checker S1091)
+
 ### 1.8.9 (2026-09-07)
 * (ssbingo) Carregador DC: uma estação que marca o registo do estado de funcionamento como inválido deixa de aparecer com um distintivo vermelho «Unbekannt». O protocolo Sigenergy sinaliza «registo inválido» colocando todos os bits a um, e um SigenStor EC **com** carregador DC responde assim para o registo 31513 enquanto os registos vizinhos (potência nominal, produção FV, contadores) são lidos normalmente. Nesse caso o distintivo é derivado da potência de saída e a dica esclarece que não se trata de um problema do adaptador nem de configuração
 * (ssbingo) Carregador DC: o valor bruto 65535 também é reconhecido, pelo que o distintivo está correto igualmente com versões do adaptador anteriores à 3.3.1, que passam o valor em vez de não reportar nenhum

@@ -134,6 +134,9 @@ Affiche une image de véhicule configurable (p. ex. Fiat 500e) comme élément v
 Tous les widgets prennent en charge un **mode clair et sombre**, commutable via le paramètre de widget `Mode sombre`.
 
 ## Changelog
+### 1.8.10 (2026-09-07)
+* (ssbingo) Entrée `admin` retirée de `globalDependencies` : un ensemble de widgets n'a pas d'interface d'administration, aucune version d'admin n'a donc à être exigée (vérificateur de dépôt S1091)
+
 ### 1.8.9 (2026-09-07)
 * (ssbingo) Chargeur DC : une borne qui marque son registre d'état de fonctionnement comme non valide n'apparaît plus avec un badge rouge « Unbekannt ». Le protocole Sigenergy signale « registre non valide » en mettant tous les bits à un, et un SigenStor EC **avec** chargeur DC répond ainsi pour le registre 31513 alors que les registres voisins (puissance nominale, production PV, compteurs) se lisent normalement. Le badge est alors dérivé de la puissance de sortie et l'infobulle précise qu'il ne s'agit ni d'un problème d'adaptateur ni de configuration
 * (ssbingo) Chargeur DC : la valeur brute 65535 est également reconnue, de sorte que le badge est aussi correct avec les versions d'adaptateur antérieures à 3.3.1, qui transmettent la valeur au lieu de ne rien signaler

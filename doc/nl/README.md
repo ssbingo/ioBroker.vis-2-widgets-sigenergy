@@ -134,6 +134,9 @@ Toont een configureerbaar voertuigafbeelding (bijv. Fiat 500e) als centraal visu
 Alle widgets ondersteunen een **lichte en donkere modus**, die kan worden omgeschakeld via de widget-instelling `Donkere modus`.
 
 ## Changelog
+### 1.8.10 (2026-09-07)
+* (ssbingo) Vermelding `admin` uit `globalDependencies` verwijderd: een widgetset heeft geen admin-interface, dus hoeft geen admin-versie te worden vereist (repository checker S1091)
+
 ### 1.8.9 (2026-09-07)
 * (ssbingo) DC-lader: een laadstation dat zijn bedrijfstoestandsregister als ongeldig markeert, verschijnt niet langer met een rode badge „Unbekannt”. Het Sigenergy-protocol geeft „register ongeldig” aan door alle bits te zetten, en een SigenStor EC **met** DC-lader antwoordt zo voor register 31513 terwijl de naburige registers (nominaal vermogen, PV-opbrengst, tellers) normaal worden gelezen. De badge wordt dan afgeleid van het uitgangsvermogen en de tooltip maakt duidelijk dat het geen adapter- of configuratieprobleem is
 * (ssbingo) DC-lader: ook de ruwe waarde 65535 wordt herkend, zodat de badge ook klopt met adapterversies vóór 3.3.1, die de waarde doorgeven in plaats van geen waarde te melden
