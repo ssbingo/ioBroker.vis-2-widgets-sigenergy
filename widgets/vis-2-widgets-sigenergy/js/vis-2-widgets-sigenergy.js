@@ -849,7 +849,11 @@ vis.binds["vis-2-widgets-sigenergy"] = {
     //     10 Preparing (Insulation). Typischer Ablauf: 0→1→2→10→3→6→0.
     //     Badge: 0 Frei, 1/2/10 Verbunden bzw. Vorbereitung, 5 Geplant, 3 Lädt,
     //     8 Entlädt, 6 Beendet, 9 Warnung, 4/7 Fehler bzw. Nicht verfügbar.
-    //     Ohne oid_state wird der Badge aus der Ausgangsleistung abgeleitet.
+    //     Fehlt oid_state, wird die OID aus oid_power abgeleitet (…outputPower →
+    //     …runningState); liefert auch das keinen Wert, wird der Badge aus der
+    //     Ausgangsleistung abgeleitet und der Tooltip erklärt den Grund – abhängig
+    //     von der vom Adapter erkannten Protokollversion (info.protocolVersion /
+    //     info.protocolLevel): Register 31513 gibt es erst ab Protokoll V2.8.
     //
     // Steuer-OID:
     //   dcCharger.control.startStop          0=Start, 1=Stop   WO
@@ -905,19 +909,73 @@ vis.binds["vis-2-widgets-sigenergy"] = {
             10: { label: "Vorbereitung", cls: "idle",
                   tip: "Preparing (10): Isolationsprüfung läuft – vor der Freigabe der Hochspannung wird der Isolationswiderstand der DC-Leitung zum Fahrzeug geprüft (Sicherheitsschritt direkt vor dem Ladestart)." }
         };
-        // Ohne konfigurierte State-OID: Badge wie bisher aus der Leistung ableiten
-        function badgeInfo(state, hasStateOid, pwr) {
-            if (!hasStateOid) {
-                if (pwr > 0.05) return { label: "Lädt",   cls: "charging", tip: "Ausgangsleistung > 0 (keine State-OID konfiguriert)." };
-                if (pwr < 0)    return { label: "Fehler", cls: "error",    tip: "Negative Ausgangsleistung (keine State-OID konfiguriert)." };
-                return              { label: "Bereit", cls: "idle",     tip: "Keine Ausgangsleistung (keine State-OID konfiguriert)." };
+        // State-OID: explizit konfiguriert oder aus der Leistungs-OID abgeleitet
+        // (…dcCharger.outputPower → …dcCharger.runningState), damit auch Widgets,
+        // die vor Einführung der Einstellung platziert wurden, den Zustand zeigen.
+        var stateOid  = data.attr("oid_state") || "";
+        var stateAuto = false;
+        if (!stateOid) {
+            var pwrOid = data.attr("oid_power") || "";
+            if (/\.dcCharger\.outputPower$/.test(pwrOid)) {
+                stateOid  = pwrOid.replace(/\.outputPower$/, ".runningState");
+                stateAuto = true;
+            }
+        }
+
+        // Protokollversion des Adapters: info.protocolVersion (Zahl, ab Adapter
+        // 3.3) bzw. info.protocolLevel (Text ">=V2.9" / "pre-V2.6") der Instanz,
+        // aus der die Leistungs-/State-OID stammt. Der DC-Charger-Betriebszustand
+        // (Register 31513) existiert erst ab Sigenergy-Protokoll V2.8.
+        var STATE_SINCE = 2.8;
+        var instMatch = /^([^.]+\.\d+)\./.exec(stateOid || data.attr("oid_power") || "");
+        var protoOids = instMatch ? [instMatch[1] + ".info.protocolVersion", instMatch[1] + ".info.protocolLevel"] : [];
+        function protocolVersion() {
+            if (!protoOids.length) return null;
+            var num = parseFloat(vis.states[protoOids[0] + ".val"]);
+            if (num > 0) return num;
+            var txt = String(vis.states[protoOids[1] + ".val"] || "");
+            if (/pre-V2\.6/i.test(txt)) return 2.5;
+            var m = /V(\d+\.\d+)/.exec(txt);
+            return m ? parseFloat(m[1]) : null;
+        }
+        function protocolText(v) {
+            return v === null ? "unbekannt" : (v < 2.6 ? "vor V2.6" : "V" + v);
+        }
+
+        // Ohne verwertbaren Betriebszustand: Badge aus der Leistung ableiten und
+        // im Tooltip erklären, warum nur die Leistung herangezogen wird.
+        function powerBadge(pwr, hint) {
+            var b;
+            if (pwr > 0.05)       b = { label: "Lädt",    cls: "charging",    tip: "Lädt – die Ausgangsleistung ist größer als 0." };
+            else if (pwr < -0.05) b = { label: "Entlädt", cls: "discharging", tip: "Entlädt – die Ausgangsleistung ist negativ (V2H/V2G)." };
+            else                  b = { label: "Bereit",  cls: "idle",        tip: "Bereit – keine Ausgangsleistung." };
+            b.tip += " " + hint;
+            return b;
+        }
+        // Erklärung, warum kein Betriebszustand vorliegt (abhängig von der Protokollversion)
+        function noStateHint() {
+            var pv = protocolVersion();
+            if (pv !== null && pv < STATE_SINCE) {
+                return "Der Betriebszustand der Säule (Register 31513) wird erst ab Sigenergy-Protokoll V2.8 geliefert, das Gerät meldet " + protocolText(pv) + ".";
+            }
+            if (pv !== null) {
+                return "Der Adapter liefert keinen Wert für " + stateOid + ", obwohl das Gerät Protokoll " + protocolText(pv) + " meldet. Bitte das Adapter-Log auf abgelehnte DC-Charger-Register (Block 31509–31518) prüfen bzw. den Adapter aktualisieren.";
+            }
+            return "Der Adapter liefert (noch) keinen Wert für " + stateOid + " (Betriebszustand der Säule, benötigt Sigenergy-Protokoll V2.8; Protokollversion noch nicht erkannt).";
+        }
+        function badgeInfo(state, pwr) {
+            if (!stateOid) {
+                return powerBadge(pwr, "Der Zustand wird nur aus der Ausgangsleistung abgeleitet, weil in den Widget-Einstellungen keine State-OID (dcCharger.runningState) eingetragen ist.");
+            }
+            if (state === undefined || state === null || state === "") {
+                if (stateAuto) {
+                    return powerBadge(pwr, "Der Zustand wird nur aus der Ausgangsleistung abgeleitet. " + noStateHint());
+                }
+                return { label: "Unbekannt", cls: "error", tip: noStateHint() };
             }
             var n = parseInt(state);
             if (STATE_INFO.hasOwnProperty(n)) return STATE_INFO[n];
-            return { label: "Unbekannt", cls: "error",
-                     tip: (state === undefined || state === null || state === "")
-                        ? "Kein Wert für den Betriebszustand empfangen."
-                        : "Unbekannter Betriebszustand (Wert " + state + ")." };
+            return { label: "Unbekannt", cls: "error", tip: "Unbekannter Betriebszustand (Wert " + state + ")." };
         }
 
         $div.html(
@@ -968,8 +1026,7 @@ vis.binds["vis-2-widgets-sigenergy"] = {
             var dur  = parseFloat(B._val(data, "oid_duration")) || 0;
 
             // Badge (Betriebszustand, sonst aus Leistung abgeleitet)
-            var stOid = data.attr("oid_state");
-            var bi    = badgeInfo(stOid ? vis.states[stOid + ".val"] : undefined, !!stOid, pwr);
+            var bi = badgeInfo(stateOid ? vis.states[stateOid + ".val"] : undefined, pwr);
             var badge = B._el("sig_dc_badge_" + w);
             if (badge) {
                 badge.textContent = bi.label;
@@ -1038,6 +1095,16 @@ vis.binds["vis-2-widgets-sigenergy"] = {
             ["oid_state", "oid_power", "oid_vsoc", "oid_vvolt", "oid_curr",
              "oid_energy", "oid_duration", "oid_startStop"],
             update);
+        // abgeleitete State-OID und Protokollversion der Instanz zusätzlich abonnieren
+        var extra = (stateAuto ? [stateOid] : []).concat(protoOids);
+        if (extra.length) {
+            var bound = $div.data("bound") || [];
+            for (var ei = 0; ei < extra.length; ei++) {
+                bound.push(extra[ei] + ".val");
+                vis.states.bind(extra[ei] + ".val", update);
+            }
+            $div.data("bound", bound);
+        }
         update();
     },
 
