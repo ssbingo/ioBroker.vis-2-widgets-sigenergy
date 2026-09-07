@@ -96,6 +96,71 @@ vis.binds["vis-2-widgets-sigenergy"] = {
         return vis.states[oid + ".val"];
     },
 
+    // ── Tooltip-Popup ────────────────────────────────────────────────────────
+    // Wird als eigenes Element an document.body gehängt und per position:fixed
+    // am Anker ausgerichtet. Damit liegt es außerhalb des skalierten Widget-
+    // Baums (_applyScale) und über allen Widget-Inhalten: keine Verdeckung
+    // durch transformierte Text-Elemente, kein Abschneiden durch overflow:hidden
+    // und eine feste, lesbare Schriftgröße unabhängig vom Widget-Maßstab.
+    _tip: null,
+    _tipAnchor: null,
+    _tipDark: true,
+    _showTip: function (anchor, text, dark) {
+        var B = vis.binds["vis-2-widgets-sigenergy"];
+        if (!anchor || !text) { B._hideTip(); return; }
+        var tip = B._tip;
+        if (!tip) {
+            tip = document.createElement("div");
+            document.body.appendChild(tip);
+            B._tip = tip;
+            // Bei Scroll/Resize neu ausrichten; ausblenden nur, wenn der Anker
+            // nicht mehr im Dokument ist (Widget entfernt / View gewechselt).
+            var reposition = function () {
+                var a = B._tipAnchor;
+                if (!a) return;
+                if (!document.body.contains(a)) { B._hideTip(); return; }
+                B._showTip(a, a.getAttribute("data-tip"), B._tipDark);
+            };
+            window.addEventListener("scroll", reposition, true);
+            window.addEventListener("resize", reposition);
+        }
+        tip.className   = "sig-tip-popup" + (dark ? "" : " light");
+        tip.textContent = text;
+        tip.style.display = "block";
+        B._tipAnchor = anchor;
+        B._tipDark   = !!dark;
+
+        var r  = anchor.getBoundingClientRect();
+        var tw = tip.offsetWidth, th = tip.offsetHeight;
+        var vw = window.innerWidth, vh = window.innerHeight;
+        var left = r.right - tw;                       // rechtsbündig unter dem Anker
+        if (left + tw > vw - 8) left = vw - 8 - tw;
+        if (left < 8) left = 8;
+        var top = r.bottom + 6;
+        if (top + th > vh - 8) top = r.top - th - 6;   // kein Platz unten → oberhalb
+        if (top < 8) top = 8;
+        tip.style.left = left + "px";
+        tip.style.top  = top  + "px";
+    },
+    _hideTip: function () {
+        var B = vis.binds["vis-2-widgets-sigenergy"];
+        if (B._tip) B._tip.style.display = "none";
+        B._tipAnchor = null;
+    },
+    // Anker-Element mit Tooltip verknüpfen: Text kommt aus dem data-tip-Attribut
+    // (kann per update() jederzeit geändert werden), Anzeige bei Hover oder
+    // Fokus (Tastatur / Tippen auf Touch-Geräten, dazu tabindex="0").
+    _bindTip: function (anchor, dark) {
+        var B = vis.binds["vis-2-widgets-sigenergy"];
+        if (!anchor || anchor._sigTipBound) return;
+        anchor._sigTipBound = true;
+        var show = function () { B._showTip(anchor, anchor.getAttribute("data-tip"), dark); };
+        anchor.addEventListener("mouseenter", show);
+        anchor.addEventListener("focus",      show);
+        anchor.addEventListener("mouseleave", function () { if (document.activeElement !== anchor) B._hideTip(); });
+        anchor.addEventListener("blur",       B._hideTip);
+    },
+
     // Darkmode-Checkbox: VIS-2 liefert Boolean true/false ODER String "true"/"false"
     // Diese Funktion normalisiert beide Varianten zuverlaessig.
     _isDark: function (data) {
@@ -548,7 +613,7 @@ vis.binds["vis-2-widgets-sigenergy"] = {
     //   7 = E                Fehler Pilotsignal / Ladekabel
     // Zustand D (Laden mit Lüftung) ist bei Sigenergy nicht vorgesehen.
     // Badge: 0 Initialisierung, 1 Frei, 2/3 Verbunden, 4/5 Lädt, 6/7 Fehler;
-    // die ausführliche Erklärung erscheint als Tooltip (data-tip) auf dem Badge.
+    // die ausführliche Erklärung erscheint als Tooltip-Popup (data-tip, _bindTip).
     //
     // Steuerung:
     //   acCharger.control.startStop   0=Start, 1=Stop  (WO)
@@ -664,6 +729,7 @@ vis.binds["vis-2-widgets-sigenergy"] = {
                 badge.textContent = si.label;
                 badge.className   = "sig-ac-badge " + si.badge;
                 badge.setAttribute("data-tip", si.tip);
+                if (B._tipAnchor === badge) B._showTip(badge, si.tip, dark);
             }
 
             var pwr   = parseFloat(B._val(data, "oid_power")) || 0;
@@ -700,16 +766,27 @@ vis.binds["vis-2-widgets-sigenergy"] = {
                 }
             }
 
-            // Start/Stop-Button Zustand hervorheben
+            // Start/Stop-Buttons: Während eines aktiven Ladevorgangs (C1/C2) ist
+            // Start gesperrt und abgedunkelt, Stop wird hervorgehoben. Der Ring
+            // (active-state) zeigt den zuletzt gesendeten Befehl, aber nur auf dem
+            // Button, der zum aktuellen Zustand passt.
             var ssOid  = data.attr("oid_startStop");
             var ssVal  = ssOid ? parseInt(vis.states[ssOid + ".val"]) : null;
             var btnStart = B._el("sig_ac_start_" + w);
             var btnStop  = B._el("sig_ac_stop_"  + w);
             if (btnStart && btnStop) {
-                btnStart.classList.toggle("active-state", ssVal === 0);
-                btnStop.classList.toggle("active-state",  ssVal === 1);
+                var charging = si.badge === "charging" ||
+                               (si.label === "Unbekannt" && pwr > 0.05);
+                btnStart.disabled = charging;
+                btnStart.title    = charging ? "Ladevorgang läuft – zum Beenden Stop drücken" : "";
+                btnStop.classList.toggle("raised", charging);
+                btnStart.classList.toggle("active-state", !charging && ssVal === 0);
+                btnStop.classList.toggle("active-state",  charging && ssVal === 1);
             }
         }
+
+        // ── Tooltip am Status-Badge ──────────────────────────────────────────
+        B._bindTip(B._el("sig_ac_badge_" + w), dark);
 
         // ── Steuer-Events ────────────────────────────────────────────────────
         var startBtn = B._el("sig_ac_start_" + w);
@@ -719,6 +796,7 @@ vis.binds["vis-2-widgets-sigenergy"] = {
 
         if (startBtn) {
             startBtn.addEventListener("click", function () {
+                if (startBtn.disabled) return;
                 var oid = data.attr("oid_startStop");
                 if (oid) vis.setValue(oid, 0);
             });

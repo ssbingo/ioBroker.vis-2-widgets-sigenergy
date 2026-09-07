@@ -60,7 +60,7 @@ Dagoverzicht met zelfredzaamheidsgraad, eigenverbruik, SOC-verloop, laad-/ontlaa
 ![Energiestatistieken](../../img/widget-statistiken.png)
 
 ### AC-lader (Sigen EVAC)
-Bewaking en bediening van de Sigenergy AC-lader (EVAC). Toont laadvermogen, systeemstatus, nominaal vermogen, nominale stroom en totaal energieverbruik. Alarmen worden met kleur gemarkeerd. De statusbadge toont de vereenvoudigde laadstatus volgens IEC 61851-1 (Initialisatie, Vrij, Verbonden, Laden, Fout); bij het aanwijzen met de muis verschijnt een uitgebreide uitleg van de huidige status. De laadstroom is instelbaar via een schuifregelaar (6 A tot de nominale stroom van de lader); de bovengrens kan aanvullend worden begrensd met de widgetinstelling `sig_maxCurrent`.
+Bewaking en bediening van de Sigenergy AC-lader (EVAC). Toont laadvermogen, systeemstatus, nominaal vermogen, nominale stroom en totaal energieverbruik. Alarmen worden met kleur gemarkeerd. De statusbadge toont de vereenvoudigde laadstatus volgens IEC 61851-1 (Initialisatie, Vrij, Verbonden, Laden, Fout); bij het aanwijzen met de muis verschijnt een uitgebreide uitleg van de huidige status. De laadstroom is instelbaar via een schuifregelaar (6 A tot de nominale stroom van de lader); de bovengrens kan aanvullend worden begrensd met de widgetinstelling `sig_maxCurrent`. Tijdens actief laden is de Start-knop geblokkeerd en wordt de Stop-knop benadrukt.
 
 **OID's:** `acCharger.systemState`, `acCharger.chargingPower`, `acCharger.totalEnergyConsumed`, `acCharger.ratedPower`, `acCharger.ratedCurrent`, `acCharger.alarm1/2/3`, `acCharger.control.startStop`, `acCharger.control.outputCurrent`
 

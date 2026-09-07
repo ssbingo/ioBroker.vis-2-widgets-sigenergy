@@ -60,7 +60,7 @@ Récapitulatif journalier avec taux d'autarcie, autoconsommation, évolution du 
 ![Statistiques énergétiques](../../img/widget-statistiken.png)
 
 ### Chargeur AC (Sigen EVAC)
-Surveillance et contrôle du chargeur AC Sigenergy (EVAC). Affiche la puissance de charge, l'état du système, la puissance nominale, le courant nominal et la consommation totale d'énergie. Les alarmes sont mises en évidence par couleur. Le badge d'état affiche l'état de charge simplifié selon IEC 61851-1 (Initialisation, Libre, Connecté, En charge, Erreur) ; au survol de la souris, une explication détaillée de l'état actuel s'affiche. Le courant de charge est réglable via un curseur (de 6 A jusqu'au courant nominal du chargeur) ; la limite supérieure peut en plus être plafonnée via le réglage du widget `sig_maxCurrent`.
+Surveillance et contrôle du chargeur AC Sigenergy (EVAC). Affiche la puissance de charge, l'état du système, la puissance nominale, le courant nominal et la consommation totale d'énergie. Les alarmes sont mises en évidence par couleur. Le badge d'état affiche l'état de charge simplifié selon IEC 61851-1 (Initialisation, Libre, Connecté, En charge, Erreur) ; au survol de la souris, une explication détaillée de l'état actuel s'affiche. Le courant de charge est réglable via un curseur (de 6 A jusqu'au courant nominal du chargeur) ; la limite supérieure peut en plus être plafonnée via le réglage du widget `sig_maxCurrent`. Pendant une charge active, le bouton Start est verrouillé et le bouton Stop est mis en évidence.
 
 **OID :** `acCharger.systemState`, `acCharger.chargingPower`, `acCharger.totalEnergyConsumed`, `acCharger.ratedPower`, `acCharger.ratedCurrent`, `acCharger.alarm1/2/3`, `acCharger.control.startStop`, `acCharger.control.outputCurrent`
 

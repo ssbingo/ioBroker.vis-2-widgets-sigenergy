@@ -25,6 +25,25 @@
    damit Buchstaben-Proportionen bei non-uniform scale erhalten bleiben.
    Markerklasse für Spezialfälle (z.B. inline-styled Text im PV-Strings-Widget). */
 
+/* ── Tooltip-Popup (JS-Helper _showTip, hängt an document.body) ────────── */
+.sig-tip-popup {
+    position: fixed; z-index: 100000; display: none;
+    max-width: 280px; box-sizing: border-box;
+    padding: 10px 12px; border-radius: 8px;
+    background: #f8fafc; color: #1e293b;
+    border: 1px solid rgba(15,23,42,.3);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 13px; font-weight: 500; line-height: 1.45;
+    text-align: left; white-space: normal; text-transform: none; letter-spacing: 0;
+    box-shadow: 0 8px 24px rgba(0,0,0,.45);
+    pointer-events: none;
+}
+.sig-tip-popup.light {
+    background: #1e293b; color: #f8fafc;
+    border-color: rgba(255,255,255,.2);
+    box-shadow: 0 8px 24px rgba(0,0,0,.35);
+}
+
 /* ── Widget 1: Energiefluss ─────────────────────────────────────────────── */
 .sig-ef-wrap {
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
@@ -170,25 +189,9 @@
 .sig-ac-badge.error    { background: #e74c3c; color: #fff; }
 .sig-ac-wrap.light .sig-ac-badge.idle { background: rgba(0,0,0,.1); color: #2c3e50; }
 
-/* Tooltip mit der IEC-61851-1-Erklärung des Systemzustands (Hover oder Fokus/Tipp) */
-.sig-ac-badge { position: relative; display: inline-block; cursor: help; }
+/* Status-Badge: fokussierbar, Tooltip-Popup siehe .sig-tip-popup (JS: _bindTip) */
+.sig-ac-badge { cursor: help; }
 .sig-ac-badge:focus { outline: none; box-shadow: 0 0 0 2px rgba(52,152,219,.6); }
-.sig-ac-badge::after {
-    content: attr(data-tip);
-    display: none;
-    position: absolute; top: calc(100% + 6px); right: 0; z-index: 20;
-    width: 240px; box-sizing: border-box;
-    padding: 8px 10px; border-radius: 8px;
-    background: #0f172a; color: #e0e6ef;
-    font-size: .62rem; font-weight: 400; line-height: 1.4;
-    text-align: left; white-space: normal;
-    box-shadow: 0 6px 18px rgba(0,0,0,.35);
-    pointer-events: none;
-}
-.sig-ac-badge:hover::after,
-.sig-ac-badge:focus::after { display: block; }
-.sig-ac-badge[data-tip=""]::after { display: none; }
-.sig-ac-wrap.light .sig-ac-badge::after { background: #2c3e50; color: #fff; }
 
 .sig-ac-power-big {
     font-size: 2.2rem; font-weight: 700; text-align: center;
@@ -235,6 +238,27 @@
 .sig-ac-wrap.light .sig-ac-btn.stop { color: #2c3e50; border-color: rgba(0,0,0,.2); }
 .sig-ac-btn.start.active-state { box-shadow: 0 0 0 2px #27ae60; }
 .sig-ac-btn.stop.active-state  { box-shadow: 0 0 0 2px rgba(255,255,255,.5); }
+
+/* Aktiver Ladevorgang: Start gesperrt, Stop hervorgehoben (kein transform –
+   das würde von der Text-Kompensation in _applyScale überschrieben). */
+.sig-ac-btn.start:disabled {
+    background: rgba(255,255,255,.1); color: rgba(224,230,239,.4);
+    cursor: not-allowed; box-shadow: none; opacity: 1;
+}
+.sig-ac-wrap.light .sig-ac-btn.start:disabled { background: rgba(0,0,0,.06); color: rgba(44,62,80,.35); }
+.sig-ac-btn.stop.raised {
+    background: #e74c3c; color: #fff; border-color: #e74c3c; font-weight: 700;
+    box-shadow: 0 4px 14px rgba(231,76,60,.55);
+    animation: sig-ac-stop-pulse 2s ease-in-out infinite;
+}
+.sig-ac-wrap.light .sig-ac-btn.stop.raised { color: #fff; border-color: #e74c3c; }
+.sig-ac-btn.stop.raised.active-state {
+    box-shadow: 0 4px 14px rgba(231,76,60,.55), 0 0 0 2px rgba(255,255,255,.7);
+}
+@keyframes sig-ac-stop-pulse {
+    0%, 100% { box-shadow: 0 4px 14px rgba(231,76,60,.55); }
+    50%      { box-shadow: 0 4px 20px rgba(231,76,60,.9); }
+}
 
 .sig-ac-slider-row {
     display: flex; align-items: center; gap: 8px;
