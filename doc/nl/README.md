@@ -69,7 +69,7 @@ Bewaking en bediening van de Sigenergy AC-lader (EVAC). Toont laadvermogen, syst
 ### DC-lader
 Bewaking en bediening van de Sigenergy DC-lader. Toont uitgangsvermogen, voertuig-SOC met voortgangsbalk, voertuigbatterijspanning, laadstroom en energie en duur van de huidige laadsessie. De statusbadge toont de bedrijfstoestand van het laadstation (`dcCharger.runningState`: vrij, verbonden/voorbereiding, gepland, laden, ontladen, beëindigd, waarschuwing, fout/niet beschikbaar); bij het aanwijzen met de muis verschijnt een uitgebreide uitleg. Tijdens actief laden of ontladen is de Start-knop geblokkeerd en wordt de Stop-knop benadrukt. Als de status-OID niet is ingesteld, wordt deze afgeleid van de OID van het uitgangsvermogen; zonder statuswaarde valt de badge terug op het uitgangsvermogen en legt de tooltip de reden uit op basis van de door de adapter gedetecteerde protocolversie.
 
-**OID's:** `dcCharger.runningState`, `dcCharger.outputPower`, `dcCharger.vehicleSoc`, `dcCharger.vehicleBatteryVoltage`, `dcCharger.chargingCurrent`, `dcCharger.currentChargingCapacity`, `dcCharger.currentChargingDuration`, `dcCharger.control.startStop`
+**OID's:** `dcCharger.runningState`, `dcCharger.outputPower`, `dcCharger.vehicleSoc`, `dcCharger.vehicleBatteryVoltage`, `dcCharger.chargingCurrent`, `dcCharger.currentChargingCapacity`, `dcCharger.currentChargingDuration`, `dcCharger.control.startStop`, `info.protocolVersion` (`oid_protocol`)
 
 ![DC-lader](../../img/widget-dc-charger.png)
 
@@ -134,6 +134,13 @@ Toont een configureerbaar voertuigafbeelding (bijv. Fiat 500e) als centraal visu
 Alle widgets ondersteunen een **lichte en donkere modus**, die kan worden omgeschakeld via de widget-instelling `Donkere modus`.
 
 ## Changelog
+### 1.8.9 (2026-09-07)
+* (ssbingo) DC-lader: een laadstation dat zijn bedrijfstoestandsregister als ongeldig markeert, verschijnt niet langer met een rode badge „Unbekannt”. Het Sigenergy-protocol geeft „register ongeldig” aan door alle bits te zetten, en een SigenStor EC **met** DC-lader antwoordt zo voor register 31513 terwijl de naburige registers (nominaal vermogen, PV-opbrengst, tellers) normaal worden gelezen. De badge wordt dan afgeleid van het uitgangsvermogen en de tooltip maakt duidelijk dat het geen adapter- of configuratieprobleem is
+* (ssbingo) DC-lader: ook de ruwe waarde 65535 wordt herkend, zodat de badge ook klopt met adapterversies vóór 3.3.1, die de waarde doorgeven in plaats van geen waarde te melden
+* (ssbingo) DC-lader: nieuwe OID-instelling `oid_protocol` (standaard `sigenergy.0.info.protocolVersion`). De protocolversie werd tot nu toe alleen uit het instantievoorvoegsel afgeleid; zo'n OID wordt door VIS niet geabonneerd, `vis.states` bleef leeg en de tooltip beweerde „protocolversie nog niet gedetecteerd”, hoewel de adapter bij de start V2.9 had gedetecteerd. Als gewoon `/id`-attribuut wordt hij zoals elke andere OID geabonneerd
+* (ssbingo) DC-lader: als de protocolversie niet leesbaar is, beweert de tooltip niet langer dat er geen is gedetecteerd, maar zegt dat hij hier niet leesbaar is en verwijst naar de nieuwe instelling
+* (ssbingo) DC-lader: tooltip herschreven voor het geval de adapter geen toestand meldt hoewel het apparaat protocol V2.8 of nieuwer aangeeft; hij beweert niet langer dat een adapterupdate nodig is, omdat het station zelf het register als ongeldig kan markeren
+
 ### 1.8.8 (2026-09-07)
 * (ssbingo) DC-lader: als de status-OID niet is ingesteld, wordt deze afgeleid van de OID van het uitgangsvermogen (…dcCharger.outputPower → …dcCharger.runningState), zodat widgets die vóór 1.8.7 zijn geplaatst de bedrijfstoestand zonder aanpassing tonen
 * (ssbingo) DC-lader: als er geen bedrijfstoestand beschikbaar is, legt de tooltip de reden uit op basis van de door de adapter gedetecteerde protocolversie (`info.protocolVersion` / `info.protocolLevel`): register 31513 vereist Sigenergy-protocol V2.8; vanaf V2.8 wordt naar het adapterlog of een adapterupdate verwezen; negatief uitgangsvermogen wordt als ontladen weergegeven

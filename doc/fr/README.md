@@ -69,7 +69,7 @@ Surveillance et contrôle du chargeur AC Sigenergy (EVAC). Affiche la puissance 
 ### Chargeur DC
 Surveillance et contrôle du chargeur DC Sigenergy. Affiche la puissance de sortie, le SOC du véhicule avec barre de progression, la tension de la batterie du véhicule, le courant de charge ainsi que l'énergie et la durée de la session de charge en cours. Le badge d'état affiche l'état de fonctionnement de la borne (`dcCharger.runningState` : libre, connecté/préparation, planifié, en charge, en décharge, terminé, avertissement, défaut/indisponible) ; au survol de la souris, une explication détaillée s'affiche. Pendant une charge ou une décharge active, le bouton Start est verrouillé et le bouton Stop est mis en évidence. Si l'OID d'état n'est pas défini, il est dérivé de l'OID de puissance de sortie ; sans valeur d'état, le badge se rabat sur la puissance de sortie et l'infobulle en explique la raison selon la version de protocole détectée par l'adaptateur.
 
-**OID :** `dcCharger.runningState`, `dcCharger.outputPower`, `dcCharger.vehicleSoc`, `dcCharger.vehicleBatteryVoltage`, `dcCharger.chargingCurrent`, `dcCharger.currentChargingCapacity`, `dcCharger.currentChargingDuration`, `dcCharger.control.startStop`
+**OID :** `dcCharger.runningState`, `dcCharger.outputPower`, `dcCharger.vehicleSoc`, `dcCharger.vehicleBatteryVoltage`, `dcCharger.chargingCurrent`, `dcCharger.currentChargingCapacity`, `dcCharger.currentChargingDuration`, `dcCharger.control.startStop`, `info.protocolVersion` (`oid_protocol`)
 
 ![Chargeur DC](../../img/widget-dc-charger.png)
 
@@ -134,6 +134,13 @@ Affiche une image de véhicule configurable (p. ex. Fiat 500e) comme élément v
 Tous les widgets prennent en charge un **mode clair et sombre**, commutable via le paramètre de widget `Mode sombre`.
 
 ## Changelog
+### 1.8.9 (2026-09-07)
+* (ssbingo) Chargeur DC : une borne qui marque son registre d'état de fonctionnement comme non valide n'apparaît plus avec un badge rouge « Unbekannt ». Le protocole Sigenergy signale « registre non valide » en mettant tous les bits à un, et un SigenStor EC **avec** chargeur DC répond ainsi pour le registre 31513 alors que les registres voisins (puissance nominale, production PV, compteurs) se lisent normalement. Le badge est alors dérivé de la puissance de sortie et l'infobulle précise qu'il ne s'agit ni d'un problème d'adaptateur ni de configuration
+* (ssbingo) Chargeur DC : la valeur brute 65535 est également reconnue, de sorte que le badge est aussi correct avec les versions d'adaptateur antérieures à 3.3.1, qui transmettent la valeur au lieu de ne rien signaler
+* (ssbingo) Chargeur DC : nouveau réglage d'OID `oid_protocol` (par défaut `sigenergy.0.info.protocolVersion`). La version du protocole n'était auparavant dérivée que du préfixe de l'instance ; VIS ne souscrit pas à un tel OID, `vis.states` restait vide et l'infobulle affirmait « version de protocole pas encore détectée » alors que l'adaptateur avait détecté V2.9 au démarrage. Déclarée comme attribut `/id` ordinaire, elle est souscrite comme tout autre OID
+* (ssbingo) Chargeur DC : lorsque la version du protocole ne peut pas être lue, l'infobulle n'affirme plus qu'aucune n'a été détectée ; elle indique qu'elle n'est pas lisible ici et renvoie au nouveau réglage
+* (ssbingo) Chargeur DC : reformulation de l'infobulle affichée lorsque l'adaptateur ne signale aucun état bien que l'appareil annonce le protocole V2.8 ou plus récent ; elle n'affirme plus qu'une mise à jour de l'adaptateur est nécessaire, la borne pouvant elle-même marquer le registre comme non valide
+
 ### 1.8.8 (2026-09-07)
 * (ssbingo) Chargeur DC : si l'OID d'état n'est pas défini, il est dérivé de l'OID de puissance de sortie (…dcCharger.outputPower → …dcCharger.runningState) ; les widgets placés avant 1.8.7 affichent ainsi l'état de fonctionnement sans modification
 * (ssbingo) Chargeur DC : en l'absence d'état de fonctionnement, l'infobulle explique la raison selon la version de protocole détectée par l'adaptateur (`info.protocolVersion` / `info.protocolLevel`) : le registre 31513 nécessite le protocole Sigenergy V2.8 ; à partir de V2.8 elle renvoie au journal de l'adaptateur ou à une mise à jour de l'adaptateur ; une puissance de sortie négative est affichée comme décharge

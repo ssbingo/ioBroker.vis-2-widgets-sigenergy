@@ -70,7 +70,7 @@ Monitorowanie i sterowanie ładowarką AC Sigenergy (EVAC). Wyświetla moc łado
 ### Ładowarka DC
 Monitorowanie i sterowanie ładowarką DC Sigenergy. Wyświetla moc wyjściową, SOC pojazdu z paskiem postępu, napięcie baterii pojazdu, prąd ładowania oraz energię i czas trwania bieżącej sesji ładowania. Plakietka stanu pokazuje stan pracy stacji ładowania (`dcCharger.runningState`: wolna, podłączony/przygotowanie, zaplanowane, ładowanie, rozładowywanie, zakończone, ostrzeżenie, błąd/niedostępna); po najechaniu myszą wyświetlane jest szczegółowe objaśnienie. Podczas aktywnego ładowania lub rozładowywania przycisk Start jest zablokowany, a przycisk Stop wyróżniony. Jeśli OID stanu nie jest ustawiony, jest wyprowadzany z OID mocy wyjściowej; bez wartości stanu plakietka opiera się na mocy wyjściowej, a podpowiedź wyjaśnia przyczynę w zależności od wersji protokołu wykrytej przez adapter.
 
-**OID:** `dcCharger.runningState`, `dcCharger.outputPower`, `dcCharger.vehicleSoc`, `dcCharger.vehicleBatteryVoltage`, `dcCharger.chargingCurrent`, `dcCharger.currentChargingCapacity`, `dcCharger.currentChargingDuration`, `dcCharger.control.startStop`
+**OID:** `dcCharger.runningState`, `dcCharger.outputPower`, `dcCharger.vehicleSoc`, `dcCharger.vehicleBatteryVoltage`, `dcCharger.chargingCurrent`, `dcCharger.currentChargingCapacity`, `dcCharger.currentChargingDuration`, `dcCharger.control.startStop`, `info.protocolVersion` (`oid_protocol`)
 
 ![Ładowarka DC](../../img/widget-dc-charger.png)
 
@@ -135,6 +135,13 @@ Wyświetla konfigurowalne zdjęcie pojazdu (np. Fiat 500e) jako centralny elemen
 Wszystkie widżety obsługują **tryb jasny i ciemny**, przełączany przez ustawienie widżetu `Tryb ciemny`.
 
 ## Changelog
+### 1.8.9 (2026-09-07)
+* (ssbingo) Ładowarka DC: stacja, która oznacza rejestr stanu pracy jako nieprawidłowy, nie jest już wyświetlana z czerwoną plakietką „Unbekannt”. Protokół Sigenergy sygnalizuje „rejestr nieprawidłowy” przez ustawienie wszystkich bitów, a SigenStor EC **z** ładowarką DC odpowiada tak dla rejestru 31513, podczas gdy sąsiednie rejestry (moc znamionowa, uzysk PV, liczniki) są odczytywane normalnie. Plakietka jest wtedy wyprowadzana z mocy wyjściowej, a podpowiedź wyjaśnia, że nie jest to problem adaptera ani konfiguracji
+* (ssbingo) Ładowarka DC: rozpoznawana jest również surowa wartość 65535, dzięki czemu plakietka jest poprawna także z wersjami adaptera sprzed 3.3.1, które przekazują tę wartość zamiast nie zgłaszać żadnej
+* (ssbingo) Ładowarka DC: nowe ustawienie OID `oid_protocol` (domyślnie `sigenergy.0.info.protocolVersion`). Wersja protokołu była dotąd wyprowadzana tylko z prefiksu instancji; VIS nie subskrybuje takiego OID, `vis.states` pozostawało puste, a podpowiedź twierdziła „wersja protokołu jeszcze nie wykryta”, mimo że adapter wykrył V2.9 przy starcie. Zadeklarowana jako zwykły atrybut `/id` jest subskrybowana jak każdy inny OID
+* (ssbingo) Ładowarka DC: gdy wersji protokołu nie można odczytać, podpowiedź nie twierdzi już, że żadnej nie wykryto, lecz informuje, że nie jest tu odczytywalna, i wskazuje na nowe ustawienie
+* (ssbingo) Ładowarka DC: przeredagowano podpowiedź wyświetlaną, gdy adapter nie zgłasza stanu, choć urządzenie deklaruje protokół V2.8 lub nowszy; nie twierdzi już, że potrzebna jest aktualizacja adaptera, ponieważ sama stacja może oznaczyć rejestr jako nieprawidłowy
+
 ### 1.8.8 (2026-09-07)
 * (ssbingo) Ładowarka DC: jeśli OID stanu nie jest ustawiony, jest wyprowadzany z OID mocy wyjściowej (…dcCharger.outputPower → …dcCharger.runningState), dzięki czemu widżety umieszczone przed 1.8.7 pokazują stan pracy bez edycji
 * (ssbingo) Ładowarka DC: gdy stan pracy jest niedostępny, podpowiedź wyjaśnia przyczynę w zależności od wersji protokołu wykrytej przez adapter (`info.protocolVersion` / `info.protocolLevel`): rejestr 31513 wymaga protokołu Sigenergy V2.8; od V2.8 odsyła do logu adaptera lub aktualizacji adaptera; ujemna moc wyjściowa jest wyświetlana jako rozładowywanie

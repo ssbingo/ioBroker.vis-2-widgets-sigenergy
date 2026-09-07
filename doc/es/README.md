@@ -70,7 +70,7 @@ Monitorización y control del cargador AC Sigenergy (EVAC). Muestra la potencia 
 ### Cargador DC
 Monitorización y control del cargador DC Sigenergy. Muestra la potencia de salida, el SOC del vehículo con barra de progreso, la tensión de la batería del vehículo, la corriente de carga y la energía y duración de la sesión de carga actual. La insignia de estado muestra el estado operativo de la estación de carga (`dcCharger.runningState`: libre, conectado/preparación, programado, cargando, descargando, finalizado, aviso, fallo/no disponible); al pasar el ratón por encima se muestra una explicación detallada. Durante una carga o descarga activa, el botón Start está bloqueado y el botón Stop se resalta. Si el OID de estado no está configurado, se deriva del OID de potencia de salida; sin valor de estado, la insignia recurre a la potencia de salida y la información emergente explica el motivo según la versión de protocolo detectada por el adaptador.
 
-**OIDs:** `dcCharger.runningState`, `dcCharger.outputPower`, `dcCharger.vehicleSoc`, `dcCharger.vehicleBatteryVoltage`, `dcCharger.chargingCurrent`, `dcCharger.currentChargingCapacity`, `dcCharger.currentChargingDuration`, `dcCharger.control.startStop`
+**OIDs:** `dcCharger.runningState`, `dcCharger.outputPower`, `dcCharger.vehicleSoc`, `dcCharger.vehicleBatteryVoltage`, `dcCharger.chargingCurrent`, `dcCharger.currentChargingCapacity`, `dcCharger.currentChargingDuration`, `dcCharger.control.startStop`, `info.protocolVersion` (`oid_protocol`)
 
 ![Cargador DC](../../img/widget-dc-charger.png)
 
@@ -135,6 +135,13 @@ Muestra una imagen de vehículo configurable (p. ej. Fiat 500e) como elemento vi
 Todos los widgets admiten un **modo claro y oscuro**, conmutable mediante el ajuste de widget `Modo oscuro`.
 
 ## Changelog
+### 1.8.9 (2026-09-07)
+* (ssbingo) Cargador DC: una estación que marca su registro de estado operativo como no válido ya no muestra una insignia roja «Unbekannt». El protocolo Sigenergy señala «registro no válido» poniendo todos los bits a uno, y un SigenStor EC **con** cargador DC responde así para el registro 31513 mientras los registros vecinos (potencia nominal, producción FV, contadores) se leen con normalidad. En ese caso la insignia se deriva de la potencia de salida y la información emergente aclara que no se trata de un problema del adaptador ni de configuración
+* (ssbingo) Cargador DC: también se reconoce el valor bruto 65535, por lo que la insignia es correcta igualmente con versiones del adaptador anteriores a 3.3.1, que transmiten el valor en lugar de no informar ninguno
+* (ssbingo) Cargador DC: nuevo ajuste de OID `oid_protocol` (predeterminado `sigenergy.0.info.protocolVersion`). Antes la versión del protocolo se derivaba solo del prefijo de la instancia; VIS no suscribe tal OID, `vis.states` quedaba vacío y la información emergente afirmaba «versión de protocolo aún no detectada» aunque el adaptador había detectado V2.9 al arrancar. Declarada como atributo `/id` normal se suscribe como cualquier otro OID
+* (ssbingo) Cargador DC: cuando la versión del protocolo no se puede leer, la información emergente ya no afirma que no se detectó ninguna, sino que indica que aquí no es legible y remite al nuevo ajuste
+* (ssbingo) Cargador DC: reformulada la información emergente que aparece cuando el adaptador no informa estado aunque el dispositivo anuncia protocolo V2.8 o superior; ya no afirma que haga falta actualizar el adaptador, pues la propia estación puede marcar el registro como no válido
+
 ### 1.8.8 (2026-09-07)
 * (ssbingo) Cargador DC: si no se ha configurado el OID de estado, se deriva del OID de potencia de salida (…dcCharger.outputPower → …dcCharger.runningState), de modo que los widgets colocados antes de 1.8.7 muestran el estado operativo sin editarlos
 * (ssbingo) Cargador DC: si no hay estado operativo disponible, la información emergente explica el motivo según la versión de protocolo detectada por el adaptador (`info.protocolVersion` / `info.protocolLevel`): el registro 31513 requiere el protocolo Sigenergy V2.8; con V2.8 o superior remite al registro del adaptador o a una actualización del adaptador; la potencia de salida negativa se muestra como descarga

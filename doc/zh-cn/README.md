@@ -70,7 +70,7 @@ Monitoring and control of the Sigenergy AC charger (EVAC). Shows charging power,
 ### DC 充电器
 Monitoring and control of the Sigenergy DC charger. Shows output power, vehicle SOC with progress bar, vehicle battery voltage, charging current and the energy and duration of the current charging session. The state badge shows the operating state of the charging station (`dcCharger.runningState`: free, connected/preparing, scheduled, charging, discharging, ended, warning, fault/unavailable); hovering over it reveals a detailed explanation. While charging or discharging is active, the Start button is locked and the Stop button is highlighted. If the state OID is not set, it is derived from the output power OID; without a state value the badge falls back to the output power and the tooltip explains why, depending on the protocol version detected by the adapter.
 
-**OIDs:** `dcCharger.runningState`, `dcCharger.outputPower`, `dcCharger.vehicleSoc`, `dcCharger.vehicleBatteryVoltage`, `dcCharger.chargingCurrent`, `dcCharger.currentChargingCapacity`, `dcCharger.currentChargingDuration`, `dcCharger.control.startStop`
+**OIDs:** `dcCharger.runningState`, `dcCharger.outputPower`, `dcCharger.vehicleSoc`, `dcCharger.vehicleBatteryVoltage`, `dcCharger.chargingCurrent`, `dcCharger.currentChargingCapacity`, `dcCharger.currentChargingDuration`, `dcCharger.control.startStop`, `info.protocolVersion` (`oid_protocol`)
 
 ![DC Charger](../../img/widget-dc-charger.png)
 
@@ -167,6 +167,13 @@ modelType, serialNumber, firmwareVersion, runningState, outputPower, gridFrequen
 所有小部件均支持**浅色和深色模式**,可通过小部件设置 `Dark mode` 切换。
 
 ## 更新日志
+### 1.8.9 (2026-09-07)
+* (ssbingo) DC 充电桩：充电桩将运行状态寄存器标记为无效时，不再显示红色的“Unbekannt”标记。Sigenergy 协议通过将所有位置一来表示“寄存器无效”，带有 DC 充电桩的 SigenStor EC 对寄存器 31513 就是这样应答的，而相邻寄存器（额定功率、PV 发电量、计量值）读取正常。此时状态标记根据输出功率推导，提示信息说明这既不是适配器问题也不是配置问题
+* (ssbingo) DC 充电桩：原始哨兵值 65535 同样会被识别，因此在 3.3.1 之前的适配器版本（直接透传该值而不是报告无值）上状态标记也正确
+* (ssbingo) DC 充电桩：新增 OID 设置 `oid_protocol`（默认 `sigenergy.0.info.protocolVersion`）。此前协议版本仅从实例前缀推导，VIS 不会订阅这样的 OID，`vis.states` 保持为空，提示信息错误地声称“尚未检测到协议版本”，尽管适配器在启动时已检测到 V2.9。作为常规 `/id` 属性声明后，它像其他 OID 一样被订阅
+* (ssbingo) DC 充电桩：无法读取协议版本时，提示信息不再声称未检测到版本，而是说明此处无法读取并指向新的设置
+* (ssbingo) DC 充电桩：重新措辞了设备声明协议 V2.8 或更高但适配器未报告状态时显示的提示信息；不再声称需要更新适配器，因为充电桩本身可能将该寄存器标记为无效
+
 ### 1.8.8 (2026-09-07)
 * (ssbingo) DC 充电桩：未设置状态 OID 时，将从输出功率 OID 推导（…dcCharger.outputPower → …dcCharger.runningState），因此在 1.8.7 之前放置的微件无需编辑即可显示运行状态
 * (ssbingo) DC 充电桩：无运行状态可用时，提示信息会根据适配器检测到的协议版本（`info.protocolVersion` / `info.protocolLevel`）说明原因：寄存器 31513 需要 Sigenergy 协议 V2.8；V2.8 及以上时提示查看适配器日志或更新适配器；负的输出功率显示为放电

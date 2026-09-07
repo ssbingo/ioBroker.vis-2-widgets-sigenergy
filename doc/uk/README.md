@@ -70,7 +70,7 @@ Monitoring and control of the Sigenergy AC charger (EVAC). Shows charging power,
 ### DC-зарядний пристрій
 Monitoring and control of the Sigenergy DC charger. Shows output power, vehicle SOC with progress bar, vehicle battery voltage, charging current and the energy and duration of the current charging session. The state badge shows the operating state of the charging station (`dcCharger.runningState`: free, connected/preparing, scheduled, charging, discharging, ended, warning, fault/unavailable); hovering over it reveals a detailed explanation. While charging or discharging is active, the Start button is locked and the Stop button is highlighted. If the state OID is not set, it is derived from the output power OID; without a state value the badge falls back to the output power and the tooltip explains why, depending on the protocol version detected by the adapter.
 
-**OIDs:** `dcCharger.runningState`, `dcCharger.outputPower`, `dcCharger.vehicleSoc`, `dcCharger.vehicleBatteryVoltage`, `dcCharger.chargingCurrent`, `dcCharger.currentChargingCapacity`, `dcCharger.currentChargingDuration`, `dcCharger.control.startStop`
+**OIDs:** `dcCharger.runningState`, `dcCharger.outputPower`, `dcCharger.vehicleSoc`, `dcCharger.vehicleBatteryVoltage`, `dcCharger.chargingCurrent`, `dcCharger.currentChargingCapacity`, `dcCharger.currentChargingDuration`, `dcCharger.control.startStop`, `info.protocolVersion` (`oid_protocol`)
 
 ![DC Charger](../../img/widget-dc-charger.png)
 
@@ -167,6 +167,13 @@ modelType, serialNumber, firmwareVersion, runningState, outputPower, gridFrequen
 Усі віджети підтримують **світлий і темний режим**, що перемикається через налаштування `Dark mode`.
 
 ## Журнал змін
+### 1.8.9 (2026-09-07)
+* (ssbingo) DC-зарядний пристрій: станція, що позначає регістр робочого стану як недійсний, більше не відображається з червоним значком «Unbekannt». Протокол Sigenergy позначає «регістр недійсний» встановленням усіх бітів, і SigenStor EC **з** DC-зарядним пристроєм відповідає так для регістра 31513, тоді як сусідні регістри (номінальна потужність, виробіток PV, лічильники) читаються нормально. У цьому випадку значок визначається за вихідною потужністю, а підказка пояснює, що це не проблема адаптера чи конфігурації
+* (ssbingo) DC-зарядний пристрій: розпізнається й сире значення 65535, тому значок коректний і з версіями адаптера до 3.3.1, які передають це значення замість відсутності значення
+* (ssbingo) DC-зарядний пристрій: нове налаштування OID `oid_protocol` (за замовчуванням `sigenergy.0.info.protocolVersion`). Раніше версія протоколу виводилася лише з префікса екземпляра; такий OID VIS не підписує, `vis.states` залишався порожнім, і підказка стверджувала «версію протоколу ще не визначено», хоча адаптер визначив V2.9 під час запуску. Оголошена як звичайний атрибут `/id`, вона підписується як будь-який інший OID
+* (ssbingo) DC-зарядний пристрій: якщо версію протоколу не можна прочитати, підказка більше не стверджує, що її не визначено, а повідомляє, що тут вона недоступна для читання, і вказує на нове налаштування
+* (ssbingo) DC-зарядний пристрій: переформульовано підказку, яка показується, коли адаптер не повідомляє стан, хоча пристрій оголошує протокол V2.8 або новіший; вона більше не стверджує, що потрібне оновлення адаптера, оскільки сама станція може позначити регістр як недійсний
+
 ### 1.8.8 (2026-09-07)
 * (ssbingo) DC-зарядний пристрій: якщо OID стану не задано, він виводиться з OID вихідної потужності (…dcCharger.outputPower → …dcCharger.runningState), тому віджети, розміщені до 1.8.7, показують робочий стан без редагування
 * (ssbingo) DC-зарядний пристрій: якщо робочий стан недоступний, підказка пояснює причину залежно від версії протоколу, визначеної адаптером (`info.protocolVersion` / `info.protocolLevel`): регістр 31513 потребує протоколу Sigenergy V2.8; починаючи з V2.8 вона відсилає до журналу адаптера або оновлення адаптера; від'ємна вихідна потужність відображається як розряджання

@@ -70,7 +70,7 @@ Tagesübersicht mit Autarkierate, Eigenverbrauch, SOC-Verlauf, Lade-/Entladeener
 ### DC-Lader
 Überwachung und Steuerung des Sigenergy DC-Laders. Zeigt Ausgangsleistung, Fahrzeug-SOC mit Fortschrittsbalken, Fahrzeugspannung, Ladestrom sowie Energie und Dauer der aktuellen Ladesitzung. Das Status-Badge zeigt den Betriebszustand der Ladesäule (`dcCharger.runningState`: Frei, Verbunden/Vorbereitung, Geplant, Lädt, Entlädt, Beendet, Warnung, Fehler/Nicht verfügbar); beim Überfahren mit der Maus erscheint eine ausführliche Erklärung. Während des Ladens oder Entladens ist der Start-Button gesperrt und der Stop-Button hervorgehoben. Ist keine State-OID gesetzt, wird sie aus der Leistungs-OID abgeleitet; liegt kein Zustandswert vor, greift der Badge auf die Ausgangsleistung zurück und der Tooltip erklärt den Grund abhängig von der vom Adapter erkannten Protokollversion.
 
-**OIDs:** `dcCharger.runningState`, `dcCharger.outputPower`, `dcCharger.vehicleSoc`, `dcCharger.vehicleBatteryVoltage`, `dcCharger.chargingCurrent`, `dcCharger.currentChargingCapacity`, `dcCharger.currentChargingDuration`, `dcCharger.control.startStop`
+**OIDs:** `dcCharger.runningState`, `dcCharger.outputPower`, `dcCharger.vehicleSoc`, `dcCharger.vehicleBatteryVoltage`, `dcCharger.chargingCurrent`, `dcCharger.currentChargingCapacity`, `dcCharger.currentChargingDuration`, `dcCharger.control.startStop`, `info.protocolVersion` (`oid_protocol`)
 
 ![DC-Lader](../../img/widget-dc-charger.png)
 
@@ -167,6 +167,13 @@ Zeigt ein konfigurierbares Fahrzeugbild (z.B. Fiat 500e) als zentrales Sichtelem
 Alle Widgets unterstützen einen **Hell- und Dunkelmodus**, der über die Widget-Einstellung `Dunkelmodus` umgeschaltet werden kann.
 
 ## Changelog
+### 1.8.9 (2026-09-07)
+* (ssbingo) DC-Charger: Meldet die Säule ihr Betriebszustands-Register als ungültig, erscheint kein rotes „Unbekannt“-Badge mehr. Das Sigenergy-Protokoll kennzeichnet „Register ungültig“ durch Setzen aller Bits, und ein SigenStor EC **mit** DC-Charger antwortet so für Register 31513, während die Nachbarregister (Nennleistung, PV-Ertrag, Zähler) normal lesen. Der Badge wird dann aus der Ausgangsleistung abgeleitet und der Tooltip stellt klar, dass weder ein Adapter- noch ein Konfigurationsproblem vorliegt
+* (ssbingo) DC-Charger: Auch der rohe Kennwert 65535 wird erkannt, damit der Badge auch mit Adapter-Versionen vor 3.3.1 stimmt, die den Wert durchreichen statt keinen Wert zu melden
+* (ssbingo) DC-Charger: Neue OID-Einstellung `oid_protocol` (Vorbelegung `sigenergy.0.info.protocolVersion`). Die Protokollversion wurde bisher nur aus dem Instanz-Präfix abgeleitet; eine solche OID abonniert VIS nicht, `vis.states` blieb leer und der Tooltip behauptete „Protokollversion noch nicht erkannt“, obwohl der Adapter beim Start V2.9 erkannt hatte. Als reguläres `/id`-Attribut wird sie wie jede andere OID abonniert
+* (ssbingo) DC-Charger: Ist die Protokollversion nicht ablesbar, behauptet der Tooltip nicht mehr, es sei keine erkannt worden, sondern sagt, dass sie hier nicht ablesbar ist, und verweist auf die neue Einstellung
+* (ssbingo) DC-Charger: Tooltip für den Fall umformuliert, dass der Adapter keinen Zustand liefert, obwohl das Gerät Protokoll V2.8 oder neuer meldet; er behauptet nicht mehr, ein Adapter-Update sei nötig, da die Säule selbst das Register als ungültig kennzeichnen kann
+
 ### 1.8.8 (2026-09-07)
 * (ssbingo) DC-Charger: Ist keine State-OID gesetzt, wird sie aus der Leistungs-OID abgeleitet (…dcCharger.outputPower → …dcCharger.runningState); vor 1.8.7 platzierte Widgets zeigen den Betriebszustand damit ohne Nacharbeit
 * (ssbingo) DC-Charger: Liegt kein Betriebszustand vor, erklärt der Tooltip den Grund abhängig von der vom Adapter erkannten Protokollversion (`info.protocolVersion` / `info.protocolLevel`): Register 31513 erfordert Sigenergy-Protokoll V2.8, ab V2.8 wird auf Adapter-Log bzw. Adapter-Update verwiesen; negative Ausgangsleistung wird als Entladen angezeigt

@@ -70,7 +70,7 @@ Monitorização e controlo do carregador AC Sigenergy (EVAC). Apresenta a potên
 ### Carregador DC
 Monitorização e controlo do carregador DC Sigenergy. Apresenta a potência de saída, o SOC do veículo com barra de progresso, a tensão da bateria do veículo, a corrente de carga e a energia e duração da sessão de carga atual. O distintivo de estado mostra o estado de funcionamento da estação de carregamento (`dcCharger.runningState`: livre, ligado/preparação, agendado, a carregar, a descarregar, terminado, aviso, falha/indisponível); ao passar o rato por cima é apresentada uma explicação detalhada. Durante um carregamento ou descarregamento ativo, o botão Start está bloqueado e o botão Stop é realçado. Se o OID de estado não estiver definido, é derivado do OID da potência de saída; sem valor de estado, o distintivo recorre à potência de saída e a dica explica o motivo consoante a versão do protocolo detetada pelo adaptador.
 
-**OIDs:** `dcCharger.runningState`, `dcCharger.outputPower`, `dcCharger.vehicleSoc`, `dcCharger.vehicleBatteryVoltage`, `dcCharger.chargingCurrent`, `dcCharger.currentChargingCapacity`, `dcCharger.currentChargingDuration`, `dcCharger.control.startStop`
+**OIDs:** `dcCharger.runningState`, `dcCharger.outputPower`, `dcCharger.vehicleSoc`, `dcCharger.vehicleBatteryVoltage`, `dcCharger.chargingCurrent`, `dcCharger.currentChargingCapacity`, `dcCharger.currentChargingDuration`, `dcCharger.control.startStop`, `info.protocolVersion` (`oid_protocol`)
 
 ![Carregador DC](../../img/widget-dc-charger.png)
 
@@ -135,6 +135,13 @@ Mostra uma imagem de veículo configurável (p. ex. Fiat 500e) como elemento vis
 Todos os widgets suportam um **modo claro e escuro**, comutável através da definição do widget `Modo escuro`.
 
 ## Changelog
+### 1.8.9 (2026-09-07)
+* (ssbingo) Carregador DC: uma estação que marca o registo do estado de funcionamento como inválido deixa de aparecer com um distintivo vermelho «Unbekannt». O protocolo Sigenergy sinaliza «registo inválido» colocando todos os bits a um, e um SigenStor EC **com** carregador DC responde assim para o registo 31513 enquanto os registos vizinhos (potência nominal, produção FV, contadores) são lidos normalmente. Nesse caso o distintivo é derivado da potência de saída e a dica esclarece que não se trata de um problema do adaptador nem de configuração
+* (ssbingo) Carregador DC: o valor bruto 65535 também é reconhecido, pelo que o distintivo está correto igualmente com versões do adaptador anteriores à 3.3.1, que passam o valor em vez de não reportar nenhum
+* (ssbingo) Carregador DC: nova definição de OID `oid_protocol` (predefinição `sigenergy.0.info.protocolVersion`). A versão do protocolo era até agora derivada apenas do prefixo da instância; o VIS não subscreve tal OID, `vis.states` ficava vazio e a dica afirmava «versão do protocolo ainda não detetada» apesar de o adaptador ter detetado V2.9 no arranque. Declarada como atributo `/id` normal, é subscrita como qualquer outro OID
+* (ssbingo) Carregador DC: quando a versão do protocolo não pode ser lida, a dica deixa de afirmar que nenhuma foi detetada; diz que aqui não é legível e remete para a nova definição
+* (ssbingo) Carregador DC: reformulada a dica apresentada quando o adaptador não reporta estado embora o dispositivo anuncie o protocolo V2.8 ou mais recente; deixa de afirmar que é necessária uma atualização do adaptador, pois a própria estação pode marcar o registo como inválido
+
 ### 1.8.8 (2026-09-07)
 * (ssbingo) Carregador DC: se o OID de estado não estiver definido, é derivado do OID da potência de saída (…dcCharger.outputPower → …dcCharger.runningState), pelo que os widgets colocados antes da 1.8.7 mostram o estado de funcionamento sem edição
 * (ssbingo) Carregador DC: se não houver estado de funcionamento disponível, a dica explica o motivo consoante a versão do protocolo detetada pelo adaptador (`info.protocolVersion` / `info.protocolLevel`): o registo 31513 requer o protocolo Sigenergy V2.8; a partir da V2.8 remete para o log do adaptador ou para uma atualização do adaptador; a potência de saída negativa é apresentada como descarga

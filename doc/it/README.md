@@ -70,7 +70,7 @@ Monitoraggio e controllo del caricatore AC Sigenergy (EVAC). Mostra la potenza d
 ### Caricatore DC
 Monitoraggio e controllo del caricatore DC Sigenergy. Mostra la potenza di uscita, il SOC del veicolo con barra di avanzamento, la tensione della batteria del veicolo, la corrente di carica e l'energia e la durata della sessione di carica corrente. Il badge di stato mostra lo stato operativo della stazione di ricarica (`dcCharger.runningState`: libero, collegato/preparazione, programmato, in carica, in scarica, terminato, avviso, guasto/non disponibile); passando il mouse sopra viene mostrata una spiegazione dettagliata. Durante una carica o scarica attiva il pulsante Start è bloccato e il pulsante Stop è evidenziato. Se l'OID di stato non è impostato, viene derivato dall'OID della potenza di uscita; senza valore di stato il badge ripiega sulla potenza di uscita e il tooltip spiega il motivo in base alla versione di protocollo rilevata dall'adapter.
 
-**OID:** `dcCharger.runningState`, `dcCharger.outputPower`, `dcCharger.vehicleSoc`, `dcCharger.vehicleBatteryVoltage`, `dcCharger.chargingCurrent`, `dcCharger.currentChargingCapacity`, `dcCharger.currentChargingDuration`, `dcCharger.control.startStop`
+**OID:** `dcCharger.runningState`, `dcCharger.outputPower`, `dcCharger.vehicleSoc`, `dcCharger.vehicleBatteryVoltage`, `dcCharger.chargingCurrent`, `dcCharger.currentChargingCapacity`, `dcCharger.currentChargingDuration`, `dcCharger.control.startStop`, `info.protocolVersion` (`oid_protocol`)
 
 ![Caricatore DC](../../img/widget-dc-charger.png)
 
@@ -135,6 +135,13 @@ Mostra un'immagine del veicolo configurabile (ad es. Fiat 500e) come elemento vi
 Tutti i widget supportano una **modalità chiara e scura**, commutabile tramite l'impostazione widget `Modalità scura`.
 
 ## Changelog
+### 1.8.9 (2026-09-07)
+* (ssbingo) Caricatore DC: una stazione che contrassegna il registro dello stato operativo come non valido non appare più con un badge rosso «Unbekannt». Il protocollo Sigenergy segnala «registro non valido» impostando tutti i bit, e un SigenStor EC **con** caricatore DC risponde così per il registro 31513 mentre i registri vicini (potenza nominale, produzione FV, contatori) si leggono normalmente. In tal caso il badge viene derivato dalla potenza di uscita e il tooltip chiarisce che non si tratta né di un problema dell'adapter né di configurazione
+* (ssbingo) Caricatore DC: viene riconosciuto anche il valore grezzo 65535, così il badge è corretto anche con versioni dell'adapter precedenti alla 3.3.1, che passano il valore invece di non riportarne alcuno
+* (ssbingo) Caricatore DC: nuova impostazione OID `oid_protocol` (predefinita `sigenergy.0.info.protocolVersion`). Finora la versione del protocollo veniva derivata solo dal prefisso dell'istanza; VIS non sottoscrive un tale OID, `vis.states` restava vuoto e il tooltip affermava «versione di protocollo non ancora rilevata» benché l'adapter avesse rilevato V2.9 all'avvio. Dichiarata come normale attributo `/id` viene sottoscritta come ogni altro OID
+* (ssbingo) Caricatore DC: se la versione del protocollo non è leggibile, il tooltip non afferma più che non ne sia stata rilevata alcuna, ma dice che qui non è leggibile e rimanda alla nuova impostazione
+* (ssbingo) Caricatore DC: riformulato il tooltip mostrato quando l'adapter non riporta alcuno stato sebbene il dispositivo annunci il protocollo V2.8 o successivo; non afferma più che serva un aggiornamento dell'adapter, dato che la stazione stessa può contrassegnare il registro come non valido
+
 ### 1.8.8 (2026-09-07)
 * (ssbingo) Caricatore DC: se l'OID di stato non è impostato, viene derivato dall'OID della potenza di uscita (…dcCharger.outputPower → …dcCharger.runningState), così i widget inseriti prima della 1.8.7 mostrano lo stato operativo senza modifiche
 * (ssbingo) Caricatore DC: se non è disponibile alcuno stato operativo, il tooltip spiega il motivo in base alla versione di protocollo rilevata dall'adapter (`info.protocolVersion` / `info.protocolLevel`): il registro 31513 richiede il protocollo Sigenergy V2.8; da V2.8 in poi rimanda al log dell'adapter o a un aggiornamento dell'adapter; la potenza di uscita negativa viene mostrata come scarica
