@@ -936,16 +936,34 @@ vis.binds["vis-2-widgets-sigenergy"] = {
         // aus der die Leistungs-/State-OID stammt. Der DC-Charger-Betriebszustand
         // (Register 31513) existiert erst ab Sigenergy-Protokoll V2.8.
         var STATE_SINCE = 2.8;
-        var instMatch = /^([^.]+\.\d+)\./.exec(stateOid || data.attr("oid_power") || "");
-        var protoOids = instMatch ? [instMatch[1] + ".info.protocolVersion", instMatch[1] + ".info.protocolLevel"] : [];
+        // Bevorzugt die konfigurierte OID (Attribut oid_protocol, /id → VIS
+        // abonniert sie und füllt vis.states). Ohne Attribut — Widgets, die vor
+        // dessen Einführung platziert wurden — werden die beiden info-OIDs aus
+        // der Instanz abgeleitet; sie sind dann aber NICHT abonniert, weshalb
+        // vis.states für sie leer bleiben kann (siehe protocolVersion()).
+        var protoOid  = data.attr("oid_protocol") || "";
+        var instMatch = /^([^.]+\.\d+)\./.exec(protoOid || stateOid || data.attr("oid_power") || "");
+        var protoOids = protoOid
+            ? [protoOid]
+            : instMatch
+              ? [instMatch[1] + ".info.protocolVersion", instMatch[1] + ".info.protocolLevel"]
+              : [];
+        // Liefert die Protokollversion oder null, wenn sie hier nicht ablesbar
+        // ist. null heißt ausdrücklich "das Widget kennt sie nicht" — nicht
+        // "der Adapter hat keine erkannt"; ohne abonnierte OID sind das zwei
+        // verschiedene Dinge, die der Tooltip nicht verwechseln darf.
         function protocolVersion() {
-            if (!protoOids.length) return null;
-            var num = parseFloat(vis.states[protoOids[0] + ".val"]);
-            if (num > 0) return num;
-            var txt = String(vis.states[protoOids[1] + ".val"] || "");
-            if (/pre-V2\.6/i.test(txt)) return 2.5;
-            var m = /V(\d+\.\d+)/.exec(txt);
-            return m ? parseFloat(m[1]) : null;
+            for (var i = 0; i < protoOids.length; i++) {
+                var raw = vis.states[protoOids[i] + ".val"];
+                if (raw === undefined || raw === null || raw === "") continue;
+                var num = parseFloat(raw);
+                if (num > 0) return num;
+                var txt = String(raw);
+                if (/pre-V2\.6/i.test(txt)) return 2.5;
+                var m = /V(\d+\.\d+)/.exec(txt);
+                if (m) return parseFloat(m[1]);
+            }
+            return null;
         }
         function protocolText(v) {
             return v === null ? "unbekannt" : (v < 2.6 ? "vor V2.6" : "V" + v);
@@ -970,7 +988,8 @@ vis.binds["vis-2-widgets-sigenergy"] = {
             if (pv !== null) {
                 return "Der Adapter liefert keinen Wert für " + stateOid + ", obwohl das Gerät Protokoll " + protocolText(pv) + " meldet. Entweder kennzeichnet die Säule das Register als ungültig, oder der Adapter hat es als nicht unterstützt aussortiert — das Adapter-Log zeigt unter dem Block 31509–31518, welcher der beiden Fälle vorliegt.";
             }
-            return "Der Adapter liefert (noch) keinen Wert für " + stateOid + " (Betriebszustand der Säule, benötigt Sigenergy-Protokoll V2.8; Protokollversion noch nicht erkannt).";
+            return "Der Adapter liefert keinen Wert für " + stateOid + " (Betriebszustand der Säule, benötigt Sigenergy-Protokoll V2.8). " +
+                   "Die Protokollversion der Instanz ist hier nicht ablesbar — bitte in den Widget-Einstellungen die OID \u201eProtokollversion\u201c (info.protocolVersion) eintragen, dann nennt dieser Hinweis den konkreten Grund.";
         }
         // Die Säule selbst kennzeichnet das Register als ungültig — das ist weder
         // ein Adapter- noch ein Konfigurationsfehler und darf nicht so aussehen.
@@ -1117,10 +1136,12 @@ vis.binds["vis-2-widgets-sigenergy"] = {
 
         B._subscribe(widgetID, data,
             ["oid_state", "oid_power", "oid_vsoc", "oid_vvolt", "oid_curr",
-             "oid_energy", "oid_duration", "oid_startStop"],
+             "oid_energy", "oid_duration", "oid_startStop", "oid_protocol"],
             update);
-        // abgeleitete State-OID und Protokollversion der Instanz zusätzlich abonnieren
-        var extra = (stateAuto ? [stateOid] : []).concat(protoOids);
+        // Zusätzlich binden, was nicht über ein Attribut läuft: die abgeleitete
+        // State-OID und — nur ohne gesetztes oid_protocol — die abgeleiteten
+        // info-OIDs. Mit Attribut hat _subscribe sie bereits gebunden.
+        var extra = (stateAuto ? [stateOid] : []).concat(protoOid ? [] : protoOids);
         if (extra.length) {
             var bound = $div.data("bound") || [];
             for (var ei = 0; ei < extra.length; ei++) {
