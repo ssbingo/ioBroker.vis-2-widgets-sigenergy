@@ -134,6 +134,10 @@ Affiche une image de véhicule configurable (p. ex. Fiat 500e) comme élément v
 Tous les widgets prennent en charge un **mode clair et sombre**, commutable via le paramètre de widget `Mode sombre`.
 
 ## Changelog
+### 1.8.8 (2026-09-07)
+* (ssbingo) Chargeur DC : si l'OID d'état n'est pas défini, il est dérivé de l'OID de puissance de sortie (…dcCharger.outputPower → …dcCharger.runningState) ; les widgets placés avant 1.8.7 affichent ainsi l'état de fonctionnement sans modification
+* (ssbingo) Chargeur DC : en l'absence d'état de fonctionnement, l'infobulle explique la raison selon la version de protocole détectée par l'adaptateur (`info.protocolVersion` / `info.protocolLevel`) : le registre 31513 nécessite le protocole Sigenergy V2.8 ; à partir de V2.8 elle renvoie au journal de l'adaptateur ou à une mise à jour de l'adaptateur ; une puissance de sortie négative est affichée comme décharge
+
 ### 1.8.7 (2026-09-07)
 * (ssbingo) Chargeur DC : nouvel OID d'état `dcCharger.runningState` (par défaut) – le badge d'état affiche désormais l'état de fonctionnement de la borne (libre, connecté/préparation, planifié, en charge, en décharge, terminé, avertissement, défaut/indisponible) avec une explication détaillée en infobulle ; sans l'OID, le badge est dérivé de la puissance de sortie comme auparavant
 * (ssbingo) Chargeur DC : pendant une charge ou une décharge active, le bouton Start est verrouillé et le bouton Stop est mis en évidence ; une puissance de sortie négative (décharge) est affichée en violet

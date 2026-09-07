@@ -167,6 +167,10 @@ Zeigt ein konfigurierbares Fahrzeugbild (z.B. Fiat 500e) als zentrales Sichtelem
 Alle Widgets unterstützen einen **Hell- und Dunkelmodus**, der über die Widget-Einstellung `Dunkelmodus` umgeschaltet werden kann.
 
 ## Changelog
+### 1.8.8 (2026-09-07)
+* (ssbingo) DC-Charger: Ist keine State-OID gesetzt, wird sie aus der Leistungs-OID abgeleitet (…dcCharger.outputPower → …dcCharger.runningState); vor 1.8.7 platzierte Widgets zeigen den Betriebszustand damit ohne Nacharbeit
+* (ssbingo) DC-Charger: Liegt kein Betriebszustand vor, erklärt der Tooltip den Grund abhängig von der vom Adapter erkannten Protokollversion (`info.protocolVersion` / `info.protocolLevel`): Register 31513 erfordert Sigenergy-Protokoll V2.8, ab V2.8 wird auf Adapter-Log bzw. Adapter-Update verwiesen; negative Ausgangsleistung wird als Entladen angezeigt
+
 ### 1.8.7 (2026-09-07)
 * (ssbingo) DC-Charger: Neue State-OID `dcCharger.runningState` (Vorbelegung) – der Status-Badge zeigt jetzt den Betriebszustand der Ladesäule (Frei, Verbunden/Vorbereitung, Geplant, Lädt, Entlädt, Beendet, Warnung, Fehler/Nicht verfügbar) mit ausführlicher Erklärung als Tooltip; ohne OID wird der Badge wie bisher aus der Ausgangsleistung abgeleitet
 * (ssbingo) DC-Charger: Während des Ladens oder Entladens ist der Start-Button gesperrt und der Stop-Button hervorgehoben; negative Ausgangsleistung (Entladen) wird violett dargestellt

@@ -135,6 +135,10 @@ Mostra un'immagine del veicolo configurabile (ad es. Fiat 500e) come elemento vi
 Tutti i widget supportano una **modalità chiara e scura**, commutabile tramite l'impostazione widget `Modalità scura`.
 
 ## Changelog
+### 1.8.8 (2026-09-07)
+* (ssbingo) Caricatore DC: se l'OID di stato non è impostato, viene derivato dall'OID della potenza di uscita (…dcCharger.outputPower → …dcCharger.runningState), così i widget inseriti prima della 1.8.7 mostrano lo stato operativo senza modifiche
+* (ssbingo) Caricatore DC: se non è disponibile alcuno stato operativo, il tooltip spiega il motivo in base alla versione di protocollo rilevata dall'adapter (`info.protocolVersion` / `info.protocolLevel`): il registro 31513 richiede il protocollo Sigenergy V2.8; da V2.8 in poi rimanda al log dell'adapter o a un aggiornamento dell'adapter; la potenza di uscita negativa viene mostrata come scarica
+
 ### 1.8.7 (2026-09-07)
 * (ssbingo) Caricatore DC: nuovo OID di stato `dcCharger.runningState` (predefinito) – il badge di stato mostra ora lo stato operativo della stazione di ricarica (libero, collegato/preparazione, programmato, in carica, in scarica, terminato, avviso, guasto/non disponibile) con una spiegazione dettagliata come tooltip; senza l'OID il badge viene derivato come prima dalla potenza di uscita
 * (ssbingo) Caricatore DC: durante una carica o scarica attiva il pulsante Start è bloccato e il pulsante Stop è evidenziato; la potenza di uscita negativa (scarica) viene mostrata in viola

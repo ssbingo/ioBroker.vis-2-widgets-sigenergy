@@ -135,6 +135,10 @@ Wyświetla konfigurowalne zdjęcie pojazdu (np. Fiat 500e) jako centralny elemen
 Wszystkie widżety obsługują **tryb jasny i ciemny**, przełączany przez ustawienie widżetu `Tryb ciemny`.
 
 ## Changelog
+### 1.8.8 (2026-09-07)
+* (ssbingo) Ładowarka DC: jeśli OID stanu nie jest ustawiony, jest wyprowadzany z OID mocy wyjściowej (…dcCharger.outputPower → …dcCharger.runningState), dzięki czemu widżety umieszczone przed 1.8.7 pokazują stan pracy bez edycji
+* (ssbingo) Ładowarka DC: gdy stan pracy jest niedostępny, podpowiedź wyjaśnia przyczynę w zależności od wersji protokołu wykrytej przez adapter (`info.protocolVersion` / `info.protocolLevel`): rejestr 31513 wymaga protokołu Sigenergy V2.8; od V2.8 odsyła do logu adaptera lub aktualizacji adaptera; ujemna moc wyjściowa jest wyświetlana jako rozładowywanie
+
 ### 1.8.7 (2026-09-07)
 * (ssbingo) Ładowarka DC: nowy OID stanu `dcCharger.runningState` (domyślny) – plakietka stanu pokazuje teraz stan pracy stacji ładowania (wolna, podłączony/przygotowanie, zaplanowane, ładowanie, rozładowywanie, zakończone, ostrzeżenie, błąd/niedostępna) ze szczegółowym objaśnieniem jako podpowiedź; bez OID plakietka jest jak dotychczas wyprowadzana z mocy wyjściowej
 * (ssbingo) Ładowarka DC: podczas aktywnego ładowania lub rozładowywania przycisk Start jest zablokowany, a przycisk Stop wyróżniony; ujemna moc wyjściowa (rozładowywanie) jest wyświetlana na fioletowo
