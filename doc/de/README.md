@@ -167,6 +167,10 @@ Zeigt ein konfigurierbares Fahrzeugbild (z.B. Fiat 500e) als zentrales Sichtelem
 Alle Widgets unterstützen einen **Hell- und Dunkelmodus**, der über die Widget-Einstellung `Dunkelmodus` umgeschaltet werden kann.
 
 ## Changelog
+### 1.8.5 (2026-09-07)
+* (ssbingo) AC-Charger: Der Ladestrom-Slider ist jetzt auf den Nennstrom des Laders begrenzt; neue Widget-Einstellung `sig_maxCurrent` für eine manuelle Obergrenze (verhindert Modbus-Fehler bei Werten über dem Nennstrom)
+* (ssbingo) AC-Charger: Der Systemzustand deckt jetzt alle IEC-61851-1-Zustände ab (0–7: Initialisierung, Frei, Verbunden, Lädt, Fehler); beim Überfahren des Status-Badges erscheint eine ausführliche Erklärung
+
 ### 1.8.4 (2026-09-04)
 * (ssbingo) Admin-Mindestanforderung auf >=7.8.23 gesenkt (admin 8 ist nicht mehr erforderlich)
 * (ssbingo) CI: ioBroker/testing-action-deploy auf Hauptversion v1 gelockt; Dependabot-Auto-Merge-Workflow repariert

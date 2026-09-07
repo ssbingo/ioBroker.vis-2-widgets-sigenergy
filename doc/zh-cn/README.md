@@ -167,6 +167,10 @@ modelType, serialNumber, firmwareVersion, runningState, outputPower, gridFrequen
 所有小部件均支持**浅色和深色模式**,可通过小部件设置 `Dark mode` 切换。
 
 ## 更新日志
+### 1.8.5 (2026-09-07)
+* (ssbingo) AC 充电桩：充电电流滑块现在限制为充电桩的额定电流；新增微件设置 `sig_maxCurrent` 用于手动设置上限（避免设置超过额定电流时出现 Modbus 错误）
+* (ssbingo) AC 充电桩：系统状态现已覆盖所有 IEC 61851-1 状态（0–7：初始化、空闲、已连接、充电中、故障）；将鼠标悬停在状态标记上会显示详细说明
+
 ### 1.8.4 (2026-09-04)
 * (ssbingo) 最低 admin 要求降至 >=7.8.23（不再需要 admin 8）
 * (ssbingo) CI：ioBroker/testing-action-deploy 锁定为主版本 v1；修复 Dependabot 自动合并工作流

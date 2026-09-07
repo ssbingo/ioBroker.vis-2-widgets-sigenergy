@@ -134,6 +134,10 @@ Toont een configureerbaar voertuigafbeelding (bijv. Fiat 500e) als centraal visu
 Alle widgets ondersteunen een **lichte en donkere modus**, die kan worden omgeschakeld via de widget-instelling `Donkere modus`.
 
 ## Changelog
+### 1.8.5 (2026-09-07)
+* (ssbingo) AC-lader: de schuifregelaar voor de laadstroom is nu begrensd tot de nominale stroom van de lader; nieuwe widgetinstelling `sig_maxCurrent` voor een handmatige bovengrens (voorkomt Modbus-fouten bij waarden boven de nominale stroom)
+* (ssbingo) AC-lader: de systeemstatus dekt nu alle IEC 61851-1-toestanden (0–7: initialisatie, vrij, verbonden, laden, fout); bij het aanwijzen van de statusbadge verschijnt een uitgebreide uitleg
+
 ### 1.8.4 (2026-09-04)
 * (ssbingo) Minimale admin-vereiste verlaagd naar >=7.8.23 (admin 8 is niet langer vereist)
 * (ssbingo) CI: ioBroker/testing-action-deploy vastgezet op hoofdversie v1; Dependabot auto-merge-workflow gerepareerd

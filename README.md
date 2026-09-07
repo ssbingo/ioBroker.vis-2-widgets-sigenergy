@@ -167,6 +167,10 @@ Displays a configurable vehicle image (e.g. Fiat 500e) as the central visual ele
 All widgets support a **light and dark mode**, switchable via the widget setting `Dark mode`.
 
 ## Changelog
+### 1.8.5 (2026-09-07)
+* (ssbingo) AC charger: the charging current slider is now limited to the charger's rated current; new widget setting `sig_maxCurrent` for a manual upper limit (prevents Modbus errors when setting more than the rated current)
+* (ssbingo) AC charger: system state now covers all IEC 61851-1 states (0–7: initialising, free, connected, charging, error); hovering over the state badge shows a detailed explanation
+
 ### 1.8.4 (2026-09-04)
 * (ssbingo) Lowered minimum admin requirement to >=7.8.23 (admin 8 is no longer required)
 * (ssbingo) CI: locked ioBroker/testing-action-deploy to major version v1; fixed Dependabot auto-merge workflow

@@ -135,6 +135,10 @@ Mostra un'immagine del veicolo configurabile (ad es. Fiat 500e) come elemento vi
 Tutti i widget supportano una **modalità chiara e scura**, commutabile tramite l'impostazione widget `Modalità scura`.
 
 ## Changelog
+### 1.8.5 (2026-09-07)
+* (ssbingo) Caricatore AC: il cursore della corrente di carica è ora limitato alla corrente nominale del caricatore; nuova impostazione del widget `sig_maxCurrent` per un limite superiore manuale (evita errori Modbus impostando valori superiori alla corrente nominale)
+* (ssbingo) Caricatore AC: lo stato del sistema copre ora tutti gli stati IEC 61851-1 (0–7: inizializzazione, libero, collegato, in carica, errore); passando il mouse sul badge di stato viene mostrata una spiegazione dettagliata
+
 ### 1.8.4 (2026-09-04)
 * (ssbingo) Requisito minimo di admin abbassato a >=7.8.23 (admin 8 non è più necessario)
 * (ssbingo) CI: ioBroker/testing-action-deploy bloccato alla versione maggiore v1; corretto il workflow di auto-merge di Dependabot

@@ -135,6 +135,10 @@ Wyświetla konfigurowalne zdjęcie pojazdu (np. Fiat 500e) jako centralny elemen
 Wszystkie widżety obsługują **tryb jasny i ciemny**, przełączany przez ustawienie widżetu `Tryb ciemny`.
 
 ## Changelog
+### 1.8.5 (2026-09-07)
+* (ssbingo) Ładowarka AC: suwak prądu ładowania jest teraz ograniczony do prądu znamionowego ładowarki; nowe ustawienie widżetu `sig_maxCurrent` dla ręcznej górnej granicy (zapobiega błędom Modbus przy ustawianiu wartości powyżej prądu znamionowego)
+* (ssbingo) Ładowarka AC: stan systemu obejmuje teraz wszystkie stany IEC 61851-1 (0–7: inicjalizacja, wolny, podłączony, ładowanie, błąd); po najechaniu na plakietkę stanu wyświetlane jest szczegółowe objaśnienie
+
 ### 1.8.4 (2026-09-04)
 * (ssbingo) Minimalne wymaganie admin obniżone do >=7.8.23 (admin 8 nie jest już wymagany)
 * (ssbingo) CI: ioBroker/testing-action-deploy przypięty do wersji głównej v1; naprawiono workflow auto-merge Dependabota

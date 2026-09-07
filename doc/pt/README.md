@@ -135,6 +135,10 @@ Mostra uma imagem de veículo configurável (p. ex. Fiat 500e) como elemento vis
 Todos os widgets suportam um **modo claro e escuro**, comutável através da definição do widget `Modo escuro`.
 
 ## Changelog
+### 1.8.5 (2026-09-07)
+* (ssbingo) Carregador AC: o controlo deslizante da corrente de carga está agora limitado à corrente nominal do carregador; nova definição do widget `sig_maxCurrent` para um limite superior manual (evita erros Modbus ao definir valores acima da corrente nominal)
+* (ssbingo) Carregador AC: o estado do sistema cobre agora todos os estados IEC 61851-1 (0–7: inicialização, livre, ligado, a carregar, erro); ao passar o rato sobre o distintivo de estado é apresentada uma explicação detalhada
+
 ### 1.8.4 (2026-09-04)
 * (ssbingo) Requisito mínimo do admin reduzido para >=7.8.23 (admin 8 não é mais necessário)
 * (ssbingo) CI: ioBroker/testing-action-deploy fixado na versão principal v1; workflow de auto-merge do Dependabot corrigido
