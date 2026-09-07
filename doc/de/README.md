@@ -61,7 +61,7 @@ Tagesübersicht mit Autarkierate, Eigenverbrauch, SOC-Verlauf, Lade-/Entladeener
 ![Energiestatistiken](../../img/widget-statistiken.png)
 
 ### AC-Lader (Sigen EVAC)
-Überwachung und Steuerung des Sigenergy AC-Laders (EVAC). Zeigt Ladeleistung, Systemzustand, Nennleistung, Nennstrom und Gesamtenergieverbrauch. Alarme werden farblich hervorgehoben. Der Ladestrom lässt sich per Schieberegler (6–32 A) direkt einstellen.
+Überwachung und Steuerung des Sigenergy AC-Laders (EVAC). Zeigt Ladeleistung, Systemzustand, Nennleistung, Nennstrom und Gesamtenergieverbrauch. Alarme werden farblich hervorgehoben. Das Status-Badge zeigt den vereinfachten Ladezustand nach IEC 61851-1 (Initialisierung, Frei, Verbunden, Lädt, Fehler); beim Überfahren mit der Maus erscheint eine ausführliche Erklärung des aktuellen Zustands. Der Ladestrom lässt sich per Schieberegler (6 A bis zum Nennstrom des Laders) direkt einstellen; die Obergrenze kann über die Widget-Einstellung `sig_maxCurrent` zusätzlich begrenzt werden.
 
 **OIDs:** `acCharger.systemState`, `acCharger.chargingPower`, `acCharger.totalEnergyConsumed`, `acCharger.ratedPower`, `acCharger.ratedCurrent`, `acCharger.alarm1/2/3`, `acCharger.control.startStop`, `acCharger.control.outputCurrent`
 

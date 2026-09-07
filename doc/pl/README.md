@@ -61,7 +61,7 @@ Dzienny przegląd ze stopniem autarki, autokonsumpcją, historią SOC, energią 
 ![Statystyki energii](../../img/widget-statistiken.png)
 
 ### Ładowarka AC (Sigen EVAC)
-Monitorowanie i sterowanie ładowarką AC Sigenergy (EVAC). Wyświetla moc ładowania, stan systemu, moc znamionową, prąd znamionowy i całkowite zużycie energii. Alarmy są wyróżnione kolorami. Prąd ładowania można regulować suwakiem (6–32 A).
+Monitorowanie i sterowanie ładowarką AC Sigenergy (EVAC). Wyświetla moc ładowania, stan systemu, moc znamionową, prąd znamionowy i całkowite zużycie energii. Alarmy są wyróżnione kolorami. Plakietka stanu pokazuje uproszczony stan ładowania według IEC 61851-1 (Inicjalizacja, Wolny, Podłączony, Ładowanie, Błąd); po najechaniu myszą wyświetlane jest szczegółowe objaśnienie bieżącego stanu. Prąd ładowania można regulować suwakiem (od 6 A do prądu znamionowego ładowarki); górną granicę można dodatkowo ograniczyć ustawieniem widżetu `sig_maxCurrent`.
 
 **OID:** `acCharger.systemState`, `acCharger.chargingPower`, `acCharger.totalEnergyConsumed`, `acCharger.ratedPower`, `acCharger.ratedCurrent`, `acCharger.alarm1/2/3`, `acCharger.control.startStop`, `acCharger.control.outputCurrent`
 

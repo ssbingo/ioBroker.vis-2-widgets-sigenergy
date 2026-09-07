@@ -61,7 +61,7 @@ Riepilogo giornaliero con tasso di autosufficienza, autoconsumo, storico SOC, en
 ![Statistiche energetiche](../../img/widget-statistiken.png)
 
 ### Caricatore AC (Sigen EVAC)
-Monitoraggio e controllo del caricatore AC Sigenergy (EVAC). Mostra la potenza di carica, lo stato del sistema, la potenza nominale, la corrente nominale e il consumo totale di energia. Gli allarmi sono evidenziati a colori. La corrente di carica è regolabile tramite cursore (6–32 A).
+Monitoraggio e controllo del caricatore AC Sigenergy (EVAC). Mostra la potenza di carica, lo stato del sistema, la potenza nominale, la corrente nominale e il consumo totale di energia. Gli allarmi sono evidenziati a colori. Il badge di stato mostra lo stato di carica semplificato secondo IEC 61851-1 (Inizializzazione, Libero, Collegato, In carica, Errore); passando il mouse sopra viene mostrata una spiegazione dettagliata dello stato attuale. La corrente di carica è regolabile tramite cursore (da 6 A fino alla corrente nominale del caricatore); il limite superiore può essere ulteriormente limitato tramite l'impostazione del widget `sig_maxCurrent`.
 
 **OID:** `acCharger.systemState`, `acCharger.chargingPower`, `acCharger.totalEnergyConsumed`, `acCharger.ratedPower`, `acCharger.ratedCurrent`, `acCharger.alarm1/2/3`, `acCharger.control.startStop`, `acCharger.control.outputCurrent`
 

@@ -537,15 +537,26 @@ vis.binds["vis-2-widgets-sigenergy"] = {
 
     // ── Widget 5: AC-Charger (Sigen EVAC) ───────────────────────────────────
     //
-    // Systemzustände (IEC 61851-1):
-    //   0 = Standby (nicht verbunden)
-    //   1 = Warte auf Fahrzeug
-    //   2 = Lädt
-    //   3 = Laden abgeschlossen / Fehler
+    // Systemzustände (acCharger.systemState, Control-Pilot nach IEC 61851-1):
+    //   0 = System init      Wallbox initialisiert sich
+    //   1 = A1/A2            kein Fahrzeug angeschlossen
+    //   2 = B1               angesteckt, keine Ladefreigabe
+    //   3 = B2               angesteckt, Freigabe erteilt, Fahrzeug fordert nichts an
+    //   4 = C1               Fahrzeug fordert an, keine Freigabe/kein PWM (Übergang)
+    //   5 = C2               Laden aktiv
+    //   6 = F                Wallbox nicht verfügbar / Fehler Ladestation
+    //   7 = E                Fehler Pilotsignal / Ladekabel
+    // Zustand D (Laden mit Lüftung) ist bei Sigenergy nicht vorgesehen.
+    // Badge: 0 Initialisierung, 1 Frei, 2/3 Verbunden, 4/5 Lädt, 6/7 Fehler;
+    // die ausführliche Erklärung erscheint als Tooltip (data-tip) auf dem Badge.
     //
     // Steuerung:
     //   acCharger.control.startStop   0=Start, 1=Stop  (WO)
     //   acCharger.control.outputCurrent  6..rated A    (RW)
+    //
+    // Der Slider-Bereich ist [6, max]. max = kleinster Wert aus dem Nennstrom des
+    // Laders (oid_ratedCurrent) und der Widget-Einstellung sig_maxCurrent (0 = aus).
+    // Werte über dem Nennstrom quittiert das Gerät mit einem Modbus-Fehler.
     //
     createAcCharger: function (widgetID, view, data, style) {
         var B    = vis.binds["vis-2-widgets-sigenergy"];
@@ -559,16 +570,32 @@ vis.binds["vis-2-widgets-sigenergy"] = {
         var cls   = "sig-ac-wrap" + (dark ? "" : " light");
         var w     = widgetID;
 
-        // Systemzustand → lesbarer Text + Badge-Klasse
+        // Systemzustand → lesbarer Text, Badge-Klasse und Tooltip-Erklärung
+        var STATE_INFO = {
+            0: { label: "Initialisierung", badge: "idle",
+                 tip: "System init (0): Wallbox startet bzw. initialisiert sich, noch kein gültiger Zustand." },
+            1: { label: "Frei", badge: "idle",
+                 tip: "A1/A2 (1): Kein Fahrzeug angeschlossen, Stecker frei. A1 = Wallbox nicht bereit, A2 = Wallbox bereit und wartet auf ein Fahrzeug." },
+            2: { label: "Verbunden", badge: "idle",
+                 tip: "B1 (2): Fahrzeug angesteckt, die Wallbox hat noch keine Ladefreigabe erteilt (z. B. App/Backend, Lastmanagement, Sperre)." },
+            3: { label: "Verbunden", badge: "idle",
+                 tip: "B2 (3): Fahrzeug angesteckt, Ladefreigabe erteilt, das Fahrzeug fordert (noch) keinen Strom an – z. B. Akku voll, Ladeplan im Auto, Ladepause." },
+            4: { label: "Lädt", badge: "charging",
+                 tip: "C1 (4): Fahrzeug fordert Ladung an, die Wallbox gibt keine Freigabe/kein PWM – Übergangszustand, z. B. beim Beenden der Ladung oder bei Sperrung während des Ladens." },
+            5: { label: "Lädt", badge: "charging",
+                 tip: "C2 (5): Laden aktiv – das Fahrzeug fordert Strom an, die Wallbox gibt frei, es fließt Energie." },
+            6: { label: "Fehler", badge: "error",
+                 tip: "F (6): Wallbox nicht verfügbar bzw. Fehler der Ladestation – z. B. interner Fehler, Übertemperatur, Abschaltung durch Lastmanagement." },
+            7: { label: "Fehler", badge: "error",
+                 tip: "E (7): Fehler am Pilotsignal/Ladekabel – Kurzschluss oder Unterbrechung des CP-Signals, Spannungsausfall, Kabel- oder Fahrzeugfehler." }
+        };
         function stateInfo(v) {
             var n = parseInt(v);
-            switch (n) {
-                case 0: return { label: "Bereit",     badge: "idle" };
-                case 1: return { label: "Verbunden",  badge: "idle" };
-                case 2: return { label: "Lädt",       badge: "charging" };
-                case 3: return { label: "Fertig",     badge: "idle" };
-                default:return { label: "Unbekannt",  badge: "error" };
-            }
+            if (STATE_INFO.hasOwnProperty(n)) return STATE_INFO[n];
+            return { label: "Unbekannt", badge: "error",
+                     tip: (v === undefined || v === null || v === "")
+                        ? "Kein Wert für den Systemzustand empfangen."
+                        : "Unbekannter Systemzustand (Wert " + v + ")." };
         }
 
         // Alarm-Text: 0 = kein Alarm
@@ -577,13 +604,29 @@ vis.binds["vis-2-widgets-sigenergy"] = {
             return v ? "⚠ Alarm " + v.toString(16).toUpperCase() : "OK";
         }
 
+        // Obergrenze des Ladestrom-Sliders in A (siehe Kommentar oben)
+        var MIN_CURRENT = 6;
+        var DEFAULT_MAX_CURRENT = 32;
+        function maxCurrent() {
+            var cfg = parseFloat(data.attr("sig_maxCurrent"));
+            var rc  = parseFloat(B._val(data, "oid_ratedCurrent"));
+            var max = 0;
+            if (cfg > 0) max = cfg;
+            if (rc > 0 && (!max || rc < max)) max = rc;
+            if (!max) max = DEFAULT_MAX_CURRENT;
+            return Math.max(MIN_CURRENT, Math.floor(max));
+        }
+        function clampCurrent(v) {
+            return Math.min(Math.max(Math.round(v), MIN_CURRENT), maxCurrent());
+        }
+
         $div.html(
             '<div class="sig-w"><div class="' + cls + '">' +
             // ── Kopfzeile ──────────────────────────────────────────────
             '<div class="sig-ac-head">' +
             '<span class="icon">&#128268;</span>' +
             '<span class="title">' + title + '</span>' +
-            '<span class="sig-ac-badge idle" id="sig_ac_badge_' + w + '">Bereit</span>' +
+            '<span class="sig-ac-badge idle" id="sig_ac_badge_' + w + '" tabindex="0" data-tip="">Frei</span>' +
             '</div>' +
             // ── Ladeleistung groß ────────────────────────────────────
             '<div class="sig-ac-power-big" id="sig_ac_power_' + w + '">-- kW</div>' +
@@ -617,7 +660,11 @@ vis.binds["vis-2-widgets-sigenergy"] = {
             var state = B._val(data, "oid_state");
             var si    = stateInfo(state);
             var badge = B._el("sig_ac_badge_" + w);
-            if (badge) { badge.textContent = si.label; badge.className = "sig-ac-badge " + si.badge; }
+            if (badge) {
+                badge.textContent = si.label;
+                badge.className   = "sig-ac-badge " + si.badge;
+                badge.setAttribute("data-tip", si.tip);
+            }
 
             var pwr   = parseFloat(B._val(data, "oid_power")) || 0;
             B._txt("sig_ac_power_"   + w, B._fmtKW(pwr));
@@ -637,14 +684,19 @@ vis.binds["vis-2-widgets-sigenergy"] = {
             B._txt("sig_ac_alm_"     + w, alTxt);
             B._css("sig_ac_alm_"     + w, "color", alTxt === "OK" ? "#27ae60" : "#e74c3c");
 
-            // Ladestrom-Slider: Aktuellen Wert anzeigen
-            var curOid = data.attr("oid_current");
-            if (curOid) {
-                var curVal = parseFloat(vis.states[curOid + ".val"]) || 16;
-                var slider = B._el("sig_ac_slider_" + w);
-                if (slider && !slider._dragging) {
-                    slider.value = Math.round(curVal);
-                    B._txt("sig_ac_slider_val_" + w, Math.round(curVal) + " A");
+            // Ladestrom-Slider: Obergrenze (Nennstrom / Einstellung) und aktuellen Wert anzeigen
+            var slider = B._el("sig_ac_slider_" + w);
+            if (slider) {
+                var max = maxCurrent();
+                if (parseInt(slider.max) !== max) slider.max = max;
+                var curOid = data.attr("oid_current");
+                if (curOid && !slider._dragging) {
+                    var curVal = parseFloat(vis.states[curOid + ".val"]);
+                    slider.value = clampCurrent(isNaN(curVal) ? 16 : curVal);
+                    B._txt("sig_ac_slider_val_" + w, slider.value + " A");
+                } else if (parseInt(slider.value) > max) {
+                    slider.value = max;
+                    B._txt("sig_ac_slider_val_" + w, slider.value + " A");
                 }
             }
 
@@ -683,16 +735,17 @@ vis.binds["vis-2-widgets-sigenergy"] = {
             });
             slider.addEventListener("mousedown",  function () { slider._dragging = true;  });
             slider.addEventListener("touchstart", function () { slider._dragging = true;  });
-            slider.addEventListener("mouseup",    function () {
+            function sendCurrent() {
                 slider._dragging = false;
                 var oid = data.attr("oid_current");
-                if (oid) vis.setValue(oid, parseFloat(slider.value));
-            });
-            slider.addEventListener("touchend",   function () {
-                slider._dragging = false;
-                var oid = data.attr("oid_current");
-                if (oid) vis.setValue(oid, parseFloat(slider.value));
-            });
+                if (!oid) return;
+                var v = clampCurrent(parseFloat(slider.value) || MIN_CURRENT);
+                slider.value = v;
+                sliderLbl.textContent = v + " A";
+                vis.setValue(oid, v);
+            }
+            slider.addEventListener("mouseup",    sendCurrent);
+            slider.addEventListener("touchend",   sendCurrent);
         }
 
         B._subscribe(widgetID, data,
