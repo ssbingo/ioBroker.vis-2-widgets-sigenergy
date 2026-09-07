@@ -134,6 +134,11 @@ Affiche une image de véhicule configurable (p. ex. Fiat 500e) comme élément v
 Tous les widgets prennent en charge un **mode clair et sombre**, commutable via le paramètre de widget `Mode sombre`.
 
 ## Changelog
+### 1.8.6 (2026-09-07)
+* (ssbingo) Chargeur AC : l'infobulle du badge d'état s'affiche désormais dans un popup séparé avec une taille de police fixe et un fond opaque ; elle reste lisible quelle que soit la taille du widget et n'est plus recouverte par le contenu du widget
+* (ssbingo) Chargeur AC : pendant une charge active, le bouton Start est verrouillé et le bouton Stop est mis en évidence
+* (ssbingo) L'ensemble de widgets indique désormais la version correcte dans la console du navigateur
+
 ### 1.8.5 (2026-09-07)
 * (ssbingo) Chargeur AC : le curseur de courant de charge est désormais limité au courant nominal du chargeur ; nouveau réglage du widget `sig_maxCurrent` pour une limite supérieure manuelle (évite les erreurs Modbus lors du réglage au-delà du courant nominal)
 * (ssbingo) Chargeur AC : l'état du système couvre désormais tous les états IEC 61851-1 (0–7 : initialisation, libre, connecté, en charge, erreur) ; le survol du badge d'état affiche une explication détaillée

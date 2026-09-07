@@ -167,6 +167,11 @@ Displays a configurable vehicle image (e.g. Fiat 500e) as the central visual ele
 All widgets support a **light and dark mode**, switchable via the widget setting `Dark mode`.
 
 ## Changelog
+### 1.8.6 (2026-09-07)
+* (ssbingo) AC charger: the tooltip on the state badge is now rendered as a separate popup with a fixed font size and opaque background, so it is readable regardless of widget size and is no longer overlapped by widget content
+* (ssbingo) AC charger: while charging is active, the Start button is locked and the Stop button is highlighted
+* (ssbingo) Widget set now reports the correct version in the browser console
+
 ### 1.8.5 (2026-09-07)
 * (ssbingo) AC charger: the charging current slider is now limited to the charger's rated current; new widget setting `sig_maxCurrent` for a manual upper limit (prevents Modbus errors when setting more than the rated current)
 * (ssbingo) AC charger: system state now covers all IEC 61851-1 states (0–7: initialising, free, connected, charging, error); hovering over the state badge shows a detailed explanation

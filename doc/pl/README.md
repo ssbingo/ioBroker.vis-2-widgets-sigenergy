@@ -135,6 +135,11 @@ Wyświetla konfigurowalne zdjęcie pojazdu (np. Fiat 500e) jako centralny elemen
 Wszystkie widżety obsługują **tryb jasny i ciemny**, przełączany przez ustawienie widżetu `Tryb ciemny`.
 
 ## Changelog
+### 1.8.6 (2026-09-07)
+* (ssbingo) Ładowarka AC: podpowiedź na plakietce stanu jest teraz wyświetlana jako osobne okienko ze stałym rozmiarem czcionki i nieprzezroczystym tłem, dzięki czemu jest czytelna niezależnie od rozmiaru widżetu i nie jest już zasłaniana przez zawartość widżetu
+* (ssbingo) Ładowarka AC: podczas aktywnego ładowania przycisk Start jest zablokowany, a przycisk Stop wyróżniony
+* (ssbingo) Zestaw widżetów zgłasza teraz poprawną wersję w konsoli przeglądarki
+
 ### 1.8.5 (2026-09-07)
 * (ssbingo) Ładowarka AC: suwak prądu ładowania jest teraz ograniczony do prądu znamionowego ładowarki; nowe ustawienie widżetu `sig_maxCurrent` dla ręcznej górnej granicy (zapobiega błędom Modbus przy ustawianiu wartości powyżej prądu znamionowego)
 * (ssbingo) Ładowarka AC: stan systemu obejmuje teraz wszystkie stany IEC 61851-1 (0–7: inicjalizacja, wolny, podłączony, ładowanie, błąd); po najechaniu na plakietkę stanu wyświetlane jest szczegółowe objaśnienie

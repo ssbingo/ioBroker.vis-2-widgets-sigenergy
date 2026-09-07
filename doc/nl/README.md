@@ -134,6 +134,11 @@ Toont een configureerbaar voertuigafbeelding (bijv. Fiat 500e) als centraal visu
 Alle widgets ondersteunen een **lichte en donkere modus**, die kan worden omgeschakeld via de widget-instelling `Donkere modus`.
 
 ## Changelog
+### 1.8.6 (2026-09-07)
+* (ssbingo) AC-lader: de tooltip op de statusbadge wordt nu als aparte pop-up met vaste lettergrootte en dekkende achtergrond weergegeven, waardoor hij ongeacht de widgetgrootte leesbaar is en niet meer door widgetinhoud wordt overlapt
+* (ssbingo) AC-lader: tijdens actief laden is de Start-knop geblokkeerd en wordt de Stop-knop benadrukt
+* (ssbingo) De widgetset meldt nu de juiste versie in de browserconsole
+
 ### 1.8.5 (2026-09-07)
 * (ssbingo) AC-lader: de schuifregelaar voor de laadstroom is nu begrensd tot de nominale stroom van de lader; nieuwe widgetinstelling `sig_maxCurrent` voor een handmatige bovengrens (voorkomt Modbus-fouten bij waarden boven de nominale stroom)
 * (ssbingo) AC-lader: de systeemstatus dekt nu alle IEC 61851-1-toestanden (0–7: initialisatie, vrij, verbonden, laden, fout); bij het aanwijzen van de statusbadge verschijnt een uitgebreide uitleg

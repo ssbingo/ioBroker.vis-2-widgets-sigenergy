@@ -167,6 +167,11 @@ modelType, serialNumber, firmwareVersion, runningState, outputPower, gridFrequen
 所有小部件均支持**浅色和深色模式**,可通过小部件设置 `Dark mode` 切换。
 
 ## 更新日志
+### 1.8.6 (2026-09-07)
+* (ssbingo) AC 充电桩：状态标记的提示信息现在以独立弹出层显示，字体大小固定、背景不透明，因此无论微件大小都清晰可读，且不再被微件内容遮挡
+* (ssbingo) AC 充电桩：充电进行中时，Start 按钮被锁定，Stop 按钮高亮显示
+* (ssbingo) 微件集现在在浏览器控制台中报告正确的版本
+
 ### 1.8.5 (2026-09-07)
 * (ssbingo) AC 充电桩：充电电流滑块现在限制为充电桩的额定电流；新增微件设置 `sig_maxCurrent` 用于手动设置上限（避免设置超过额定电流时出现 Modbus 错误）
 * (ssbingo) AC 充电桩：系统状态现已覆盖所有 IEC 61851-1 状态（0–7：初始化、空闲、已连接、充电中、故障）；将鼠标悬停在状态标记上会显示详细说明

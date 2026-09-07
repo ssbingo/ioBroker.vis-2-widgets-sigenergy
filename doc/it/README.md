@@ -135,6 +135,11 @@ Mostra un'immagine del veicolo configurabile (ad es. Fiat 500e) come elemento vi
 Tutti i widget supportano una **modalità chiara e scura**, commutabile tramite l'impostazione widget `Modalità scura`.
 
 ## Changelog
+### 1.8.6 (2026-09-07)
+* (ssbingo) Caricatore AC: il tooltip del badge di stato viene ora mostrato come popup separato con dimensione del carattere fissa e sfondo opaco, quindi resta leggibile indipendentemente dalla dimensione del widget e non viene più coperto dal contenuto del widget
+* (ssbingo) Caricatore AC: durante una carica attiva il pulsante Start è bloccato e il pulsante Stop è evidenziato
+* (ssbingo) Il set di widget ora riporta la versione corretta nella console del browser
+
 ### 1.8.5 (2026-09-07)
 * (ssbingo) Caricatore AC: il cursore della corrente di carica è ora limitato alla corrente nominale del caricatore; nuova impostazione del widget `sig_maxCurrent` per un limite superiore manuale (evita errori Modbus impostando valori superiori alla corrente nominale)
 * (ssbingo) Caricatore AC: lo stato del sistema copre ora tutti gli stati IEC 61851-1 (0–7: inizializzazione, libero, collegato, in carica, errore); passando il mouse sul badge di stato viene mostrata una spiegazione dettagliata

@@ -135,6 +135,11 @@ Mostra uma imagem de veículo configurável (p. ex. Fiat 500e) como elemento vis
 Todos os widgets suportam um **modo claro e escuro**, comutável através da definição do widget `Modo escuro`.
 
 ## Changelog
+### 1.8.6 (2026-09-07)
+* (ssbingo) Carregador AC: a dica do distintivo de estado é agora apresentada como popup separado com tamanho de letra fixo e fundo opaco, ficando legível independentemente do tamanho do widget e deixando de ser sobreposta pelo conteúdo do widget
+* (ssbingo) Carregador AC: durante um carregamento ativo, o botão Start está bloqueado e o botão Stop é realçado
+* (ssbingo) O conjunto de widgets reporta agora a versão correta na consola do navegador
+
 ### 1.8.5 (2026-09-07)
 * (ssbingo) Carregador AC: o controlo deslizante da corrente de carga está agora limitado à corrente nominal do carregador; nova definição do widget `sig_maxCurrent` para um limite superior manual (evita erros Modbus ao definir valores acima da corrente nominal)
 * (ssbingo) Carregador AC: o estado do sistema cobre agora todos os estados IEC 61851-1 (0–7: inicialização, livre, ligado, a carregar, erro); ao passar o rato sobre o distintivo de estado é apresentada uma explicação detalhada
