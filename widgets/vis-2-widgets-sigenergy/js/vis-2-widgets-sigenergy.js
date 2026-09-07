@@ -909,6 +909,15 @@ vis.binds["vis-2-widgets-sigenergy"] = {
             10: { label: "Vorbereitung", cls: "idle",
                   tip: "Preparing (10): Isolationsprüfung läuft – vor der Freigabe der Hochspannung wird der Isolationswiderstand der DC-Leitung zum Fahrzeug geprüft (Sicherheitsschritt direkt vor dem Ladestart)." }
         };
+        // 0xFFFF ist die "Register ungültig"-Kennung des Sigenergy-Protokolls
+        // ("Range:[0, 0xFFFFFFFE]. With value 0xFFFFFFFF, register is not valid.").
+        // Eine Säule antwortet so für ein Register, das gerade nicht zutrifft —
+        // beobachtet an einem SigenStor EC MIT DC-Charger für Register 31513,
+        // während die Nachbarregister (Nennleistung, PV-Ertrag) normal lesen.
+        // Adapter ab 3.3.1 liefern dafür gar keinen Wert mehr; ältere reichen die
+        // rohe 65535 durch. Beide Fälle werden hier gleich behandelt.
+        var STATE_INVALID = 0xffff;
+
         // State-OID: explizit konfiguriert oder aus der Leistungs-OID abgeleitet
         // (…dcCharger.outputPower → …dcCharger.runningState), damit auch Widgets,
         // die vor Einführung der Einstellung platziert wurden, den Zustand zeigen.
@@ -927,16 +936,34 @@ vis.binds["vis-2-widgets-sigenergy"] = {
         // aus der die Leistungs-/State-OID stammt. Der DC-Charger-Betriebszustand
         // (Register 31513) existiert erst ab Sigenergy-Protokoll V2.8.
         var STATE_SINCE = 2.8;
-        var instMatch = /^([^.]+\.\d+)\./.exec(stateOid || data.attr("oid_power") || "");
-        var protoOids = instMatch ? [instMatch[1] + ".info.protocolVersion", instMatch[1] + ".info.protocolLevel"] : [];
+        // Bevorzugt die konfigurierte OID (Attribut oid_protocol, /id → VIS
+        // abonniert sie und füllt vis.states). Ohne Attribut — Widgets, die vor
+        // dessen Einführung platziert wurden — werden die beiden info-OIDs aus
+        // der Instanz abgeleitet; sie sind dann aber NICHT abonniert, weshalb
+        // vis.states für sie leer bleiben kann (siehe protocolVersion()).
+        var protoOid  = data.attr("oid_protocol") || "";
+        var instMatch = /^([^.]+\.\d+)\./.exec(protoOid || stateOid || data.attr("oid_power") || "");
+        var protoOids = protoOid
+            ? [protoOid]
+            : instMatch
+              ? [instMatch[1] + ".info.protocolVersion", instMatch[1] + ".info.protocolLevel"]
+              : [];
+        // Liefert die Protokollversion oder null, wenn sie hier nicht ablesbar
+        // ist. null heißt ausdrücklich "das Widget kennt sie nicht" — nicht
+        // "der Adapter hat keine erkannt"; ohne abonnierte OID sind das zwei
+        // verschiedene Dinge, die der Tooltip nicht verwechseln darf.
         function protocolVersion() {
-            if (!protoOids.length) return null;
-            var num = parseFloat(vis.states[protoOids[0] + ".val"]);
-            if (num > 0) return num;
-            var txt = String(vis.states[protoOids[1] + ".val"] || "");
-            if (/pre-V2\.6/i.test(txt)) return 2.5;
-            var m = /V(\d+\.\d+)/.exec(txt);
-            return m ? parseFloat(m[1]) : null;
+            for (var i = 0; i < protoOids.length; i++) {
+                var raw = vis.states[protoOids[i] + ".val"];
+                if (raw === undefined || raw === null || raw === "") continue;
+                var num = parseFloat(raw);
+                if (num > 0) return num;
+                var txt = String(raw);
+                if (/pre-V2\.6/i.test(txt)) return 2.5;
+                var m = /V(\d+\.\d+)/.exec(txt);
+                if (m) return parseFloat(m[1]);
+            }
+            return null;
         }
         function protocolText(v) {
             return v === null ? "unbekannt" : (v < 2.6 ? "vor V2.6" : "V" + v);
@@ -959,19 +986,35 @@ vis.binds["vis-2-widgets-sigenergy"] = {
                 return "Der Betriebszustand der Säule (Register 31513) wird erst ab Sigenergy-Protokoll V2.8 geliefert, das Gerät meldet " + protocolText(pv) + ".";
             }
             if (pv !== null) {
-                return "Der Adapter liefert keinen Wert für " + stateOid + ", obwohl das Gerät Protokoll " + protocolText(pv) + " meldet. Bitte das Adapter-Log auf abgelehnte DC-Charger-Register (Block 31509–31518) prüfen bzw. den Adapter aktualisieren.";
+                return "Der Adapter liefert keinen Wert für " + stateOid + ", obwohl das Gerät Protokoll " + protocolText(pv) + " meldet. Entweder kennzeichnet die Säule das Register als ungültig, oder der Adapter hat es als nicht unterstützt aussortiert — das Adapter-Log zeigt unter dem Block 31509–31518, welcher der beiden Fälle vorliegt.";
             }
-            return "Der Adapter liefert (noch) keinen Wert für " + stateOid + " (Betriebszustand der Säule, benötigt Sigenergy-Protokoll V2.8; Protokollversion noch nicht erkannt).";
+            return "Der Adapter liefert keinen Wert für " + stateOid + " (Betriebszustand der Säule, benötigt Sigenergy-Protokoll V2.8). " +
+                   "Die Protokollversion der Instanz ist hier nicht ablesbar — bitte in den Widget-Einstellungen die OID \u201eProtokollversion\u201c (info.protocolVersion) eintragen, dann nennt dieser Hinweis den konkreten Grund.";
+        }
+        // Die Säule selbst kennzeichnet das Register als ungültig — das ist weder
+        // ein Adapter- noch ein Konfigurationsfehler und darf nicht so aussehen.
+        function invalidStateHint() {
+            return "Die Säule meldet für Register 31513 den Wert \u201eungültig\u201c (0xFFFF) und stellt damit keinen Betriebszustand bereit. " +
+                   "Das ist kein Adapter- oder Konfigurationsfehler — die übrigen DC-Charger-Register (Nennleistung, PV-Ertrag, Zählerstände) werden normal gelesen. " +
+                   "Adapter ab 3.3.1 liefern für solche Register keinen Wert mehr, statt die rohe 65535 durchzureichen.";
         }
         function badgeInfo(state, pwr) {
             if (!stateOid) {
                 return powerBadge(pwr, "Der Zustand wird nur aus der Ausgangsleistung abgeleitet, weil in den Widget-Einstellungen keine State-OID (dcCharger.runningState) eingetragen ist.");
             }
-            if (state === undefined || state === null || state === "") {
-                if (stateAuto) {
-                    return powerBadge(pwr, "Der Zustand wird nur aus der Ausgangsleistung abgeleitet. " + noStateHint());
-                }
-                return { label: "Unbekannt", cls: "error", tip: noStateHint() };
+            // Kein Wert (Adapter >= 3.3.1) oder rohe 0xFFFF (ältere Adapter):
+            // beides heißt "die Säule stellt keinen Betriebszustand bereit". Der
+            // Badge wird dann aus der Ausgangsleistung abgeleitet statt als rotes
+            // "Unbekannt" zu erscheinen — die Säule arbeitet ja, sie meldet nur
+            // dieses eine Register nicht. Der Tooltip nennt den Grund.
+            var missing = (state === undefined || state === null || state === "");
+            var invalid = !missing && parseInt(state) === STATE_INVALID;
+            if (missing || invalid) {
+                return powerBadge(
+                    pwr,
+                    "Der Zustand wird nur aus der Ausgangsleistung abgeleitet. " +
+                        (invalid ? invalidStateHint() : noStateHint()),
+                );
             }
             var n = parseInt(state);
             if (STATE_INFO.hasOwnProperty(n)) return STATE_INFO[n];
@@ -1093,10 +1136,12 @@ vis.binds["vis-2-widgets-sigenergy"] = {
 
         B._subscribe(widgetID, data,
             ["oid_state", "oid_power", "oid_vsoc", "oid_vvolt", "oid_curr",
-             "oid_energy", "oid_duration", "oid_startStop"],
+             "oid_energy", "oid_duration", "oid_startStop", "oid_protocol"],
             update);
-        // abgeleitete State-OID und Protokollversion der Instanz zusätzlich abonnieren
-        var extra = (stateAuto ? [stateOid] : []).concat(protoOids);
+        // Zusätzlich binden, was nicht über ein Attribut läuft: die abgeleitete
+        // State-OID und — nur ohne gesetztes oid_protocol — die abgeleiteten
+        // info-OIDs. Mit Attribut hat _subscribe sie bereits gebunden.
+        var extra = (stateAuto ? [stateOid] : []).concat(protoOid ? [] : protoOids);
         if (extra.length) {
             var bound = $div.data("bound") || [];
             for (var ei = 0; ei < extra.length; ei++) {
