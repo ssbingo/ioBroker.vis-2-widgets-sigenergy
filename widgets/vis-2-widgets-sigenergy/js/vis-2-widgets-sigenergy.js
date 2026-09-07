@@ -909,6 +909,15 @@ vis.binds["vis-2-widgets-sigenergy"] = {
             10: { label: "Vorbereitung", cls: "idle",
                   tip: "Preparing (10): Isolationsprüfung läuft – vor der Freigabe der Hochspannung wird der Isolationswiderstand der DC-Leitung zum Fahrzeug geprüft (Sicherheitsschritt direkt vor dem Ladestart)." }
         };
+        // 0xFFFF ist die "Register ungültig"-Kennung des Sigenergy-Protokolls
+        // ("Range:[0, 0xFFFFFFFE]. With value 0xFFFFFFFF, register is not valid.").
+        // Eine Säule antwortet so für ein Register, das gerade nicht zutrifft —
+        // beobachtet an einem SigenStor EC MIT DC-Charger für Register 31513,
+        // während die Nachbarregister (Nennleistung, PV-Ertrag) normal lesen.
+        // Adapter ab 3.3.1 liefern dafür gar keinen Wert mehr; ältere reichen die
+        // rohe 65535 durch. Beide Fälle werden hier gleich behandelt.
+        var STATE_INVALID = 0xffff;
+
         // State-OID: explizit konfiguriert oder aus der Leistungs-OID abgeleitet
         // (…dcCharger.outputPower → …dcCharger.runningState), damit auch Widgets,
         // die vor Einführung der Einstellung platziert wurden, den Zustand zeigen.
@@ -959,19 +968,34 @@ vis.binds["vis-2-widgets-sigenergy"] = {
                 return "Der Betriebszustand der Säule (Register 31513) wird erst ab Sigenergy-Protokoll V2.8 geliefert, das Gerät meldet " + protocolText(pv) + ".";
             }
             if (pv !== null) {
-                return "Der Adapter liefert keinen Wert für " + stateOid + ", obwohl das Gerät Protokoll " + protocolText(pv) + " meldet. Bitte das Adapter-Log auf abgelehnte DC-Charger-Register (Block 31509–31518) prüfen bzw. den Adapter aktualisieren.";
+                return "Der Adapter liefert keinen Wert für " + stateOid + ", obwohl das Gerät Protokoll " + protocolText(pv) + " meldet. Entweder kennzeichnet die Säule das Register als ungültig, oder der Adapter hat es als nicht unterstützt aussortiert — das Adapter-Log zeigt unter dem Block 31509–31518, welcher der beiden Fälle vorliegt.";
             }
             return "Der Adapter liefert (noch) keinen Wert für " + stateOid + " (Betriebszustand der Säule, benötigt Sigenergy-Protokoll V2.8; Protokollversion noch nicht erkannt).";
+        }
+        // Die Säule selbst kennzeichnet das Register als ungültig — das ist weder
+        // ein Adapter- noch ein Konfigurationsfehler und darf nicht so aussehen.
+        function invalidStateHint() {
+            return "Die Säule meldet für Register 31513 den Wert \u201eungültig\u201c (0xFFFF) und stellt damit keinen Betriebszustand bereit. " +
+                   "Das ist kein Adapter- oder Konfigurationsfehler — die übrigen DC-Charger-Register (Nennleistung, PV-Ertrag, Zählerstände) werden normal gelesen. " +
+                   "Adapter ab 3.3.1 liefern für solche Register keinen Wert mehr, statt die rohe 65535 durchzureichen.";
         }
         function badgeInfo(state, pwr) {
             if (!stateOid) {
                 return powerBadge(pwr, "Der Zustand wird nur aus der Ausgangsleistung abgeleitet, weil in den Widget-Einstellungen keine State-OID (dcCharger.runningState) eingetragen ist.");
             }
-            if (state === undefined || state === null || state === "") {
-                if (stateAuto) {
-                    return powerBadge(pwr, "Der Zustand wird nur aus der Ausgangsleistung abgeleitet. " + noStateHint());
-                }
-                return { label: "Unbekannt", cls: "error", tip: noStateHint() };
+            // Kein Wert (Adapter >= 3.3.1) oder rohe 0xFFFF (ältere Adapter):
+            // beides heißt "die Säule stellt keinen Betriebszustand bereit". Der
+            // Badge wird dann aus der Ausgangsleistung abgeleitet statt als rotes
+            // "Unbekannt" zu erscheinen — die Säule arbeitet ja, sie meldet nur
+            // dieses eine Register nicht. Der Tooltip nennt den Grund.
+            var missing = (state === undefined || state === null || state === "");
+            var invalid = !missing && parseInt(state) === STATE_INVALID;
+            if (missing || invalid) {
+                return powerBadge(
+                    pwr,
+                    "Der Zustand wird nur aus der Ausgangsleistung abgeleitet. " +
+                        (invalid ? invalidStateHint() : noStateHint()),
+                );
             }
             var n = parseInt(state);
             if (STATE_INFO.hasOwnProperty(n)) return STATE_INFO[n];
