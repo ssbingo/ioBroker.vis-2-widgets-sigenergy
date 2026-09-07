@@ -843,6 +843,14 @@ vis.binds["vis-2-widgets-sigenergy"] = {
     //   dcCharger.currentChargingCapacity    Sitzungsenergie   kWh
     //   dcCharger.currentChargingDuration    Sitzungsdauer     s
     //
+    //   dcCharger.runningState               Betriebszustand der Säule (optional)
+    //     0 Idle, 1 Occupied, 2 Preparing (Communication), 3 Charging, 4 Fault,
+    //     5 Scheduled, 6 Ended, 7 Unavailable, 8 Discharging, 9 Alarm,
+    //     10 Preparing (Insulation). Typischer Ablauf: 0→1→2→10→3→6→0.
+    //     Badge: 0 Frei, 1/2/10 Verbunden bzw. Vorbereitung, 5 Geplant, 3 Lädt,
+    //     8 Entlädt, 6 Beendet, 9 Warnung, 4/7 Fehler bzw. Nicht verfügbar.
+    //     Ohne oid_state wird der Badge aus der Ausgangsleistung abgeleitet.
+    //
     // Steuer-OID:
     //   dcCharger.control.startStop          0=Start, 1=Stop   WO
     //
@@ -872,11 +880,44 @@ vis.binds["vis-2-widgets-sigenergy"] = {
             return parseFloat(p) > 60 ? "#27ae60" : parseFloat(p) > 25 ? "#f39c12" : "#e74c3c";
         }
 
-        // Ladestatustext aus Leistung ableiten (kein eigenes State-Register)
-        function badgeInfo(pwr) {
-            if (pwr > 0.05) return { label: "Lädt",    cls: "charging" };
-            if (pwr < 0)    return { label: "Fehler",  cls: "error" };
-            return              { label: "Bereit",  cls: "idle" };
+        // Betriebszustand (dcCharger.runningState) → Text, Badge-Klasse, Tooltip
+        var STATE_INFO = {
+            0:  { label: "Frei", cls: "idle",
+                  tip: "Idle (0): Leerlauf – kein Fahrzeug angeschlossen, die Säule ist betriebsbereit und wartet." },
+            1:  { label: "Verbunden", cls: "idle",
+                  tip: "Occupied (1): Der Ladestecker steckt im Fahrzeug, es besteht aber noch keine Verbindung bzw. Erkennung – der Handshake hat noch nicht begonnen." },
+            2:  { label: "Vorbereitung", cls: "idle",
+                  tip: "Preparing (2): Kommunikationsaufbau mit dem Fahrzeug – Aushandlung nach CCS/ISO 15118 bzw. DIN 70121 (Ladeparameter, Spannungs- und Stromgrenzen)." },
+            3:  { label: "Lädt", cls: "charging",
+                  tip: "Charging (3): Ladevorgang läuft, es wird Gleichstrom ins Fahrzeug geliefert." },
+            4:  { label: "Fehler", cls: "error",
+                  tip: "Fault (4): Ladevorgang wegen einer Störung abgebrochen bzw. blockiert (z. B. Isolationsfehler, Übertemperatur, Kommunikationsabbruch). Die Säule lädt erst wieder, wenn der Fehler quittiert bzw. behoben ist." },
+            5:  { label: "Geplant", cls: "scheduled",
+                  tip: "Scheduled (5): Geplante Ladung – Fahrzeug angeschlossen, die Ladung ist per Zeit- bzw. Ladeplan aufgeschoben und startet zum vorgesehenen Zeitpunkt." },
+            6:  { label: "Beendet", cls: "idle",
+                  tip: "Ended (6): Ladevorgang beendet – die Sitzung ist abgeschlossen (Akku voll, Stopp durch Nutzer/Fahrzeug oder Ziel erreicht), der Stecker steckt in der Regel noch." },
+            7:  { label: "Nicht verfügbar", cls: "error",
+                  tip: "Unavailable (7): Die Säule ist außer Betrieb, z. B. Wartungsmodus, gesperrt oder durch das System deaktiviert." },
+            8:  { label: "Entlädt", cls: "discharging",
+                  tip: "Discharging (8): Bidirektionaler Betrieb (V2H/V2G) – Energie fließt vom Fahrzeugakku zurück ins Haus- bzw. Netzsystem." },
+            9:  { label: "Warnung", cls: "warning",
+                  tip: "Alarm (9): Es liegt eine Warnung vor, die den Ladevorgang nicht zwingend abbricht (anders als Fault). Details stehen in den Alarm-Registern." },
+            10: { label: "Vorbereitung", cls: "idle",
+                  tip: "Preparing (10): Isolationsprüfung läuft – vor der Freigabe der Hochspannung wird der Isolationswiderstand der DC-Leitung zum Fahrzeug geprüft (Sicherheitsschritt direkt vor dem Ladestart)." }
+        };
+        // Ohne konfigurierte State-OID: Badge wie bisher aus der Leistung ableiten
+        function badgeInfo(state, hasStateOid, pwr) {
+            if (!hasStateOid) {
+                if (pwr > 0.05) return { label: "Lädt",   cls: "charging", tip: "Ausgangsleistung > 0 (keine State-OID konfiguriert)." };
+                if (pwr < 0)    return { label: "Fehler", cls: "error",    tip: "Negative Ausgangsleistung (keine State-OID konfiguriert)." };
+                return              { label: "Bereit", cls: "idle",     tip: "Keine Ausgangsleistung (keine State-OID konfiguriert)." };
+            }
+            var n = parseInt(state);
+            if (STATE_INFO.hasOwnProperty(n)) return STATE_INFO[n];
+            return { label: "Unbekannt", cls: "error",
+                     tip: (state === undefined || state === null || state === "")
+                        ? "Kein Wert für den Betriebszustand empfangen."
+                        : "Unbekannter Betriebszustand (Wert " + state + ")." };
         }
 
         $div.html(
@@ -885,7 +926,7 @@ vis.binds["vis-2-widgets-sigenergy"] = {
             '<div class="sig-dc-head">' +
             '<span class="icon">&#9889;</span>' +
             '<span class="title">' + title + '</span>' +
-            '<span class="sig-dc-badge idle" id="sig_dc_badge_' + w + '">Bereit</span>' +
+            '<span class="sig-dc-badge idle" id="sig_dc_badge_' + w + '" tabindex="0" data-tip="">Frei</span>' +
             '</div>' +
             // ── Leistung groß ─────────────────────────────────────
             '<div class="sig-dc-power-big" id="sig_dc_power_' + w + '">-- kW</div>' +
@@ -926,14 +967,21 @@ vis.binds["vis-2-widgets-sigenergy"] = {
             var en   = parseFloat(B._val(data, "oid_energy"))   || 0;
             var dur  = parseFloat(B._val(data, "oid_duration")) || 0;
 
-            // Badge
-            var bi = badgeInfo(pwr);
+            // Badge (Betriebszustand, sonst aus Leistung abgeleitet)
+            var stOid = data.attr("oid_state");
+            var bi    = badgeInfo(stOid ? vis.states[stOid + ".val"] : undefined, !!stOid, pwr);
             var badge = B._el("sig_dc_badge_" + w);
-            if (badge) { badge.textContent = bi.label; badge.className = "sig-dc-badge " + bi.cls; }
+            if (badge) {
+                badge.textContent = bi.label;
+                badge.className   = "sig-dc-badge " + bi.cls;
+                badge.setAttribute("data-tip", bi.tip);
+                if (B._tipAnchor === badge) B._showTip(badge, bi.tip, dark);
+            }
 
             // Leistung
             B._txt("sig_dc_power_" + w, B._fmtKW(pwr));
-            B._css("sig_dc_power_" + w, "color", pwr > 0.05 ? "#f39c12" : (dark ? "#e0e6ef" : "#2c3e50"));
+            B._css("sig_dc_power_" + w, "color",
+                pwr > 0.05 ? "#f39c12" : pwr < -0.05 ? "#9b59b6" : (dark ? "#e0e6ef" : "#2c3e50"));
 
             // Fahrzeug-SOC
             var col = vsocCol(vsoc);
@@ -948,16 +996,25 @@ vis.binds["vis-2-widgets-sigenergy"] = {
             B._txt("sig_dc_en_"   + w, en   ? en.toFixed(2)   + " kWh" : "-- kWh");
             B._txt("sig_dc_dur_"  + w, dur  ? fmtDuration(dur)         : "--");
 
-            // Start/Stop-Buttons hervorheben
+            // Start/Stop-Buttons: Während einer aktiven Sitzung (Laden oder
+            // Entladen) ist Start gesperrt und Stop hervorgehoben. Der Ring
+            // (active-state) zeigt den zuletzt gesendeten Befehl auf dem passenden Button.
             var ssOid    = data.attr("oid_startStop");
             var ssVal    = ssOid ? parseInt(vis.states[ssOid + ".val"]) : null;
             var btnStart = B._el("sig_dc_start_" + w);
             var btnStop  = B._el("sig_dc_stop_"  + w);
             if (btnStart && btnStop) {
-                btnStart.classList.toggle("active-state", ssVal === 0);
-                btnStop.classList.toggle("active-state",  ssVal === 1);
+                var active = bi.cls === "charging" || bi.cls === "discharging";
+                btnStart.disabled = active;
+                btnStart.title    = active ? "Ladevorgang läuft – zum Beenden Stop drücken" : "";
+                btnStop.classList.toggle("raised", active);
+                btnStart.classList.toggle("active-state", !active && ssVal === 0);
+                btnStop.classList.toggle("active-state",  active && ssVal === 1);
             }
         }
+
+        // ── Tooltip am Status-Badge ─────────────────────────────────────────
+        B._bindTip(B._el("sig_dc_badge_" + w), dark);
 
         // ── Steuer-Events ───────────────────────────────────────────────────
         var startBtn = B._el("sig_dc_start_" + w);
@@ -965,6 +1022,7 @@ vis.binds["vis-2-widgets-sigenergy"] = {
 
         if (startBtn) {
             startBtn.addEventListener("click", function () {
+                if (startBtn.disabled) return;
                 var oid = data.attr("oid_startStop");
                 if (oid) vis.setValue(oid, 0);
             });
@@ -977,7 +1035,7 @@ vis.binds["vis-2-widgets-sigenergy"] = {
         }
 
         B._subscribe(widgetID, data,
-            ["oid_power", "oid_vsoc", "oid_vvolt", "oid_curr",
+            ["oid_state", "oid_power", "oid_vsoc", "oid_vvolt", "oid_curr",
              "oid_energy", "oid_duration", "oid_startStop"],
             update);
         update();

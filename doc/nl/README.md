@@ -67,9 +67,9 @@ Bewaking en bediening van de Sigenergy AC-lader (EVAC). Toont laadvermogen, syst
 ![AC-lader](../../img/widget-ac-charger.png)
 
 ### DC-lader
-Bewaking en bediening van de Sigenergy DC-lader. Toont uitgangsvermogen, voertuig-SOC met voortgangsbalk, voertuigbatterijspanning, laadstroom en energie en duur van de huidige laadsessie.
+Bewaking en bediening van de Sigenergy DC-lader. Toont uitgangsvermogen, voertuig-SOC met voortgangsbalk, voertuigbatterijspanning, laadstroom en energie en duur van de huidige laadsessie. De statusbadge toont de bedrijfstoestand van het laadstation (`dcCharger.runningState`: vrij, verbonden/voorbereiding, gepland, laden, ontladen, beëindigd, waarschuwing, fout/niet beschikbaar); bij het aanwijzen met de muis verschijnt een uitgebreide uitleg. Tijdens actief laden of ontladen is de Start-knop geblokkeerd en wordt de Stop-knop benadrukt. Zonder status-OID wordt de badge zoals voorheen uit het uitgangsvermogen afgeleid.
 
-**OID's:** `dcCharger.outputPower`, `dcCharger.vehicleSoc`, `dcCharger.vehicleBatteryVoltage`, `dcCharger.chargingCurrent`, `dcCharger.currentChargingCapacity`, `dcCharger.currentChargingDuration`, `dcCharger.control.startStop`
+**OID's:** `dcCharger.runningState`, `dcCharger.outputPower`, `dcCharger.vehicleSoc`, `dcCharger.vehicleBatteryVoltage`, `dcCharger.chargingCurrent`, `dcCharger.currentChargingCapacity`, `dcCharger.currentChargingDuration`, `dcCharger.control.startStop`
 
 ![DC-lader](../../img/widget-dc-charger.png)
 

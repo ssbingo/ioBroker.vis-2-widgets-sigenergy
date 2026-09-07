@@ -67,9 +67,9 @@
 ![AC-зарядное устройство](../../img/widget-ac-charger.png)
 
 ### DC-зарядное устройство
-Мониторинг и управление DC-зарядным устройством Sigenergy. Отображает выходную мощность, SOC автомобиля с индикатором прогресса, напряжение аккумулятора автомобиля, ток зарядки, а также энергию и продолжительность текущей сессии зарядки.
+Мониторинг и управление DC-зарядным устройством Sigenergy. Отображает выходную мощность, SOC автомобиля с индикатором прогресса, напряжение аккумулятора автомобиля, ток зарядки, а также энергию и продолжительность текущей сессии зарядки. Значок состояния показывает рабочее состояние зарядной станции (`dcCharger.runningState`: свободно, подключено/подготовка, запланировано, зарядка, разрядка, завершено, предупреждение, ошибка/недоступно); при наведении курсора отображается подробное объяснение. Во время активной зарядки или разрядки кнопка Start заблокирована, а кнопка Stop выделена. Без OID состояния значок, как и раньше, определяется по выходной мощности.
 
-**OID:** `dcCharger.outputPower`, `dcCharger.vehicleSoc`, `dcCharger.vehicleBatteryVoltage`, `dcCharger.chargingCurrent`, `dcCharger.currentChargingCapacity`, `dcCharger.currentChargingDuration`, `dcCharger.control.startStop`
+**OID:** `dcCharger.runningState`, `dcCharger.outputPower`, `dcCharger.vehicleSoc`, `dcCharger.vehicleBatteryVoltage`, `dcCharger.chargingCurrent`, `dcCharger.currentChargingCapacity`, `dcCharger.currentChargingDuration`, `dcCharger.control.startStop`
 
 ![DC-зарядное устройство](../../img/widget-dc-charger.png)
 

@@ -296,6 +296,12 @@
 .sig-dc-badge.idle     { background: rgba(255,255,255,.15); color: #e0e6ef; }
 .sig-dc-badge.error    { background: #e74c3c; color: #fff; }
 .sig-dc-wrap.light .sig-dc-badge.idle { background: rgba(0,0,0,.1); color: #2c3e50; }
+.sig-dc-badge.scheduled   { background: #3498db; color: #fff; }
+.sig-dc-badge.discharging { background: #9b59b6; color: #fff; }
+.sig-dc-badge.warning     { background: #f39c12; color: #fff; }
+/* Status-Badge: fokussierbar, Tooltip-Popup siehe .sig-tip-popup (JS: _bindTip) */
+.sig-dc-badge { cursor: help; }
+.sig-dc-badge:focus { outline: none; box-shadow: 0 0 0 2px rgba(52,152,219,.6); }
 
 .sig-dc-power-big {
     font-size: 2.2rem; font-weight: 700; text-align: center;
@@ -356,6 +362,22 @@
 .sig-dc-wrap.light .sig-dc-btn.stop { color: #2c3e50; border-color: rgba(0,0,0,.2); }
 .sig-dc-btn.active-state { box-shadow: 0 0 0 2px rgba(255,255,255,.5); }
 .sig-dc-btn.start.active-state { box-shadow: 0 0 0 2px #27ae60; }
+
+/* Aktive Sitzung (Laden/Entladen): Start gesperrt, Stop hervorgehoben (wie AC-Charger) */
+.sig-dc-btn.start:disabled {
+    background: rgba(255,255,255,.1); color: rgba(224,230,239,.4);
+    cursor: not-allowed; box-shadow: none; opacity: 1;
+}
+.sig-dc-wrap.light .sig-dc-btn.start:disabled { background: rgba(0,0,0,.06); color: rgba(44,62,80,.35); }
+.sig-dc-btn.stop.raised {
+    background: #e74c3c; color: #fff; border-color: #e74c3c; font-weight: 700;
+    box-shadow: 0 4px 14px rgba(231,76,60,.55);
+    animation: sig-ac-stop-pulse 2s ease-in-out infinite;
+}
+.sig-dc-wrap.light .sig-dc-btn.stop.raised { color: #fff; border-color: #e74c3c; }
+.sig-dc-btn.stop.raised.active-state {
+    box-shadow: 0 4px 14px rgba(231,76,60,.55), 0 0 0 2px rgba(255,255,255,.7);
+}
 
 /* ── Widget 7: Inverter ──────────────────────────────────────────────────── */
 .sig-inv-wrap {

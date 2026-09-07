@@ -68,9 +68,9 @@ Monitorowanie i sterowanie ładowarką AC Sigenergy (EVAC). Wyświetla moc łado
 ![Ładowarka AC](../../img/widget-ac-charger.png)
 
 ### Ładowarka DC
-Monitorowanie i sterowanie ładowarką DC Sigenergy. Wyświetla moc wyjściową, SOC pojazdu z paskiem postępu, napięcie baterii pojazdu, prąd ładowania oraz energię i czas trwania bieżącej sesji ładowania.
+Monitorowanie i sterowanie ładowarką DC Sigenergy. Wyświetla moc wyjściową, SOC pojazdu z paskiem postępu, napięcie baterii pojazdu, prąd ładowania oraz energię i czas trwania bieżącej sesji ładowania. Plakietka stanu pokazuje stan pracy stacji ładowania (`dcCharger.runningState`: wolna, podłączony/przygotowanie, zaplanowane, ładowanie, rozładowywanie, zakończone, ostrzeżenie, błąd/niedostępna); po najechaniu myszą wyświetlane jest szczegółowe objaśnienie. Podczas aktywnego ładowania lub rozładowywania przycisk Start jest zablokowany, a przycisk Stop wyróżniony. Bez OID stanu plakietka jest jak dotychczas wyprowadzana z mocy wyjściowej.
 
-**OID:** `dcCharger.outputPower`, `dcCharger.vehicleSoc`, `dcCharger.vehicleBatteryVoltage`, `dcCharger.chargingCurrent`, `dcCharger.currentChargingCapacity`, `dcCharger.currentChargingDuration`, `dcCharger.control.startStop`
+**OID:** `dcCharger.runningState`, `dcCharger.outputPower`, `dcCharger.vehicleSoc`, `dcCharger.vehicleBatteryVoltage`, `dcCharger.chargingCurrent`, `dcCharger.currentChargingCapacity`, `dcCharger.currentChargingDuration`, `dcCharger.control.startStop`
 
 ![Ładowarka DC](../../img/widget-dc-charger.png)
 

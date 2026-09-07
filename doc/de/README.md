@@ -68,9 +68,9 @@ Tagesübersicht mit Autarkierate, Eigenverbrauch, SOC-Verlauf, Lade-/Entladeener
 ![AC-Lader](../../img/widget-ac-charger.png)
 
 ### DC-Lader
-Überwachung und Steuerung des Sigenergy DC-Laders. Zeigt Ausgangsleistung, Fahrzeug-SOC mit Fortschrittsbalken, Fahrzeugspannung, Ladestrom sowie Energie und Dauer der aktuellen Ladesitzung.
+Überwachung und Steuerung des Sigenergy DC-Laders. Zeigt Ausgangsleistung, Fahrzeug-SOC mit Fortschrittsbalken, Fahrzeugspannung, Ladestrom sowie Energie und Dauer der aktuellen Ladesitzung. Das Status-Badge zeigt den Betriebszustand der Ladesäule (`dcCharger.runningState`: Frei, Verbunden/Vorbereitung, Geplant, Lädt, Entlädt, Beendet, Warnung, Fehler/Nicht verfügbar); beim Überfahren mit der Maus erscheint eine ausführliche Erklärung. Während des Ladens oder Entladens ist der Start-Button gesperrt und der Stop-Button hervorgehoben. Ohne State-OID wird der Badge wie bisher aus der Ausgangsleistung abgeleitet.
 
-**OIDs:** `dcCharger.outputPower`, `dcCharger.vehicleSoc`, `dcCharger.vehicleBatteryVoltage`, `dcCharger.chargingCurrent`, `dcCharger.currentChargingCapacity`, `dcCharger.currentChargingDuration`, `dcCharger.control.startStop`
+**OIDs:** `dcCharger.runningState`, `dcCharger.outputPower`, `dcCharger.vehicleSoc`, `dcCharger.vehicleBatteryVoltage`, `dcCharger.chargingCurrent`, `dcCharger.currentChargingCapacity`, `dcCharger.currentChargingDuration`, `dcCharger.control.startStop`
 
 ![DC-Lader](../../img/widget-dc-charger.png)
 

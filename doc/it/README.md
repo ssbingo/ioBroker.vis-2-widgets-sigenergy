@@ -68,9 +68,9 @@ Monitoraggio e controllo del caricatore AC Sigenergy (EVAC). Mostra la potenza d
 ![Caricatore AC](../../img/widget-ac-charger.png)
 
 ### Caricatore DC
-Monitoraggio e controllo del caricatore DC Sigenergy. Mostra la potenza di uscita, il SOC del veicolo con barra di avanzamento, la tensione della batteria del veicolo, la corrente di carica e l'energia e la durata della sessione di carica corrente.
+Monitoraggio e controllo del caricatore DC Sigenergy. Mostra la potenza di uscita, il SOC del veicolo con barra di avanzamento, la tensione della batteria del veicolo, la corrente di carica e l'energia e la durata della sessione di carica corrente. Il badge di stato mostra lo stato operativo della stazione di ricarica (`dcCharger.runningState`: libero, collegato/preparazione, programmato, in carica, in scarica, terminato, avviso, guasto/non disponibile); passando il mouse sopra viene mostrata una spiegazione dettagliata. Durante una carica o scarica attiva il pulsante Start è bloccato e il pulsante Stop è evidenziato. Senza OID di stato il badge viene derivato come prima dalla potenza di uscita.
 
-**OID:** `dcCharger.outputPower`, `dcCharger.vehicleSoc`, `dcCharger.vehicleBatteryVoltage`, `dcCharger.chargingCurrent`, `dcCharger.currentChargingCapacity`, `dcCharger.currentChargingDuration`, `dcCharger.control.startStop`
+**OID:** `dcCharger.runningState`, `dcCharger.outputPower`, `dcCharger.vehicleSoc`, `dcCharger.vehicleBatteryVoltage`, `dcCharger.chargingCurrent`, `dcCharger.currentChargingCapacity`, `dcCharger.currentChargingDuration`, `dcCharger.control.startStop`
 
 ![Caricatore DC](../../img/widget-dc-charger.png)
 
