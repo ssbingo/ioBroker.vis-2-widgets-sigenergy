@@ -135,6 +135,10 @@ Wyświetla konfigurowalne zdjęcie pojazdu (np. Fiat 500e) jako centralny elemen
 Wszystkie widżety obsługują **tryb jasny i ciemny**, przełączany przez ustawienie widżetu `Tryb ciemny`.
 
 ## Changelog
+### 1.8.7 (2026-09-07)
+* (ssbingo) Ładowarka DC: nowy OID stanu `dcCharger.runningState` (domyślny) – plakietka stanu pokazuje teraz stan pracy stacji ładowania (wolna, podłączony/przygotowanie, zaplanowane, ładowanie, rozładowywanie, zakończone, ostrzeżenie, błąd/niedostępna) ze szczegółowym objaśnieniem jako podpowiedź; bez OID plakietka jest jak dotychczas wyprowadzana z mocy wyjściowej
+* (ssbingo) Ładowarka DC: podczas aktywnego ładowania lub rozładowywania przycisk Start jest zablokowany, a przycisk Stop wyróżniony; ujemna moc wyjściowa (rozładowywanie) jest wyświetlana na fioletowo
+
 ### 1.8.6 (2026-09-07)
 * (ssbingo) Ładowarka AC: podpowiedź na plakietce stanu jest teraz wyświetlana jako osobne okienko ze stałym rozmiarem czcionki i nieprzezroczystym tłem, dzięki czemu jest czytelna niezależnie od rozmiaru widżetu i nie jest już zasłaniana przez zawartość widżetu
 * (ssbingo) Ładowarka AC: podczas aktywnego ładowania przycisk Start jest zablokowany, a przycisk Stop wyróżniony

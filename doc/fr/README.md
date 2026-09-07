@@ -134,6 +134,10 @@ Affiche une image de véhicule configurable (p. ex. Fiat 500e) comme élément v
 Tous les widgets prennent en charge un **mode clair et sombre**, commutable via le paramètre de widget `Mode sombre`.
 
 ## Changelog
+### 1.8.7 (2026-09-07)
+* (ssbingo) Chargeur DC : nouvel OID d'état `dcCharger.runningState` (par défaut) – le badge d'état affiche désormais l'état de fonctionnement de la borne (libre, connecté/préparation, planifié, en charge, en décharge, terminé, avertissement, défaut/indisponible) avec une explication détaillée en infobulle ; sans l'OID, le badge est dérivé de la puissance de sortie comme auparavant
+* (ssbingo) Chargeur DC : pendant une charge ou une décharge active, le bouton Start est verrouillé et le bouton Stop est mis en évidence ; une puissance de sortie négative (décharge) est affichée en violet
+
 ### 1.8.6 (2026-09-07)
 * (ssbingo) Chargeur AC : l'infobulle du badge d'état s'affiche désormais dans un popup séparé avec une taille de police fixe et un fond opaque ; elle reste lisible quelle que soit la taille du widget et n'est plus recouverte par le contenu du widget
 * (ssbingo) Chargeur AC : pendant une charge active, le bouton Start est verrouillé et le bouton Stop est mis en évidence

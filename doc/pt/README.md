@@ -135,6 +135,10 @@ Mostra uma imagem de veículo configurável (p. ex. Fiat 500e) como elemento vis
 Todos os widgets suportam um **modo claro e escuro**, comutável através da definição do widget `Modo escuro`.
 
 ## Changelog
+### 1.8.7 (2026-09-07)
+* (ssbingo) Carregador DC: novo OID de estado `dcCharger.runningState` (predefinido) – o distintivo de estado mostra agora o estado de funcionamento da estação de carregamento (livre, ligado/preparação, agendado, a carregar, a descarregar, terminado, aviso, falha/indisponível) com uma explicação detalhada como dica; sem o OID, o distintivo é derivado da potência de saída como antes
+* (ssbingo) Carregador DC: durante um carregamento ou descarregamento ativo, o botão Start está bloqueado e o botão Stop é realçado; a potência de saída negativa (descarga) é apresentada a roxo
+
 ### 1.8.6 (2026-09-07)
 * (ssbingo) Carregador AC: a dica do distintivo de estado é agora apresentada como popup separado com tamanho de letra fixo e fundo opaco, ficando legível independentemente do tamanho do widget e deixando de ser sobreposta pelo conteúdo do widget
 * (ssbingo) Carregador AC: durante um carregamento ativo, o botão Start está bloqueado e o botão Stop é realçado

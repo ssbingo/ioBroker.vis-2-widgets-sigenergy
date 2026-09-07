@@ -167,6 +167,10 @@ modelType, serialNumber, firmwareVersion, runningState, outputPower, gridFrequen
 所有小部件均支持**浅色和深色模式**,可通过小部件设置 `Dark mode` 切换。
 
 ## 更新日志
+### 1.8.7 (2026-09-07)
+* (ssbingo) DC 充电桩：新增状态 OID `dcCharger.runningState`（默认）——状态标记现在显示充电桩的运行状态（空闲、已连接/准备中、已计划、充电中、放电中、已结束、警告、故障/不可用），并以提示信息显示详细说明；未配置该 OID 时，状态标记仍像以前一样根据输出功率推断
+* (ssbingo) DC 充电桩：充电或放电进行中时，Start 按钮被锁定，Stop 按钮高亮显示；负的输出功率（放电）以紫色显示
+
 ### 1.8.6 (2026-09-07)
 * (ssbingo) AC 充电桩：状态标记的提示信息现在以独立弹出层显示，字体大小固定、背景不透明，因此无论微件大小都清晰可读，且不再被微件内容遮挡
 * (ssbingo) AC 充电桩：充电进行中时，Start 按钮被锁定，Stop 按钮高亮显示

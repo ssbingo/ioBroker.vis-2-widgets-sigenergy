@@ -135,6 +135,10 @@ Mostra un'immagine del veicolo configurabile (ad es. Fiat 500e) come elemento vi
 Tutti i widget supportano una **modalità chiara e scura**, commutabile tramite l'impostazione widget `Modalità scura`.
 
 ## Changelog
+### 1.8.7 (2026-09-07)
+* (ssbingo) Caricatore DC: nuovo OID di stato `dcCharger.runningState` (predefinito) – il badge di stato mostra ora lo stato operativo della stazione di ricarica (libero, collegato/preparazione, programmato, in carica, in scarica, terminato, avviso, guasto/non disponibile) con una spiegazione dettagliata come tooltip; senza l'OID il badge viene derivato come prima dalla potenza di uscita
+* (ssbingo) Caricatore DC: durante una carica o scarica attiva il pulsante Start è bloccato e il pulsante Stop è evidenziato; la potenza di uscita negativa (scarica) viene mostrata in viola
+
 ### 1.8.6 (2026-09-07)
 * (ssbingo) Caricatore AC: il tooltip del badge di stato viene ora mostrato come popup separato con dimensione del carattere fissa e sfondo opaco, quindi resta leggibile indipendentemente dalla dimensione del widget e non viene più coperto dal contenuto del widget
 * (ssbingo) Caricatore AC: durante una carica attiva il pulsante Start è bloccato e il pulsante Stop è evidenziato

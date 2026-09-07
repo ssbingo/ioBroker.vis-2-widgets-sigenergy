@@ -134,6 +134,10 @@ Toont een configureerbaar voertuigafbeelding (bijv. Fiat 500e) als centraal visu
 Alle widgets ondersteunen een **lichte en donkere modus**, die kan worden omgeschakeld via de widget-instelling `Donkere modus`.
 
 ## Changelog
+### 1.8.7 (2026-09-07)
+* (ssbingo) DC-lader: nieuwe status-OID `dcCharger.runningState` (standaard) – de statusbadge toont nu de bedrijfstoestand van het laadstation (vrij, verbonden/voorbereiding, gepland, laden, ontladen, beëindigd, waarschuwing, fout/niet beschikbaar) met een uitgebreide uitleg als tooltip; zonder de OID wordt de badge zoals voorheen uit het uitgangsvermogen afgeleid
+* (ssbingo) DC-lader: tijdens actief laden of ontladen is de Start-knop geblokkeerd en wordt de Stop-knop benadrukt; negatief uitgangsvermogen (ontladen) wordt paars weergegeven
+
 ### 1.8.6 (2026-09-07)
 * (ssbingo) AC-lader: de tooltip op de statusbadge wordt nu als aparte pop-up met vaste lettergrootte en dekkende achtergrond weergegeven, waardoor hij ongeacht de widgetgrootte leesbaar is en niet meer door widgetinhoud wordt overlapt
 * (ssbingo) AC-lader: tijdens actief laden is de Start-knop geblokkeerd en wordt de Stop-knop benadrukt
