@@ -135,6 +135,9 @@ Mostra uma imagem de veículo configurável (p. ex. Fiat 500e) como elemento vis
 Todos os widgets suportam um **modo claro e escuro**, comutável através da definição do widget `Modo escuro`.
 
 ## Changelog
+### 1.8.11 (2026-09-12)
+* (ssbingo) CI: os testes do pacote são agora executados em Node.js 22, 24 e 26 (novo job `adapter-tests`, repository checker #41); `@iobroker/testing` atualizado de 5.3.0 para 6.2.1
+
 ### 1.8.10 (2026-09-07)
 * (ssbingo) Entrada `admin` removida de `globalDependencies`: um conjunto de widgets não tem interface de administração, pelo que não é necessário exigir nenhuma versão do admin (repository checker S1091)
 

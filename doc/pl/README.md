@@ -135,6 +135,9 @@ Wyświetla konfigurowalne zdjęcie pojazdu (np. Fiat 500e) jako centralny elemen
 Wszystkie widżety obsługują **tryb jasny i ciemny**, przełączany przez ustawienie widżetu `Tryb ciemny`.
 
 ## Changelog
+### 1.8.11 (2026-09-12)
+* (ssbingo) CI: testy pakietu działają teraz pod Node.js 22, 24 i 26 (nowe zadanie `adapter-tests`, repository checker #41); `@iobroker/testing` zaktualizowano z 5.3.0 do 6.2.1
+
 ### 1.8.10 (2026-09-07)
 * (ssbingo) Usunięto wpis `admin` z `globalDependencies`: zestaw widżetów nie ma interfejsu administracyjnego, więc nie trzeba wymagać żadnej wersji admin (repository checker S1091)
 

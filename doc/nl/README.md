@@ -134,6 +134,9 @@ Toont een configureerbaar voertuigafbeelding (bijv. Fiat 500e) als centraal visu
 Alle widgets ondersteunen een **lichte en donkere modus**, die kan worden omgeschakeld via de widget-instelling `Donkere modus`.
 
 ## Changelog
+### 1.8.11 (2026-09-12)
+* (ssbingo) CI: de pakkettests draaien nu onder Node.js 22, 24 en 26 (nieuwe job `adapter-tests`, repository checker #41); `@iobroker/testing` bijgewerkt van 5.3.0 naar 6.2.1
+
 ### 1.8.10 (2026-09-07)
 * (ssbingo) Vermelding `admin` uit `globalDependencies` verwijderd: een widgetset heeft geen admin-interface, dus hoeft geen admin-versie te worden vereist (repository checker S1091)
 

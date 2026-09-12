@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "vis-2-widgets-sigenergy",
-    "version": "1.8.10",
+    "version": "1.8.11",
     "news": {
+      "1.8.11": {
+        "en": "CI: the package tests now run on Node.js 22, 24 and 26 (new adapter-tests job, repository checker #41); @iobroker/testing updated from 5.3.0 to 6.2.1",
+        "de": "CI: Die Paket-Tests laufen jetzt unter Node.js 22, 24 und 26 (neuer Job adapter-tests, Repository-Checker #41); @iobroker/testing von 5.3.0 auf 6.2.1 aktualisiert",
+        "es": "CI: las pruebas del paquete se ejecutan ahora con Node.js 22, 24 y 26 (nuevo trabajo adapter-tests, comprobador de repositorio #41); @iobroker/testing actualizado de 5.3.0 a 6.2.1",
+        "fr": "CI : les tests du paquet s'exécutent désormais sous Node.js 22, 24 et 26 (nouveau job adapter-tests, vérificateur de dépôt #41) ; @iobroker/testing mis à jour de 5.3.0 à 6.2.1",
+        "it": "CI: i test del pacchetto vengono ora eseguiti con Node.js 22, 24 e 26 (nuovo job adapter-tests, repository checker #41); @iobroker/testing aggiornato da 5.3.0 a 6.2.1",
+        "nl": "CI: de pakkettests draaien nu onder Node.js 22, 24 en 26 (nieuwe job adapter-tests, repository checker #41); @iobroker/testing bijgewerkt van 5.3.0 naar 6.2.1",
+        "pl": "CI: testy pakietu działają teraz pod Node.js 22, 24 i 26 (nowe zadanie adapter-tests, repository checker #41); @iobroker/testing zaktualizowano z 5.3.0 do 6.2.1",
+        "pt": "CI: os testes do pacote são agora executados em Node.js 22, 24 e 26 (novo job adapter-tests, repository checker #41); @iobroker/testing atualizado de 5.3.0 para 6.2.1",
+        "ru": "CI: тесты пакета теперь выполняются на Node.js 22, 24 и 26 (новое задание adapter-tests, repository checker #41); @iobroker/testing обновлён с 5.3.0 до 6.2.1",
+        "uk": "CI: тести пакета тепер виконуються на Node.js 22, 24 і 26 (нове завдання adapter-tests, repository checker #41); @iobroker/testing оновлено з 5.3.0 до 6.2.1",
+        "zh-cn": "CI：软件包测试现在在 Node.js 22、24 和 26 上运行（新增 adapter-tests 作业，仓库检查器 #41）；@iobroker/testing 从 5.3.0 更新到 6.2.1"
+      },
       "1.8.10": {
         "en": "Removed the admin entry from globalDependencies: a widget set has no admin UI, so no admin version needs to be required (repository checker S1091)",
         "de": "Eintrag admin aus globalDependencies entfernt: Ein Widget-Set hat keine Admin-Oberfläche, daher muss keine admin-Version vorausgesetzt werden (Repository-Checker S1091)",
@@ -80,20 +93,8 @@
         "ru": "AC-зарядное устройство: ползунок тока зарядки теперь ограничен номинальным током зарядного устройства; новая настройка виджета sig_maxCurrent для ручного верхнего предела (предотвращает ошибки Modbus при установке значений выше номинального тока); AC-зарядное устройство: состояние системы теперь охватывает все состояния IEC 61851-1 (0–7: инициализация, свободно, подключено, зарядка, ошибка); при наведении на значок состояния отображается подробное объяснение",
         "uk": "AC-зарядний пристрій: повзунок струму заряджання тепер обмежений номінальним струмом зарядного пристрою; нове налаштування віджета sig_maxCurrent для ручної верхньої межі (запобігає помилкам Modbus при встановленні значень вище номінального струму); AC-зарядний пристрій: стан системи тепер охоплює всі стани IEC 61851-1 (0–7: ініціалізація, вільно, підключено, заряджання, помилка); при наведенні на значок стану відображається докладне пояснення",
         "zh-cn": "AC 充电桩：充电电流滑块现在限制为充电桩的额定电流；新增微件设置 sig_maxCurrent 用于手动设置上限（避免设置超过额定电流时出现 Modbus 错误）；AC 充电桩：系统状态现已覆盖所有 IEC 61851-1 状态（0–7：初始化、空闲、已连接、充电中、故障）；将鼠标悬停在状态标记上会显示详细说明"
-      },
-      "1.8.4": {
-        "en": "Lowered minimum admin requirement to >=7.8.23 (admin 8 is no longer required); CI: locked ioBroker/testing-action-deploy to major version v1; fixed Dependabot auto-merge workflow; updated dependencies: @tsconfig/node22 22.0.6, @alcalzone/release-script-plugin-license 5.2.2",
-        "de": "Admin-Mindestanforderung auf >=7.8.23 gesenkt (admin 8 ist nicht mehr erforderlich); CI: ioBroker/testing-action-deploy auf Hauptversion v1 gelockt; Dependabot-Auto-Merge-Workflow repariert; abhängigkeiten aktualisiert: @tsconfig/node22 22.0.6, @alcalzone/release-script-plugin-license 5.2.2",
-        "es": "Requisito mínimo de admin reducido a >=7.8.23 (admin 8 ya no es necesario); CI: ioBroker/testing-action-deploy fijado a la versión mayor v1; corregido el workflow de auto-merge de Dependabot; dependencias actualizadas: @tsconfig/node22 22.0.6, @alcalzone/release-script-plugin-license 5.2.2",
-        "fr": "Exigence minimale d'admin abaissée à >=7.8.23 (admin 8 n'est plus requis); CI : ioBroker/testing-action-deploy verrouillé sur la version majeure v1 ; workflow d'auto-merge Dependabot corrigé; dépendances mises à jour : @tsconfig/node22 22.0.6, @alcalzone/release-script-plugin-license 5.2.2",
-        "it": "Requisito minimo di admin abbassato a >=7.8.23 (admin 8 non è più necessario); CI: ioBroker/testing-action-deploy bloccato alla versione maggiore v1; corretto il workflow di auto-merge di Dependabot; dipendenze aggiornate: @tsconfig/node22 22.0.6, @alcalzone/release-script-plugin-license 5.2.2",
-        "nl": "Minimale admin-vereiste verlaagd naar >=7.8.23 (admin 8 is niet langer vereist); CI: ioBroker/testing-action-deploy vastgezet op hoofdversie v1; Dependabot auto-merge-workflow gerepareerd; afhankelijkheden bijgewerkt: @tsconfig/node22 22.0.6, @alcalzone/release-script-plugin-license 5.2.2",
-        "pl": "Minimalne wymaganie admin obniżone do >=7.8.23 (admin 8 nie jest już wymagany); CI: ioBroker/testing-action-deploy przypięty do wersji głównej v1; naprawiono workflow auto-merge Dependabota; zaktualizowano zależności: @tsconfig/node22 22.0.6, @alcalzone/release-script-plugin-license 5.2.2",
-        "pt": "Requisito mínimo do admin reduzido para >=7.8.23 (admin 8 não é mais necessário); CI: ioBroker/testing-action-deploy fixado na versão principal v1; workflow de auto-merge do Dependabot corrigido; dependências atualizadas: @tsconfig/node22 22.0.6, @alcalzone/release-script-plugin-license 5.2.2",
-        "ru": "Минимальное требование к admin снижено до >=7.8.23 (admin 8 больше не требуется); CI: ioBroker/testing-action-deploy закреплён на мажорной версии v1; исправлен workflow автослияния Dependabot; обновлены зависимости: @tsconfig/node22 22.0.6, @alcalzone/release-script-plugin-license 5.2.2",
-        "uk": "Мінімальну вимогу до admin знижено до >=7.8.23 (admin 8 більше не потрібен); CI: ioBroker/testing-action-deploy закріплено на мажорній версії v1; виправлено workflow автозлиття Dependabot; оновлено залежності: @tsconfig/node22 22.0.6, @alcalzone/release-script-plugin-license 5.2.2",
-        "zh-cn": "最低 admin 要求降至 >=7.8.23（不再需要 admin 8）；CI：ioBroker/testing-action-deploy 锁定为主版本 v1；修复 Dependabot 自动合并工作流；更新依赖：@tsconfig/node22 22.0.6、@alcalzone/release-script-plugin-license 5.2.2"
       }
+
 
     },
     "titleLang": {

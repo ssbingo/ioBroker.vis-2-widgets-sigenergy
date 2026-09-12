@@ -134,6 +134,9 @@ Affiche une image de véhicule configurable (p. ex. Fiat 500e) comme élément v
 Tous les widgets prennent en charge un **mode clair et sombre**, commutable via le paramètre de widget `Mode sombre`.
 
 ## Changelog
+### 1.8.11 (2026-09-12)
+* (ssbingo) CI : les tests du paquet s'exécutent désormais sous Node.js 22, 24 et 26 (nouveau job `adapter-tests`, vérificateur de dépôt #41) ; `@iobroker/testing` mis à jour de 5.3.0 à 6.2.1
+
 ### 1.8.10 (2026-09-07)
 * (ssbingo) Entrée `admin` retirée de `globalDependencies` : un ensemble de widgets n'a pas d'interface d'administration, aucune version d'admin n'a donc à être exigée (vérificateur de dépôt S1091)
 

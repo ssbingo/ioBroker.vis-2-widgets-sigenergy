@@ -167,6 +167,9 @@ modelType, serialNumber, firmwareVersion, runningState, outputPower, gridFrequen
 Усі віджети підтримують **світлий і темний режим**, що перемикається через налаштування `Dark mode`.
 
 ## Журнал змін
+### 1.8.11 (2026-09-12)
+* (ssbingo) CI: тести пакета тепер виконуються на Node.js 22, 24 і 26 (нове завдання `adapter-tests`, repository checker #41); `@iobroker/testing` оновлено з 5.3.0 до 6.2.1
+
 ### 1.8.10 (2026-09-07)
 * (ssbingo) Запис `admin` видалено з `globalDependencies`: набір віджетів не має інтерфейсу адміністратора, тому вимагати версію admin не потрібно (repository checker S1091)
 

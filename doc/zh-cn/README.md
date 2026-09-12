@@ -167,6 +167,9 @@ modelType, serialNumber, firmwareVersion, runningState, outputPower, gridFrequen
 所有小部件均支持**浅色和深色模式**,可通过小部件设置 `Dark mode` 切换。
 
 ## 更新日志
+### 1.8.11 (2026-09-12)
+* (ssbingo) CI：软件包测试现在在 Node.js 22、24 和 26 上运行（新增 `adapter-tests` 作业，仓库检查器 #41）；`@iobroker/testing` 从 5.3.0 更新到 6.2.1
+
 ### 1.8.10 (2026-09-07)
 * (ssbingo) 从 `globalDependencies` 中移除了 `admin` 条目：微件集没有管理界面，因此无需要求任何 admin 版本（仓库检查器 S1091）
 

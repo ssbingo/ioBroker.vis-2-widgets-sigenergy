@@ -167,6 +167,9 @@ Zeigt ein konfigurierbares Fahrzeugbild (z.B. Fiat 500e) als zentrales Sichtelem
 Alle Widgets unterstützen einen **Hell- und Dunkelmodus**, der über die Widget-Einstellung `Dunkelmodus` umgeschaltet werden kann.
 
 ## Changelog
+### 1.8.11 (2026-09-12)
+* (ssbingo) CI: Die Paket-Tests laufen jetzt unter Node.js 22, 24 und 26 (neuer Job `adapter-tests`, Repository-Checker #41); `@iobroker/testing` von 5.3.0 auf 6.2.1 aktualisiert
+
 ### 1.8.10 (2026-09-07)
 * (ssbingo) Eintrag `admin` aus `globalDependencies` entfernt: Ein Widget-Set hat keine Admin-Oberfläche, daher muss keine admin-Version vorausgesetzt werden (Repository-Checker S1091)
 

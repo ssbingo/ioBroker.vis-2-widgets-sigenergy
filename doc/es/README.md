@@ -135,6 +135,9 @@ Muestra una imagen de vehículo configurable (p. ej. Fiat 500e) como elemento vi
 Todos los widgets admiten un **modo claro y oscuro**, conmutable mediante el ajuste de widget `Modo oscuro`.
 
 ## Changelog
+### 1.8.11 (2026-09-12)
+* (ssbingo) CI: las pruebas del paquete se ejecutan ahora con Node.js 22, 24 y 26 (nuevo trabajo `adapter-tests`, comprobador de repositorio #41); `@iobroker/testing` actualizado de 5.3.0 a 6.2.1
+
 ### 1.8.10 (2026-09-07)
 * (ssbingo) Eliminada la entrada `admin` de `globalDependencies`: un conjunto de widgets no tiene interfaz de administración, por lo que no es necesario exigir ninguna versión de admin (comprobador de repositorio S1091)
 

@@ -135,6 +135,9 @@ Mostra un'immagine del veicolo configurabile (ad es. Fiat 500e) come elemento vi
 Tutti i widget supportano una **modalità chiara e scura**, commutabile tramite l'impostazione widget `Modalità scura`.
 
 ## Changelog
+### 1.8.11 (2026-09-12)
+* (ssbingo) CI: i test del pacchetto vengono ora eseguiti con Node.js 22, 24 e 26 (nuovo job `adapter-tests`, repository checker #41); `@iobroker/testing` aggiornato da 5.3.0 a 6.2.1
+
 ### 1.8.10 (2026-09-07)
 * (ssbingo) Rimossa la voce `admin` da `globalDependencies`: un set di widget non ha un'interfaccia di amministrazione, quindi non è necessario richiedere alcuna versione di admin (repository checker S1091)
 
