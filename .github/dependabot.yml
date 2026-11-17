@@ -30,3 +30,28 @@ updates:
     open-pull-requests-limit: 15
     assignees:
       - ssbingo
+
+  # widget workspace (React 19 / MUI 9 follow the vis-2 host; majors of the build toolchain are reviewed manually)
+  - package-ecosystem: npm
+    directory: '/src-widgets-ts'
+    schedule:
+      interval: 'weekly'
+      day: 'sunday'
+      time: '00:05'
+      timezone: Europe/Berlin
+    cooldown:
+      default-days: 7
+    open-pull-requests-limit: 15
+    assignees:
+      - ssbingo
+    versioning-strategy: increase
+    ignore:
+      - dependency-name: 'vite'
+        update-types:
+          - 'version-update:semver-major'
+      - dependency-name: '@vitejs/plugin-react'
+        update-types:
+          - 'version-update:semver-major'
+      - dependency-name: 'typescript'
+        update-types:
+          - 'version-update:semver-major'
