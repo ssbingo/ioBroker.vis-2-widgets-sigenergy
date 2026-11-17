@@ -147,7 +147,8 @@ Jeśli `info.cloudConnection` ma wartość `false`, widżet wyświetla ostrzeże
 | micro_count | liczba (1–20) | 3 | Liczba wyświetlanych mikrofalowników |
 | sig_title | tekst | SigenMicro Micro-Inverter | Tytuł widżetu |
 | sig_darkmode | checkbox | true | Tryb ciemny / jasny |
-| oid_micro1 … oid_micro20 | OID | — | Dowolny stan mikrofalownika, np. `sigenergy.0.sigenmicro.<numer seryjny>.activePower`. Widżet wyznacza z niego urządzenie i instancję adaptera |
+| micro_device1 … micro_device20 | wybór | — | Mikrofalownik z listy urządzeń SigenMicro instancji sigenergy (numer seryjny i nazwa). Widżet sam odczytuje wszystkie stany urządzenia. Widżety z 1.x zachowują dotychczasowy wybór stanu |
+| micro_take_all | przycisk | — | Przejmuje naraz wszystkie urządzenia SigenMicro konta (liczbę i wybór) |
 | micro_name1 … micro_name20 | tekst | — | Wyświetlana nazwa urządzenia (domyślnie: Micro 01, Micro 02, …) |
 
 ![Przegląd SigenMicro — Overview](../../img/widget-microinverter_01.png)
@@ -159,7 +160,7 @@ online, activePower, reactivePower, pvPower, pv1…pv4.voltage / current / power
 
 **Dodatkowo:** `sigenergy.0.sigenmicro.totalPower`, `sigenergy.0.info.cloudConnection` — instancja jest przejmowana z wybranego OID
 
-> **Aktualizacja z 1.8.x:** dawnych stanów Modbus (`runningState`, `outputPower`, `mppt*`, `modelType` …) nie ma już w adapterze. Dla każdego `oid_microN` należy ponownie wybrać stan w `sigenergy.0.sigenmicro.<numer seryjny>`.
+> **Aktualizacja z 1.8.x:** dawnych stanów Modbus (`runningState`, `outputPower`, `mppt*`, `modelType` …) nie ma już w adapterze. Wybierz ponownie mikrofalowniki w ustawieniach widżetu — z listy lub przyciskiem „Przejmij wszystkie SigenMicro”.
 
 ### Poziom naładowania pojazdu (EV SOC)
 Wyświetla konfigurowalne zdjęcie pojazdu (np. Fiat 500e) jako centralny element wizualny. Kolorowa odznaka w prawym górnym rogu pokazuje symbol błyskawicy, aktualny poziom naładowania w procentach i etykietę „NAŁADOWANIE" (przetłumaczona). Pasek postępu na dole odzwierciedla aktualny SOC. Gdy opcjonalny stan ładowania jest aktywny, odznaka pulsuje zielonym blaskiem.
@@ -188,6 +189,7 @@ Wszystkie widżety obsługują **tryb jasny i ciemny**, przełączany przez usta
 * (ssbingo) Edytor vis-2 nie wysyła już żadnych poleceń; kliknięcie w nim jedynie zaznacza widżet
 * (ssbingo) Przepływ energii: ustawienie „Animowany przepływ” teraz działa
 * (ssbingo) SigenMicro: zakładka szczegółów pokazuje wartości w trzech kolumnach, a identyfikator obiektu w jednym wierszu
+* (ssbingo) SigenMicro: mikrofalowniki wybiera się w edytorze według urządzenia (numer seryjny i nazwa) spośród urządzeń SigenMicro instancji sigenergy; widżet sam odczytuje wszystkie stany. Nowy przycisk „Przejmij wszystkie SigenMicro” przejmuje naraz wszystkie urządzenia. Widżety z 1.x działają dalej z dotychczasowym wyborem stanu
 * (ssbingo) Kompilacja za pomocą Vite i federacji modułów; widżety zostały przetestowane w vis-2 2.20.11
 
 ### 1.9.1 (2026-11-17)

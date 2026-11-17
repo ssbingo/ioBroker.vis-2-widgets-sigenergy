@@ -10,7 +10,6 @@
   "w_micro_overview": "Panoramica SigenMicro",
   "w_pv_strings": "Potenza PV",
   "w_ev_soc": "Livello di carica del veicolo",
-
   "group_oids": "ID oggetto",
   "group_measurements": "ID oggetto — misure",
   "group_control": "ID oggetto — controllo",
@@ -23,7 +22,6 @@
   "group_inv_alarms": "ID oggetto — allarmi",
   "group_inv_info": "ID oggetto — informazioni",
   "group_inv_control": "ID oggetto — controllo",
-
   "sig_title": "Titolo",
   "sig_title_tooltip": "Vuoto: titolo predefinito nella lingua dell'utente",
   "sig_darkmode": "Modalità scura",
@@ -35,10 +33,11 @@
   "sig_name3": "Nome stringa 3",
   "sig_car_image": "Immagine del veicolo",
   "micro_count": "Numero di microinverter",
-  "oid_micro": "Microinverter (stato qualsiasi)",
-  "oid_micro_tooltip": "Uno stato qualsiasi del microinverter, ad es. sigenergy.0.sigenmicro.<numero_serie>.activePower",
+  "micro_device": "Microinverter",
+  "micro_take_all": "Acquisire tutti i SigenMicro",
+  "micro_take_btn": "Applica",
+  "micro_device_none": "Nessun SigenMicro trovato — attivare il cloud nell'adattatore sigenergy",
   "micro_name": "Nome visualizzato",
-
   "oid_pv": "Potenza PV",
   "oid_bat": "Potenza batteria",
   "oid_grid": "Potenza di rete",
@@ -100,7 +99,6 @@
   "oid_pvtotal": "Potenza PV totale",
   "oid_ev_soc": "SOC del veicolo",
   "oid_charging": "Stato di ricarica",
-
   "title_energy_flow": "Flusso di energia",
   "title_battery_status": "Stato batteria",
   "title_power_overview": "Potenza live",
@@ -110,7 +108,6 @@
   "title_inverter": "Inverter",
   "title_pv_strings": "Potenza PV",
   "title_ev_soc": "Livello di carica del veicolo",
-
   "solar_pv": "Solare PV",
   "battery": "Batteria",
   "grid": "Rete",
@@ -126,7 +123,6 @@
   "daily_discharge": "Scarica oggi",
   "battery_coverage": "Copertura batteria",
   "charge_time_today": "Tempo di carica oggi",
-
   "st_init": "Inizializzazione",
   "st_free": "Libero",
   "st_connected": "Collegato",
@@ -140,7 +136,6 @@
   "st_discharging": "In scarica",
   "st_warning": "Avviso",
   "st_ready": "Pronto",
-
   "charging_power": "Potenza di carica",
   "rated_power": "Potenza nominale",
   "rated_current": "Corrente nominale",
@@ -149,7 +144,6 @@
   "control": "Controllo",
   "charging_current": "Corrente di carica",
   "charging_running_hint": "Ricarica in corso — premere stop per terminarla",
-
   "ac_tip_0": "System init (0): il caricatore si sta avviando e non ha ancora uno stato valido.",
   "ac_tip_1": "A1/A2 (1): nessun veicolo collegato, la presa è libera. A1 = caricatore non pronto, A2 = caricatore pronto e in attesa di un veicolo.",
   "ac_tip_2": "B1 (2): veicolo collegato, il caricatore non ha ancora abilitato la ricarica (ad es. app/backend, gestione del carico, blocco).",
@@ -160,7 +154,6 @@
   "ac_tip_7": "E (7): guasto del segnale pilota / del cavo di ricarica — cortocircuito o interruzione del segnale CP, mancanza di alimentazione, guasto del cavo o del veicolo.",
   "ac_tip_none": "Nessun valore ricevuto per lo stato del sistema.",
   "ac_tip_unknown": "Stato del sistema sconosciuto (valore %s).",
-
   "output_power": "Potenza di uscita",
   "vehicle_soc": "SOC del veicolo",
   "voltage": "Tensione",
@@ -169,7 +162,6 @@
   "session_duration": "Durata della sessione",
   "unknown": "sconosciuto",
   "before_v26": "prima di V2.6",
-
   "dc_tip_0": "Idle (0): nessun veicolo collegato, il caricatore è pronto e in attesa.",
   "dc_tip_1": "Occupied (1): il connettore è inserito nel veicolo, ma non c'è ancora connessione né rilevamento — l'handshake non è ancora iniziato.",
   "dc_tip_2": "Preparing (2): instaurazione della comunicazione con il veicolo — negoziazione secondo CCS/ISO 15118 o DIN 70121 (parametri di ricarica, limiti di tensione e corrente).",
@@ -191,7 +183,6 @@
   "dc_hint_no_value": "L'adattatore non fornisce alcun valore per %s, sebbene il dispositivo riporti il protocollo %s. O il caricatore contrassegna il registro come non valido, oppure l'adattatore lo ha scartato come non supportato — il log dell'adattatore mostra sotto il blocco 31509–31518 quale dei due casi si applica.",
   "dc_hint_no_protocol": "L'adattatore non fornisce alcun valore per %s (stato di funzionamento del caricatore, richiede il protocollo Sigenergy V2.8). La versione del protocollo dell'istanza non è leggibile qui — impostare l'ID oggetto «Versione del protocollo» (info.protocolVersion) nelle impostazioni del widget, così questo avviso indicherà il motivo concreto.",
   "dc_hint_invalid": "Il caricatore riporta per il registro 31513 il valore «non valido» (0xFFFF) e quindi non fornisce alcuno stato di funzionamento. Non si tratta di un problema dell'adattatore né di configurazione — gli altri registri del caricatore DC (potenza nominale, produzione PV, contatori) vengono letti normalmente. Gli adattatori dalla versione 3.3.1 non forniscono alcun valore per tali registri invece di inoltrare il valore grezzo 65535.",
-
   "tab_power": "Potenza",
   "tab_battery": "Batteria",
   "tab_grid": "Rete",
@@ -220,17 +211,15 @@
   "serial_number": "Numero di serie",
   "active": "Attivo",
   "inactive": "Inattivo",
-
   "total_pv": "PV totale",
   "charge_level_badge": "CARICA",
-
   "sm_overview": "Panoramica",
   "sm_producing": "In produzione",
   "sm_online": "In linea",
   "sm_offline": "Non in linea",
   "sm_nodata": "Nessun dato",
   "sm_cloud_lost": "Connessione al cloud persa — i valori potrebbero non essere aggiornati",
-  "sm_no_device": "Nessun microinverter configurato — nelle impostazioni del widget selezionare uno stato per ogni microinverter (ad es. sigenergy.0.sigenmicro.<numero_serie>.activePower).",
+  "sm_no_device": "Nessun micro-inverter selezionato — sceglierli nelle impostazioni del widget o premere «Acquisire tutti i SigenMicro».",
   "sm_ac_power": "Potenza AC",
   "sm_all_micro": "Tutti i microinverter",
   "sm_sum_devices": "Somma dei dispositivi",

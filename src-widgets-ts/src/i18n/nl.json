@@ -10,7 +10,6 @@
   "w_micro_overview": "SigenMicro-overzicht",
   "w_pv_strings": "PV-vermogen",
   "w_ev_soc": "Laadniveau voertuig",
-
   "group_oids": "Object-ID's",
   "group_measurements": "Object-ID's — meetwaarden",
   "group_control": "Object-ID's — besturing",
@@ -23,7 +22,6 @@
   "group_inv_alarms": "Object-ID's — alarmen",
   "group_inv_info": "Object-ID's — info",
   "group_inv_control": "Object-ID's — besturing",
-
   "sig_title": "Titel",
   "sig_title_tooltip": "Leeg: standaardtitel in de taal van de gebruiker",
   "sig_darkmode": "Donkere modus",
@@ -35,10 +33,11 @@
   "sig_name3": "Naam string 3",
   "sig_car_image": "Voertuigafbeelding",
   "micro_count": "Aantal micro-omvormers",
-  "oid_micro": "Micro-omvormer (willekeurige state)",
-  "oid_micro_tooltip": "Willekeurige state van de micro-omvormer, bijv. sigenergy.0.sigenmicro.<serienummer>.activePower",
+  "micro_device": "Micro-omvormer",
+  "micro_take_all": "Alle SigenMicro overnemen",
+  "micro_take_btn": "Overnemen",
+  "micro_device_none": "Geen SigenMicro gevonden — schakel de cloud in de sigenergy-adapter in",
   "micro_name": "Weergavenaam",
-
   "oid_pv": "PV-vermogen",
   "oid_bat": "Batterijvermogen",
   "oid_grid": "Netvermogen",
@@ -100,7 +99,6 @@
   "oid_pvtotal": "Totaal PV-vermogen",
   "oid_ev_soc": "Voertuig-SOC",
   "oid_charging": "Laadstatus",
-
   "title_energy_flow": "Energiestroom",
   "title_battery_status": "Batterijstatus",
   "title_power_overview": "Live vermogen",
@@ -110,7 +108,6 @@
   "title_inverter": "Omvormer",
   "title_pv_strings": "PV-vermogen",
   "title_ev_soc": "Laadniveau voertuig",
-
   "solar_pv": "Zonne-PV",
   "battery": "Batterij",
   "grid": "Net",
@@ -126,7 +123,6 @@
   "daily_discharge": "Ontladen vandaag",
   "battery_coverage": "Batterijdekking",
   "charge_time_today": "Laadtijd vandaag",
-
   "st_init": "Initialiseren",
   "st_free": "Vrij",
   "st_connected": "Verbonden",
@@ -140,7 +136,6 @@
   "st_discharging": "Ontladen",
   "st_warning": "Waarschuwing",
   "st_ready": "Gereed",
-
   "charging_power": "Laadvermogen",
   "rated_power": "Nominaal vermogen",
   "rated_current": "Nominale stroom",
@@ -149,7 +144,6 @@
   "control": "Besturing",
   "charging_current": "Laadstroom",
   "charging_running_hint": "Laden bezig — druk op stop om te beëindigen",
-
   "ac_tip_0": "System init (0): de lader start op en heeft nog geen geldige toestand.",
   "ac_tip_1": "A1/A2 (1): geen voertuig aangesloten, de stekker is vrij. A1 = lader niet gereed, A2 = lader gereed en wacht op een voertuig.",
   "ac_tip_2": "B1 (2): voertuig aangesloten, de lader heeft het laden nog niet vrijgegeven (bijv. app/backend, loadbalancing, vergrendeling).",
@@ -160,7 +154,6 @@
   "ac_tip_7": "E (7): storing van het pilotsignaal / de laadkabel — kortsluiting of onderbreking van het CP-signaal, stroomuitval, kabel- of voertuigstoring.",
   "ac_tip_none": "Geen waarde ontvangen voor de systeemtoestand.",
   "ac_tip_unknown": "Onbekende systeemtoestand (waarde %s).",
-
   "output_power": "Uitgangsvermogen",
   "vehicle_soc": "Voertuig-SOC",
   "voltage": "Spanning",
@@ -169,7 +162,6 @@
   "session_duration": "Sessieduur",
   "unknown": "onbekend",
   "before_v26": "vóór V2.6",
-
   "dc_tip_0": "Idle (0): geen voertuig aangesloten, de lader is gereed en wacht.",
   "dc_tip_1": "Occupied (1): de connector zit in het voertuig, maar er is nog geen verbinding of detectie — de handshake is nog niet begonnen.",
   "dc_tip_2": "Preparing (2): communicatie met het voertuig wordt opgebouwd — onderhandeling volgens CCS/ISO 15118 of DIN 70121 (laadparameters, spannings- en stroomgrenzen).",
@@ -191,7 +183,6 @@
   "dc_hint_no_value": "De adapter levert geen waarde voor %s, hoewel het apparaat protocol %s meldt. Ofwel markeert de lader het register als ongeldig, ofwel heeft de adapter het als niet ondersteund uitgesloten — het adapterlog toont onder het blok 31509–31518 welke van de twee van toepassing is.",
   "dc_hint_no_protocol": "De adapter levert geen waarde voor %s (bedrijfstoestand van de lader, vereist Sigenergy-protocol V2.8). De protocolversie van de instantie kan hier niet worden gelezen — stel in de widgetinstellingen de object-ID „Protocolversie” (info.protocolVersion) in, dan noemt deze melding de concrete reden.",
   "dc_hint_invalid": "De lader meldt voor register 31513 de waarde „ongeldig” (0xFFFF) en levert daardoor geen bedrijfstoestand. Dit is geen adapter- of configuratieprobleem — de overige DC-laderregisters (nominaal vermogen, PV-opbrengst, meterstanden) worden normaal gelezen. Adapters vanaf 3.3.1 leveren voor zulke registers geen waarde, in plaats van de ruwe 65535 door te geven.",
-
   "tab_power": "Vermogen",
   "tab_battery": "Batterij",
   "tab_grid": "Net",
@@ -220,17 +211,15 @@
   "serial_number": "Serienummer",
   "active": "Actief",
   "inactive": "Inactief",
-
   "total_pv": "Totaal PV",
   "charge_level_badge": "LAADNIVEAU",
-
   "sm_overview": "Overzicht",
   "sm_producing": "Produceert",
   "sm_online": "Online",
   "sm_offline": "Offline",
   "sm_nodata": "Geen gegevens",
   "sm_cloud_lost": "Cloudverbinding verbroken — waarden kunnen verouderd zijn",
-  "sm_no_device": "Geen micro-omvormer geconfigureerd — selecteer in de widgetinstellingen per micro-omvormer een state (bijv. sigenergy.0.sigenmicro.<serienummer>.activePower).",
+  "sm_no_device": "Geen micro-omvormer gekozen — kies ze in de widgetinstellingen of druk op „Alle SigenMicro overnemen”.",
   "sm_ac_power": "AC-vermogen",
   "sm_all_micro": "Alle micro-omvormers",
   "sm_sum_devices": "Som van de apparaten",

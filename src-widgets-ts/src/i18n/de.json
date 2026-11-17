@@ -10,7 +10,6 @@
   "w_micro_overview": "SigenMicro-Übersicht",
   "w_pv_strings": "PV-Leistung",
   "w_ev_soc": "Fahrzeug-Ladestand",
-
   "group_oids": "Objekt-IDs",
   "group_measurements": "Objekt-IDs — Messwerte",
   "group_control": "Objekt-IDs — Steuerung",
@@ -23,7 +22,6 @@
   "group_inv_alarms": "Objekt-IDs — Alarme",
   "group_inv_info": "Objekt-IDs — Info",
   "group_inv_control": "Objekt-IDs — Steuerung",
-
   "sig_title": "Titel",
   "sig_title_tooltip": "Leer: Standardtitel in der Sprache des Benutzers",
   "sig_darkmode": "Dunkelmodus",
@@ -35,10 +33,11 @@
   "sig_name3": "Name String 3",
   "sig_car_image": "Fahrzeugbild",
   "micro_count": "Anzahl Mikrowechselrichter",
-  "oid_micro": "Mikrowechselrichter (beliebiger State)",
-  "oid_micro_tooltip": "Beliebiger State des Mikrowechselrichters, z. B. sigenergy.0.sigenmicro.<Seriennummer>.activePower",
+  "micro_device": "Mikrowechselrichter",
+  "micro_take_all": "Alle SigenMicro übernehmen",
+  "micro_take_btn": "Übernehmen",
+  "micro_device_none": "Kein SigenMicro gefunden — Cloud im sigenergy-Adapter aktivieren",
   "micro_name": "Anzeigename",
-
   "oid_pv": "PV-Leistung",
   "oid_bat": "Batterieleistung",
   "oid_grid": "Netzleistung",
@@ -100,7 +99,6 @@
   "oid_pvtotal": "PV-Gesamtleistung",
   "oid_ev_soc": "Fahrzeug-SOC",
   "oid_charging": "Ladestatus",
-
   "title_energy_flow": "Energiefluss",
   "title_battery_status": "Batterie-Status",
   "title_power_overview": "Live-Leistung",
@@ -110,7 +108,6 @@
   "title_inverter": "Wechselrichter",
   "title_pv_strings": "PV-Leistung",
   "title_ev_soc": "Fahrzeug-Ladestand",
-
   "solar_pv": "Solar-PV",
   "battery": "Batterie",
   "grid": "Netz",
@@ -126,7 +123,6 @@
   "daily_discharge": "Entladung heute",
   "battery_coverage": "Batteriedeckung",
   "charge_time_today": "Ladezeit heute",
-
   "st_init": "Initialisierung",
   "st_free": "Frei",
   "st_connected": "Verbunden",
@@ -140,7 +136,6 @@
   "st_discharging": "Entlädt",
   "st_warning": "Warnung",
   "st_ready": "Bereit",
-
   "charging_power": "Ladeleistung",
   "rated_power": "Nennleistung",
   "rated_current": "Nennstrom",
@@ -149,7 +144,6 @@
   "control": "Steuerung",
   "charging_current": "Ladestrom",
   "charging_running_hint": "Ladevorgang läuft — zum Beenden Stopp drücken",
-
   "ac_tip_0": "System init (0): Die Wallbox startet bzw. initialisiert sich, noch kein gültiger Zustand.",
   "ac_tip_1": "A1/A2 (1): Kein Fahrzeug angeschlossen, Stecker frei. A1 = Wallbox nicht bereit, A2 = Wallbox bereit und wartet auf ein Fahrzeug.",
   "ac_tip_2": "B1 (2): Fahrzeug angesteckt, die Wallbox hat noch keine Ladefreigabe erteilt (z. B. App/Backend, Lastmanagement, Sperre).",
@@ -160,7 +154,6 @@
   "ac_tip_7": "E (7): Fehler am Pilotsignal/Ladekabel — Kurzschluss oder Unterbrechung des CP-Signals, Spannungsausfall, Kabel- oder Fahrzeugfehler.",
   "ac_tip_none": "Kein Wert für den Systemzustand empfangen.",
   "ac_tip_unknown": "Unbekannter Systemzustand (Wert %s).",
-
   "output_power": "Ausgangsleistung",
   "vehicle_soc": "Fahrzeug-SOC",
   "voltage": "Spannung",
@@ -169,7 +162,6 @@
   "session_duration": "Sitzungsdauer",
   "unknown": "unbekannt",
   "before_v26": "vor V2.6",
-
   "dc_tip_0": "Idle (0): Leerlauf — kein Fahrzeug angeschlossen, die Säule ist betriebsbereit und wartet.",
   "dc_tip_1": "Occupied (1): Der Ladestecker steckt im Fahrzeug, es besteht aber noch keine Verbindung bzw. Erkennung — der Handshake hat noch nicht begonnen.",
   "dc_tip_2": "Preparing (2): Kommunikationsaufbau mit dem Fahrzeug — Aushandlung nach CCS/ISO 15118 bzw. DIN 70121 (Ladeparameter, Spannungs- und Stromgrenzen).",
@@ -191,7 +183,6 @@
   "dc_hint_no_value": "Der Adapter liefert keinen Wert für %s, obwohl das Gerät Protokoll %s meldet. Entweder kennzeichnet die Säule das Register als ungültig, oder der Adapter hat es als nicht unterstützt aussortiert — das Adapter-Log zeigt unter dem Block 31509–31518, welcher der beiden Fälle vorliegt.",
   "dc_hint_no_protocol": "Der Adapter liefert keinen Wert für %s (Betriebszustand der Säule, benötigt Sigenergy-Protokoll V2.8). Die Protokollversion der Instanz ist hier nicht ablesbar — bitte in den Widget-Einstellungen die Objekt-ID „Protokollversion“ (info.protocolVersion) eintragen, dann nennt dieser Hinweis den konkreten Grund.",
   "dc_hint_invalid": "Die Säule meldet für Register 31513 den Wert „ungültig“ (0xFFFF) und stellt damit keinen Betriebszustand bereit. Das ist weder ein Adapter- noch ein Konfigurationsfehler — die übrigen DC-Lader-Register (Nennleistung, PV-Ertrag, Zählerstände) werden normal gelesen. Adapter ab 3.3.1 liefern für solche Register keinen Wert mehr, statt die rohe 65535 durchzureichen.",
-
   "tab_power": "Leistung",
   "tab_battery": "Batterie",
   "tab_grid": "Netz",
@@ -220,17 +211,15 @@
   "serial_number": "Seriennummer",
   "active": "Aktiv",
   "inactive": "Inaktiv",
-
   "total_pv": "Gesamt PV",
   "charge_level_badge": "LADESTAND",
-
   "sm_overview": "Übersicht",
   "sm_producing": "Erzeugt",
   "sm_online": "Online",
   "sm_offline": "Offline",
   "sm_nodata": "Keine Daten",
   "sm_cloud_lost": "Cloud-Verbindung unterbrochen — Werte können veraltet sein",
-  "sm_no_device": "Kein Mikrowechselrichter konfiguriert — in den Widget-Einstellungen je Mikrowechselrichter einen State auswählen (z. B. sigenergy.0.sigenmicro.<Seriennummer>.activePower).",
+  "sm_no_device": "Kein Mikrowechselrichter ausgewählt — in den Widget-Einstellungen auswählen oder „Alle SigenMicro übernehmen“ drücken.",
   "sm_ac_power": "AC-Leistung",
   "sm_all_micro": "Alle Mikrowechselrichter",
   "sm_sum_devices": "Summe der Geräte",

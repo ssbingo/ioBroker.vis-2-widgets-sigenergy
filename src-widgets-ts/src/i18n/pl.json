@@ -10,7 +10,6 @@
   "w_micro_overview": "Przegląd SigenMicro",
   "w_pv_strings": "Moc PV",
   "w_ev_soc": "Poziom naładowania pojazdu",
-
   "group_oids": "ID obiektów",
   "group_measurements": "ID obiektów — pomiary",
   "group_control": "ID obiektów — sterowanie",
@@ -23,7 +22,6 @@
   "group_inv_alarms": "ID obiektów — alarmy",
   "group_inv_info": "ID obiektów — informacje",
   "group_inv_control": "ID obiektów — sterowanie",
-
   "sig_title": "Tytuł",
   "sig_title_tooltip": "Puste: domyślny tytuł w języku użytkownika",
   "sig_darkmode": "Tryb ciemny",
@@ -35,10 +33,11 @@
   "sig_name3": "Nazwa łańcucha 3",
   "sig_car_image": "Obraz pojazdu",
   "micro_count": "Liczba mikrofalowników",
-  "oid_micro": "Mikrofalownik (dowolny stan)",
-  "oid_micro_tooltip": "Dowolny stan mikrofalownika, np. sigenergy.0.sigenmicro.<numer_seryjny>.activePower",
+  "micro_device": "Mikrofalownik",
+  "micro_take_all": "Przejmij wszystkie SigenMicro",
+  "micro_take_btn": "Zastosuj",
+  "micro_device_none": "Nie znaleziono SigenMicro — włącz chmurę w adapterze sigenergy",
   "micro_name": "Nazwa wyświetlana",
-
   "oid_pv": "Moc PV",
   "oid_bat": "Moc baterii",
   "oid_grid": "Moc sieci",
@@ -100,7 +99,6 @@
   "oid_pvtotal": "Całkowita moc PV",
   "oid_ev_soc": "SOC pojazdu",
   "oid_charging": "Status ładowania",
-
   "title_energy_flow": "Przepływ energii",
   "title_battery_status": "Stan baterii",
   "title_power_overview": "Moc na żywo",
@@ -110,7 +108,6 @@
   "title_inverter": "Falownik",
   "title_pv_strings": "Moc PV",
   "title_ev_soc": "Poziom naładowania pojazdu",
-
   "solar_pv": "Fotowoltaika",
   "battery": "Bateria",
   "grid": "Sieć",
@@ -126,7 +123,6 @@
   "daily_discharge": "Rozładowanie dziś",
   "battery_coverage": "Pokrycie z baterii",
   "charge_time_today": "Czas ładowania dziś",
-
   "st_init": "Inicjalizacja",
   "st_free": "Wolna",
   "st_connected": "Połączono",
@@ -140,7 +136,6 @@
   "st_discharging": "Rozładowanie",
   "st_warning": "Ostrzeżenie",
   "st_ready": "Gotowa",
-
   "charging_power": "Moc ładowania",
   "rated_power": "Moc znamionowa",
   "rated_current": "Prąd znamionowy",
@@ -149,7 +144,6 @@
   "control": "Sterowanie",
   "charging_current": "Prąd ładowania",
   "charging_running_hint": "Trwa ładowanie — naciśnij stop, aby zakończyć",
-
   "ac_tip_0": "System init (0): ładowarka uruchamia się i nie ma jeszcze prawidłowego stanu.",
   "ac_tip_1": "A1/A2 (1): brak podłączonego pojazdu, wtyczka jest wolna. A1 = ładowarka nie jest gotowa, A2 = ładowarka gotowa i czeka na pojazd.",
   "ac_tip_2": "B1 (2): pojazd podłączony, ładowarka nie zezwoliła jeszcze na ładowanie (np. aplikacja/backend, zarządzanie obciążeniem, blokada).",
@@ -160,7 +154,6 @@
   "ac_tip_7": "E (7): usterka sygnału pilota / kabla ładowania — zwarcie lub przerwa sygnału CP, zanik zasilania, usterka kabla lub pojazdu.",
   "ac_tip_none": "Nie odebrano wartości stanu systemu.",
   "ac_tip_unknown": "Nieznany stan systemu (wartość %s).",
-
   "output_power": "Moc wyjściowa",
   "vehicle_soc": "SOC pojazdu",
   "voltage": "Napięcie",
@@ -169,7 +162,6 @@
   "session_duration": "Czas trwania sesji",
   "unknown": "nieznany",
   "before_v26": "przed V2.6",
-
   "dc_tip_0": "Idle (0): brak podłączonego pojazdu, ładowarka jest gotowa i czeka.",
   "dc_tip_1": "Occupied (1): złącze jest podłączone do pojazdu, ale nie ma jeszcze połączenia ani wykrycia — handshake jeszcze się nie rozpoczął.",
   "dc_tip_2": "Preparing (2): nawiązywanie komunikacji z pojazdem — negocjacja zgodnie z CCS/ISO 15118 lub DIN 70121 (parametry ładowania, limity napięcia i prądu).",
@@ -191,7 +183,6 @@
   "dc_hint_no_value": "Adapter nie dostarcza wartości dla %s, chociaż urządzenie zgłasza protokół %s. Albo ładowarka oznacza rejestr jako nieprawidłowy, albo adapter odrzucił go jako nieobsługiwany — log adaptera pokazuje w bloku 31509–31518, który z tych przypadków zachodzi.",
   "dc_hint_no_protocol": "Adapter nie dostarcza wartości dla %s (stan pracy ładowarki, wymaga protokołu Sigenergy V2.8). Wersji protokołu instancji nie można tu odczytać — ustaw w ustawieniach widżetu ID obiektu „Wersja protokołu” (info.protocolVersion), a wtedy ten komunikat poda konkretną przyczynę.",
   "dc_hint_invalid": "Ładowarka zgłasza dla rejestru 31513 wartość „nieprawidłowa” (0xFFFF) i w związku z tym nie udostępnia stanu pracy. Nie jest to problem adaptera ani konfiguracji — pozostałe rejestry ładowarki DC (moc znamionowa, uzysk PV, stany liczników) są odczytywane normalnie. Adaptery od wersji 3.3.1 nie dostarczają wartości dla takich rejestrów zamiast przekazywać surową wartość 65535.",
-
   "tab_power": "Moc",
   "tab_battery": "Bateria",
   "tab_grid": "Sieć",
@@ -220,17 +211,15 @@
   "serial_number": "Numer seryjny",
   "active": "Aktywny",
   "inactive": "Nieaktywny",
-
   "total_pv": "PV łącznie",
   "charge_level_badge": "NAŁADOWANIE",
-
   "sm_overview": "Przegląd",
   "sm_producing": "Produkuje",
   "sm_online": "W sieci",
   "sm_offline": "Poza siecią",
   "sm_nodata": "Brak danych",
   "sm_cloud_lost": "Utracono połączenie z chmurą — wartości mogą być nieaktualne",
-  "sm_no_device": "Nie skonfigurowano mikrofalownika — w ustawieniach widżetu wybierz stan każdego mikrofalownika (np. sigenergy.0.sigenmicro.<numer_seryjny>.activePower).",
+  "sm_no_device": "Nie wybrano mikrofalownika — wybierz je w ustawieniach widżetu lub naciśnij „Przejmij wszystkie SigenMicro”.",
   "sm_ac_power": "Moc AC",
   "sm_all_micro": "Wszystkie mikrofalowniki",
   "sm_sum_devices": "Suma urządzeń",

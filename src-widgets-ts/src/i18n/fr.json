@@ -10,7 +10,6 @@
   "w_micro_overview": "Vue d'ensemble SigenMicro",
   "w_pv_strings": "Puissance PV",
   "w_ev_soc": "Niveau de charge du véhicule",
-
   "group_oids": "ID d'objet",
   "group_measurements": "ID d'objet — mesures",
   "group_control": "ID d'objet — commande",
@@ -23,7 +22,6 @@
   "group_inv_alarms": "ID d'objet — alarmes",
   "group_inv_info": "ID d'objet — infos",
   "group_inv_control": "ID d'objet — commande",
-
   "sig_title": "Titre",
   "sig_title_tooltip": "Vide : titre par défaut dans la langue de l'utilisateur",
   "sig_darkmode": "Mode sombre",
@@ -35,10 +33,11 @@
   "sig_name3": "Nom de la chaîne 3",
   "sig_car_image": "Image du véhicule",
   "micro_count": "Nombre de micro-onduleurs",
-  "oid_micro": "Micro-onduleur (état quelconque)",
-  "oid_micro_tooltip": "Un état quelconque du micro-onduleur, p. ex. sigenergy.0.sigenmicro.<numéro_série>.activePower",
+  "micro_device": "Micro-onduleur",
+  "micro_take_all": "Reprendre tous les SigenMicro",
+  "micro_take_btn": "Appliquer",
+  "micro_device_none": "Aucun SigenMicro trouvé — activez le cloud dans l'adaptateur sigenergy",
   "micro_name": "Nom affiché",
-
   "oid_pv": "Puissance PV",
   "oid_bat": "Puissance de la batterie",
   "oid_grid": "Puissance réseau",
@@ -100,7 +99,6 @@
   "oid_pvtotal": "Puissance PV totale",
   "oid_ev_soc": "SOC du véhicule",
   "oid_charging": "Statut de recharge",
-
   "title_energy_flow": "Flux d'énergie",
   "title_battery_status": "État de la batterie",
   "title_power_overview": "Puissance en direct",
@@ -110,7 +108,6 @@
   "title_inverter": "Onduleur",
   "title_pv_strings": "Puissance PV",
   "title_ev_soc": "Niveau de charge du véhicule",
-
   "solar_pv": "Solaire PV",
   "battery": "Batterie",
   "grid": "Réseau",
@@ -126,7 +123,6 @@
   "daily_discharge": "Décharge aujourd'hui",
   "battery_coverage": "Couverture batterie",
   "charge_time_today": "Durée de charge aujourd'hui",
-
   "st_init": "Initialisation",
   "st_free": "Libre",
   "st_connected": "Connecté",
@@ -140,7 +136,6 @@
   "st_discharging": "En décharge",
   "st_warning": "Avertissement",
   "st_ready": "Prêt",
-
   "charging_power": "Puissance de charge",
   "rated_power": "Puissance nominale",
   "rated_current": "Courant nominal",
@@ -149,7 +144,6 @@
   "control": "Commande",
   "charging_current": "Courant de charge",
   "charging_running_hint": "Charge en cours — appuyez sur arrêt pour la terminer",
-
   "ac_tip_0": "System init (0): la borne démarre et n'a pas encore d'état valide.",
   "ac_tip_1": "A1/A2 (1): aucun véhicule connecté, la prise est libre. A1 = borne non prête, A2 = borne prête et en attente d'un véhicule.",
   "ac_tip_2": "B1 (2): véhicule branché, la borne n'a pas encore autorisé la charge (p. ex. app/backend, gestion de charge, verrouillage).",
@@ -160,7 +154,6 @@
   "ac_tip_7": "E (7): défaut du signal pilote / du câble de charge — court-circuit ou interruption du signal CP, coupure de courant, défaut du câble ou du véhicule.",
   "ac_tip_none": "Aucune valeur reçue pour l'état du système.",
   "ac_tip_unknown": "État du système inconnu (valeur %s).",
-
   "output_power": "Puissance de sortie",
   "vehicle_soc": "SOC du véhicule",
   "voltage": "Tension",
@@ -169,7 +162,6 @@
   "session_duration": "Durée de la session",
   "unknown": "inconnu",
   "before_v26": "avant V2.6",
-
   "dc_tip_0": "Idle (0): aucun véhicule connecté, la borne est prête et en attente.",
   "dc_tip_1": "Occupied (1): le connecteur est branché sur le véhicule, mais il n'y a pas encore de connexion ni de détection — la négociation (handshake) n'a pas commencé.",
   "dc_tip_2": "Preparing (2): établissement de la communication avec le véhicule — négociation selon CCS/ISO 15118 ou DIN 70121 (paramètres de charge, limites de tension et de courant).",
@@ -191,7 +183,6 @@
   "dc_hint_no_value": "L'adaptateur ne fournit aucune valeur pour %s, bien que l'appareil indique le protocole %s. Soit la borne marque le registre comme non valide, soit l'adaptateur l'a écarté comme non pris en charge — le journal de l'adaptateur indique, sous le bloc 31509–31518, lequel des deux cas s'applique.",
   "dc_hint_no_protocol": "L'adaptateur ne fournit aucune valeur pour %s (état de fonctionnement de la borne, nécessite le protocole Sigenergy V2.8). La version du protocole de l'instance ne peut pas être lue ici — définissez l'ID d'objet « Version du protocole » (info.protocolVersion) dans les paramètres du widget ; ce message indiquera alors la raison précise.",
   "dc_hint_invalid": "La borne signale la valeur « non valide » (0xFFFF) pour le registre 31513 et ne fournit donc aucun état de fonctionnement. Il ne s'agit ni d'un problème d'adaptateur ni de configuration — les autres registres de la borne DC (puissance nominale, production PV, compteurs) sont lus normalement. À partir de la version 3.3.1, l'adaptateur ne fournit aucune valeur pour de tels registres au lieu de transmettre la valeur brute 65535.",
-
   "tab_power": "Puissance",
   "tab_battery": "Batterie",
   "tab_grid": "Réseau",
@@ -220,17 +211,15 @@
   "serial_number": "Numéro de série",
   "active": "Actif",
   "inactive": "Inactif",
-
   "total_pv": "PV total",
   "charge_level_badge": "NIVEAU",
-
   "sm_overview": "Vue d'ensemble",
   "sm_producing": "En production",
   "sm_online": "En ligne",
   "sm_offline": "Hors ligne",
   "sm_nodata": "Aucune donnée",
   "sm_cloud_lost": "Connexion cloud perdue — les valeurs peuvent être obsolètes",
-  "sm_no_device": "Aucun micro-onduleur configuré — sélectionnez un état de chaque micro-onduleur (p. ex. sigenergy.0.sigenmicro.<numéro_série>.activePower) dans les paramètres du widget.",
+  "sm_no_device": "Aucun micro-onduleur sélectionné — choisissez-les dans les paramètres du widget ou appuyez sur « Reprendre tous les SigenMicro ».",
   "sm_ac_power": "Puissance AC",
   "sm_all_micro": "Tous les micro-onduleurs",
   "sm_sum_devices": "Somme des appareils",

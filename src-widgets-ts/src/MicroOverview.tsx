@@ -5,6 +5,7 @@ import type { RxRenderWidgetProps, RxWidgetInfo, VisRxWidgetProps } from '@iobro
 import SigWidget, { appearanceFields, SET_COLOR, SET_ICON, VIS_SET, type SigRxData, type SigState } from './SigWidget';
 import Scaled from './Scaled';
 import { toBool, toNum, type StateVal } from './common';
+import { microDeviceField, takeAllField } from './MicroDeviceSelect';
 
 /*
  * Data source: ioBroker.sigenergy >= 3.5.0 reads the SigenMicro micro-inverters from the
@@ -16,8 +17,9 @@ import { toBool, toNum, type StateVal } from './common';
  *   lastUpdate
  *   <ns>.sigenmicro.totalPower · <ns>.info.cloudConnection
  *
- * Anchor attributes oid_micro1 … oid_micro20 point to ANY state of a micro-inverter; the
- * widget derives the device prefix and the adapter namespace from it.
+ * The editor offers the SigenMicro devices of the sigenergy instances (micro_device1 … 20 =
+ * device ID); the widget derives all states and the adapter namespace from it. Widgets from
+ * before 2.0.0 stored ANY state of the device in oid_micro1 … 20 — still understood.
  */
 interface MicroRxData extends SigRxData {
     micro_count: number | string;
@@ -26,6 +28,8 @@ interface MicroRxData extends SigRxData {
 
 interface MicroState extends SigState {
     tab: number;
+    /** names of the device objects (adapter: "SigenMicro <name>"), keyed by device prefix */
+    devNames: Record<string, string>;
 }
 
 interface Device {
@@ -133,10 +137,11 @@ function valCol(col: string, raw: StateVal, dark: boolean): string {
 export default class MicroOverview extends SigWidget<MicroRxData, MicroState> {
     constructor(props: VisRxWidgetProps) {
         super(props);
-        this.state = { ...this.state, tab: 0 };
+        this.state = { ...this.state, tab: 0, devNames: {} };
     }
 
     static getWidgetInfo(): RxWidgetInfo {
+        const t = (key: string): string => MicroOverview.t(key);
         return {
             id: 'tplVis-2-widgets-sigenergyMicroOverview',
             visSet: VIS_SET,
@@ -159,6 +164,7 @@ export default class MicroOverview extends SigWidget<MicroRxData, MicroState> {
                             step: 1,
                             default: 3,
                         },
+                        takeAllField(t),
                         ...appearanceFields(),
                     ],
                 },
@@ -167,10 +173,7 @@ export default class MicroOverview extends SigWidget<MicroRxData, MicroState> {
                     label: 'group_micro',
                     indexFrom: 1,
                     indexTo: 'micro_count',
-                    fields: [
-                        { name: 'oid_micro', type: 'id', label: 'oid_micro', tooltip: 'oid_micro_tooltip' },
-                        { name: 'micro_name', type: 'text', label: 'micro_name' },
-                    ],
+                    fields: [microDeviceField(t), { name: 'micro_name', type: 'text', label: 'micro_name' }],
                 },
             ],
             visDefaultStyle: { width: 420, height: 420 },
@@ -187,13 +190,16 @@ export default class MicroOverview extends SigWidget<MicroRxData, MicroState> {
         const rx = this.state.rxData;
         const count = Math.min(Math.max(1, parseInt(String(rx.micro_count), 10) || 3), 20);
         const list: Device[] = [];
+        const str = (k: string): string => (typeof rx[k] === 'string' ? rx[k].trim() : '');
         for (let i = 1; i <= count; i++) {
-            const anchor = typeof rx[`oid_micro${i}`] === 'string' ? (rx[`oid_micro${i}`] as string).trim() : '';
-            if (!anchor) {
+            // micro_device<N> = device ID chosen in the editor; oid_micro<N> = any state of the device (before 2.0.0)
+            const device = str(`micro_device${i}`);
+            const anchor = str(`oid_micro${i}`);
+            if (!device && !anchor) {
                 continue;
             }
-            const a = parseAnchor(anchor);
-            list.push({ ...a, name: String(rx[`micro_name${i}`] || '').trim() });
+            const a = device ? parseAnchor(`${device}.online`) : parseAnchor(anchor);
+            list.push({ ...a, name: str(`micro_name${i}`) });
         }
         return list;
     }
@@ -213,9 +219,38 @@ export default class MicroOverview extends SigWidget<MicroRxData, MicroState> {
         return ids;
     }
 
-    // eslint-disable-next-line class-methods-use-this
     private name(d: Device, nr: number): string {
-        return d.name || `Micro ${String(nr).padStart(2, '0')}`;
+        return d.name || this.state.devNames[d.prefix] || d.serial || `Micro ${String(nr).padStart(2, '0')}`;
+    }
+
+    componentDidMount(): void {
+        super.componentDidMount();
+        void this.loadDeviceNames();
+    }
+
+    onRxDataChanged(prevRxData: typeof this.state.rxData): void {
+        super.onRxDataChanged(prevRxData);
+        void this.loadDeviceNames();
+    }
+
+    /** Reads the device objects once: the adapter names them "SigenMicro <name>" or "SigenMicro <serial>". */
+    private async loadDeviceNames(): Promise<void> {
+        const names: Record<string, string> = {};
+        for (const d of this.devices()) {
+            if (d.prefix in this.state.devNames) {
+                names[d.prefix] = this.state.devNames[d.prefix];
+                continue;
+            }
+            try {
+                const obj = await this.props.context.socket.getObject(d.prefix);
+                const n = obj?.common?.name;
+                const txt = typeof n === 'string' ? n : n ? n.en || Object.values(n)[0] || '' : '';
+                names[d.prefix] = txt.replace(/^SigenMicro\s+/, '');
+            } catch {
+                names[d.prefix] = '';
+            }
+        }
+        this.setState({ devNames: names });
     }
 
     private status(d: Device): Status {

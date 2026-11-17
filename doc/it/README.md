@@ -147,7 +147,8 @@ Se `info.cloudConnection` è `false`, il widget mostra l'avviso «Cloud connecti
 | micro_count | numero (1–20) | 3 | Numero di micro-inverter da visualizzare |
 | sig_title | testo | SigenMicro Micro-Inverter | Titolo del widget |
 | sig_darkmode | checkbox | true | Modalità scura / chiara |
-| oid_micro1 … oid_micro20 | OID | — | Qualsiasi stato del micro-inverter, ad es. `sigenergy.0.sigenmicro.<numero di serie>.activePower`. Il widget ne ricava il dispositivo e l'istanza dell'adattatore |
+| micro_device1 … micro_device20 | selezione | — | Micro-inverter dall'elenco dei dispositivi SigenMicro delle istanze sigenergy (numero di serie e nome). Il widget legge da solo tutti gli stati del dispositivo. I widget della 1.x mantengono la selezione di stato precedente |
+| micro_take_all | pulsante | — | Acquisisce in una volta tutti i dispositivi SigenMicro dell'account (numero e selezione) |
 | micro_name1 … micro_name20 | testo | — | Nome visualizzato del dispositivo (predefinito: Micro 01, Micro 02, …) |
 
 ![Panoramica SigenMicro — Overview](../../img/widget-microinverter_01.png)
@@ -159,7 +160,7 @@ online, activePower, reactivePower, pvPower, pv1…pv4.voltage / current / power
 
 **Inoltre:** `sigenergy.0.sigenmicro.totalPower`, `sigenergy.0.info.cloudConnection` — l'istanza viene presa dall'OID selezionato
 
-> **Aggiornamento dalla 1.8.x:** i precedenti stati Modbus (`runningState`, `outputPower`, `mppt*`, `modelType` …) non esistono più nell'adattatore. Per ogni `oid_microN` selezionare di nuovo uno stato in `sigenergy.0.sigenmicro.<numero di serie>`.
+> **Aggiornamento dalla 1.8.x:** i precedenti stati Modbus (`runningState`, `outputPower`, `mppt*`, `modelType` …) non esistono più nell'adattatore. Scegliere di nuovo i micro-inverter nelle impostazioni del widget — dall'elenco o con «Acquisire tutti i SigenMicro».
 
 ### Livello di carica del veicolo (EV SOC)
 Mostra un'immagine del veicolo configurabile (ad es. Fiat 500e) come elemento visivo centrale. Un badge colorato in alto a destra mostra un simbolo di fulmine, il livello di carica attuale in percentuale e l'etichetta «CARICA» (tradotta). Una barra di avanzamento in basso riflette il SOC attuale. Quando lo stato di carica opzionale è attivo, il badge emette un bagliore verde pulsante.
@@ -188,6 +189,7 @@ Tutti i widget supportano una **modalità chiara e scura**, commutabile tramite 
 * (ssbingo) L'editor di vis-2 non invia più comandi; un clic lì seleziona soltanto il widget
 * (ssbingo) Flusso energetico: l'impostazione «Flusso animato» ora ha effetto
 * (ssbingo) SigenMicro: la scheda dei dettagli mostra i valori su tre colonne, l'ID oggetto su una sola riga
+* (ssbingo) SigenMicro: i micro-inverter si scelgono nell'editor per dispositivo (numero di serie e nome) tra i dispositivi SigenMicro delle istanze sigenergy; il widget legge da solo tutti gli stati. Nuovo pulsante «Acquisire tutti i SigenMicro» che acquisisce tutti i dispositivi in una volta. I widget della 1.x continuano a funzionare con la selezione di stato precedente
 * (ssbingo) Compilazione con Vite e federazione dei moduli; i widget sono stati testati in vis-2 2.20.11
 
 ### 1.9.1 (2026-11-17)

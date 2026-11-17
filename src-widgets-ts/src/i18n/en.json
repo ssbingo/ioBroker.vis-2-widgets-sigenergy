@@ -10,7 +10,6 @@
   "w_micro_overview": "SigenMicro overview",
   "w_pv_strings": "PV power",
   "w_ev_soc": "Vehicle charge level",
-
   "group_oids": "Object IDs",
   "group_measurements": "Object IDs — measurements",
   "group_control": "Object IDs — control",
@@ -23,7 +22,6 @@
   "group_inv_alarms": "Object IDs — alarms",
   "group_inv_info": "Object IDs — info",
   "group_inv_control": "Object IDs — control",
-
   "sig_title": "Title",
   "sig_title_tooltip": "Empty: the default title in the language of the user",
   "sig_darkmode": "Dark mode",
@@ -35,10 +33,11 @@
   "sig_name3": "Name string 3",
   "sig_car_image": "Vehicle image",
   "micro_count": "Number of micro-inverters",
-  "oid_micro": "Micro-inverter (any state)",
-  "oid_micro_tooltip": "Any state of the micro-inverter, e.g. sigenergy.0.sigenmicro.<serial>.activePower",
+  "micro_device": "Micro-inverter",
+  "micro_take_all": "Take all SigenMicro",
+  "micro_take_btn": "Apply",
+  "micro_device_none": "No SigenMicro found — enable the cloud in the sigenergy adapter",
   "micro_name": "Display name",
-
   "oid_pv": "PV power",
   "oid_bat": "Battery power",
   "oid_grid": "Grid power",
@@ -100,7 +99,6 @@
   "oid_pvtotal": "Total PV power",
   "oid_ev_soc": "Vehicle SOC",
   "oid_charging": "Charging state",
-
   "title_energy_flow": "Energy flow",
   "title_battery_status": "Battery status",
   "title_power_overview": "Live power",
@@ -110,7 +108,6 @@
   "title_inverter": "Inverter",
   "title_pv_strings": "PV Power",
   "title_ev_soc": "Vehicle charge level",
-
   "solar_pv": "Solar PV",
   "battery": "Battery",
   "grid": "Grid",
@@ -126,7 +123,6 @@
   "daily_discharge": "Discharge today",
   "battery_coverage": "Battery coverage",
   "charge_time_today": "Charge time today",
-
   "st_init": "Initialising",
   "st_free": "Free",
   "st_connected": "Connected",
@@ -140,7 +136,6 @@
   "st_discharging": "Discharging",
   "st_warning": "Warning",
   "st_ready": "Ready",
-
   "charging_power": "Charging power",
   "rated_power": "Rated power",
   "rated_current": "Rated current",
@@ -149,7 +144,6 @@
   "control": "Control",
   "charging_current": "Charging current",
   "charging_running_hint": "Charging in progress — press stop to end it",
-
   "ac_tip_0": "System init (0): the charger is starting up and has no valid state yet.",
   "ac_tip_1": "A1/A2 (1): no vehicle connected, the plug is free. A1 = charger not ready, A2 = charger ready and waiting for a vehicle.",
   "ac_tip_2": "B1 (2): vehicle plugged in, the charger has not released charging yet (e.g. app/backend, load management, lock).",
@@ -160,7 +154,6 @@
   "ac_tip_7": "E (7): fault of the pilot signal / charging cable — short circuit or interruption of the CP signal, power failure, cable or vehicle fault.",
   "ac_tip_none": "No value received for the system state.",
   "ac_tip_unknown": "Unknown system state (value %s).",
-
   "output_power": "Output power",
   "vehicle_soc": "Vehicle SOC",
   "voltage": "Voltage",
@@ -169,7 +162,6 @@
   "session_duration": "Session duration",
   "unknown": "unknown",
   "before_v26": "before V2.6",
-
   "dc_tip_0": "Idle (0): no vehicle connected, the charger is ready and waiting.",
   "dc_tip_1": "Occupied (1): the connector is plugged into the vehicle, but there is no connection or detection yet — the handshake has not started.",
   "dc_tip_2": "Preparing (2): establishing communication with the vehicle — negotiation per CCS/ISO 15118 or DIN 70121 (charging parameters, voltage and current limits).",
@@ -191,7 +183,6 @@
   "dc_hint_no_value": "The adapter delivers no value for %s although the device reports protocol %s. Either the charger marks the register as not valid, or the adapter sorted it out as not supported — the adapter log shows under the block 31509–31518 which of the two applies.",
   "dc_hint_no_protocol": "The adapter delivers no value for %s (running state of the charger, needs Sigenergy protocol V2.8). The protocol version of the instance cannot be read here — set the object ID \"Protocol version\" (info.protocolVersion) in the widget settings, then this hint names the concrete reason.",
   "dc_hint_invalid": "The charger reports the value \"not valid\" (0xFFFF) for register 31513 and so provides no running state. This is neither an adapter nor a configuration problem — the other DC charger registers (rated power, PV yield, meters) are read normally. Adapters from 3.3.1 deliver no value for such registers instead of passing the raw 65535 through.",
-
   "tab_power": "Power",
   "tab_battery": "Battery",
   "tab_grid": "Grid",
@@ -220,17 +211,15 @@
   "serial_number": "Serial number",
   "active": "Active",
   "inactive": "Inactive",
-
   "total_pv": "Total PV",
   "charge_level_badge": "CHARGE",
-
   "sm_overview": "Overview",
   "sm_producing": "Producing",
   "sm_online": "Online",
   "sm_offline": "Offline",
   "sm_nodata": "No data",
   "sm_cloud_lost": "Cloud connection lost — values may be outdated",
-  "sm_no_device": "No micro-inverter configured — select a state of each micro-inverter (e.g. sigenergy.0.sigenmicro.<serial>.activePower) in the widget settings.",
+  "sm_no_device": "No micro-inverter selected — choose them in the widget settings or press \"Take all SigenMicro\".",
   "sm_ac_power": "AC power",
   "sm_all_micro": "All micro-inverters",
   "sm_sum_devices": "Sum of devices",

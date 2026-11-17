@@ -146,7 +146,8 @@ Als `info.cloudConnection` `false` is, toont de widget de waarschuwing 'Cloud co
 | micro_count | getal (1–20) | 3 | Aantal weer te geven micro-omvormers |
 | sig_title | tekst | SigenMicro Micro-Inverter | Widgettitel |
 | sig_darkmode | checkbox | true | Donkere / lichte modus |
-| oid_micro1 … oid_micro20 | OID | — | Willekeurige state van de micro-omvormer, bijv. `sigenergy.0.sigenmicro.<serienummer>.activePower`. De widget leidt daaruit het apparaat en de adapterinstantie af |
+| micro_device1 … micro_device20 | keuzelijst | — | Micro-omvormer uit de lijst van SigenMicro-apparaten van de sigenergy-instanties (serienummer en naam). De widget leest alle states van het apparaat zelf. Widgets uit 1.x behouden hun eerdere state-keuze |
+| micro_take_all | knop | — | Neemt alle SigenMicro-apparaten van het account in één keer over (aantal en keuze) |
 | micro_name1 … micro_name20 | tekst | — | Weergavenaam van het apparaat (standaard: Micro 01, Micro 02, …) |
 
 ![SigenMicro Overzicht — Overview](../../img/widget-microinverter_01.png)
@@ -158,7 +159,7 @@ online, activePower, reactivePower, pvPower, pv1…pv4.voltage / current / power
 
 **Daarnaast:** `sigenergy.0.sigenmicro.totalPower`, `sigenergy.0.info.cloudConnection` — de instantie wordt overgenomen uit de gekozen OID
 
-> **Update vanaf 1.8.x:** de vroegere Modbus-states (`runningState`, `outputPower`, `mppt*`, `modelType` …) bestaan niet meer in de adapter. Kies voor elke `oid_microN` opnieuw een state onder `sigenergy.0.sigenmicro.<serienummer>`.
+> **Update vanaf 1.8.x:** de vroegere Modbus-states (`runningState`, `outputPower`, `mppt*`, `modelType` …) bestaan niet meer in de adapter. Kies de micro-omvormers opnieuw in de widgetinstellingen — uit de lijst of met „Alle SigenMicro overnemen”.
 
 ### Voertuig laadniveau (EV SOC)
 Toont een configureerbaar voertuigafbeelding (bijv. Fiat 500e) als centraal visueel element. Een kleurgecodeerde badge rechtsboven toont een bliksemschicht, het huidige laadniveau in procent en het label "LAADNIVEAU" (vertaald). Een voortgangsbalk onderaan weerspiegelt de huidige SOC. Wanneer de optionele laadstatus actief is, pulseert de badge met een groene gloed.
@@ -187,6 +188,7 @@ Alle widgets ondersteunen een **lichte en donkere modus**, die kan worden omgesc
 * (ssbingo) Vanuit de vis-2-editor worden geen opdrachten meer verzonden; een klik daar selecteert alleen de widget
 * (ssbingo) Energiestroom: de instelling "Geanimeerde stroom" werkt nu
 * (ssbingo) SigenMicro: het detailtabblad toont de waarden in drie kolommen, de object-ID op één regel
+* (ssbingo) SigenMicro: de micro-omvormers worden in de editor per apparaat (serienummer en naam) gekozen uit de SigenMicro-apparaten van de sigenergy-instanties; de widget leest alle states zelf. Nieuwe knop „Alle SigenMicro overnemen” neemt alle apparaten in één keer over. Widgets uit 1.x blijven werken met hun eerdere state-keuze
 * (ssbingo) Gebouwd met Vite en modulefederatie; de widgets zijn getest in vis-2 2.20.11
 
 ### 1.9.1 (2026-11-17)

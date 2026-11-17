@@ -147,7 +147,8 @@ SigenMicro 微型逆变器的概览和详细视图。自 `ioBroker.sigenergy` 3.
 | micro_count | 数字 (1–20) | 3 | 要显示的微型逆变器数量 |
 | sig_title | 文本 | SigenMicro Micro-Inverter | 小部件标题 |
 | sig_darkmode | checkbox | true | 深色 / 浅色模式 |
-| oid_micro1 … oid_micro20 | OID | — | 微型逆变器的任意状态，例如 `sigenergy.0.sigenmicro.<序列号>.activePower`。小部件据此推导出设备和适配器实例 |
+| micro_device1 … micro_device20 | 选择 | — | 从 sigenergy 实例的 SigenMicro 设备列表中选择微型逆变器（序列号和名称）。小部件会自行读取该设备的所有状态。1.x 版本的小部件保留原来的状态选择 |
+| micro_take_all | 按钮 | — | 一次性导入账户中的所有 SigenMicro 设备（数量和选择） |
 | micro_name1 … micro_name20 | 文本 | — | 设备显示名称（默认：Micro 01、Micro 02 …） |
 
 ![SigenMicro 概览 — Overview](../../img/widget-microinverter_01.png)
@@ -159,7 +160,7 @@ online, activePower, reactivePower, pvPower, pv1…pv4.voltage / current / power
 
 **此外:** `sigenergy.0.sigenmicro.totalPower`, `sigenergy.0.info.cloudConnection` — 实例取自所选 OID
 
-> **从 1.8.x 升级:** 适配器中已不再有以前的 Modbus 状态（`runningState`、`outputPower`、`mppt*`、`modelType` …）。请为每个 `oid_microN` 重新选择 `sigenergy.0.sigenmicro.<序列号>` 下的一个状态。
+> **从 1.8.x 升级:** 适配器中已不再有以前的 Modbus 状态（`runningState`、`outputPower`、`mppt*`、`modelType` …）。请在小部件设置中重新选择微型逆变器 — 从列表中选择或使用“导入全部 SigenMicro”。
 
 ### 车辆电量显示 (EV SOC)
 将可配置的车辆图片（如 Fiat 500e）作为中心视觉元素显示。右上角的彩色徽章显示闪电符号、当前电量百分比和标签"电量"(已翻译)。底部的进度条反映当前 SOC。当可选充电状态激活时，徽章会发出绿色脉冲光晕。
@@ -197,6 +198,7 @@ online, activePower, reactivePower, pvPower, pv1…pv4.voltage / current / power
 * (ssbingo) vis-2 编辑器中不再发送任何命令;在编辑器中单击只会选中小部件
 * (ssbingo) 能量流:设置"动画流"现已生效
 * (ssbingo) SigenMicro:详情选项卡以三列显示数值,对象 ID 显示在一行中
+* (ssbingo) SigenMicro：在编辑器中按设备（序列号和名称）从 sigenergy 实例的 SigenMicro 设备中选择微型逆变器；小部件会自行读取所有状态。新增按钮“导入全部 SigenMicro”可一次导入所有设备。1.x 版本的小部件继续使用原来的状态选择
 * (ssbingo) 使用 Vite 和模块联邦构建;小部件已在 vis-2 2.20.11 中测试
 
 ### 1.9.1 (2026-11-17)

@@ -147,7 +147,8 @@ Ist `info.cloudConnection` `false`, zeigt das Widget den Hinweis „Cloud connec
 | micro_count | Zahl (1–20) | 3 | Anzahl der anzuzeigenden Mikrowechselrichter |
 | sig_title | Text | SigenMicro Micro-Inverter | Widget-Titel |
 | sig_darkmode | checkbox | true | Dunkel- / Hellmodus |
-| oid_micro1 … oid_micro20 | OID | — | Beliebiger State des Mikrowechselrichters, z. B. `sigenergy.0.sigenmicro.<Seriennummer>.activePower`. Das Widget leitet daraus Gerät und Adapter-Instanz ab |
+| micro_device1 … micro_device20 | Auswahl | — | Mikrowechselrichter aus der Liste der SigenMicro-Geräte der sigenergy-Instanzen (Seriennummer und Name). Das Widget liest alle States des Geräts selbst. Widgets aus 1.x behalten ihre bisherige State-Auswahl |
+| micro_take_all | Schaltfläche | — | Übernimmt alle SigenMicro-Geräte des Kontos auf einmal (Anzahl und Auswahl) |
 | micro_name1 … micro_name20 | Text | — | Anzeigename des Geräts (Standard: Micro 01, Micro 02, …) |
 
 ![SigenMicro Übersicht — Overview](../../img/widget-microinverter_01.png)
@@ -159,7 +160,7 @@ online, activePower, reactivePower, pvPower, pv1…pv4.voltage / current / power
 
 **Zusätzlich:** `sigenergy.0.sigenmicro.totalPower`, `sigenergy.0.info.cloudConnection` — die Instanz wird aus der gewählten OID übernommen
 
-> **Update von 1.8.x:** Die bisherigen Modbus-States (`runningState`, `outputPower`, `mppt*`, `modelType` …) gibt es im Adapter nicht mehr. Für jede `oid_microN` einen State unter `sigenergy.0.sigenmicro.<Seriennummer>` neu auswählen.
+> **Update von 1.8.x:** Die bisherigen Modbus-States (`runningState`, `outputPower`, `mppt*`, `modelType` …) gibt es im Adapter nicht mehr. Die Mikrowechselrichter in den Widget-Einstellungen neu auswählen — aus der Liste oder mit „Alle SigenMicro übernehmen“.
 
 ### Fahrzeug-Ladestand (EV SOC)
 Zeigt ein konfigurierbares Fahrzeugbild (z.B. Fiat 500e) als zentrales Sichtelement. Ein farbkodierter Badge in der oberen rechten Ecke zeigt ein Blitz-Symbol, den aktuellen Ladestand in Prozent und die Beschriftung „LADESTAND“ (übersetzt). Ein Ladebalken am unteren Rand spiegelt den aktuellen SOC wider. Wenn der optionale Lade-Status aktiv ist, pulsiert der Badge mit einem grünen Leuchten.
@@ -197,6 +198,7 @@ Alle Widgets unterstützen einen **Hell- und Dunkelmodus**, der über die Widget
 * (ssbingo) Aus dem vis-2-Editor werden keine Befehle mehr gesendet; ein Klick dort wählt nur das Widget aus
 * (ssbingo) Energiefluss: Die Einstellung „Animierter Fluss“ wirkt jetzt
 * (ssbingo) SigenMicro: Der Detail-Tab zeigt die Werte in drei Spalten, die Objekt-ID einzeilig
+* (ssbingo) SigenMicro: Die Mikrowechselrichter werden im Editor per Gerät (Seriennummer und Name) aus den SigenMicro-Geräten der sigenergy-Instanzen ausgewählt; das Widget liest alle States selbst. Neue Schaltfläche „Alle SigenMicro übernehmen“ übernimmt alle Geräte auf einmal. Widgets aus 1.x laufen mit ihrer bisherigen State-Auswahl weiter
 * (ssbingo) Build mit Vite und Module Federation; die Widgets wurden in vis-2 2.20.11 getestet
 
 ### 1.9.1 (2026-11-17)

@@ -147,7 +147,8 @@ If `info.cloudConnection` is `false`, the widget shows the warning "Cloud connec
 | micro_count | number (1–20) | 3 | Number of micro-inverters to display |
 | sig_title | text | SigenMicro Micro-Inverter | Widget title |
 | sig_darkmode | checkbox | true | Dark / light mode |
-| oid_micro1 … oid_micro20 | OID | — | Any state of the micro-inverter, e.g. `sigenergy.0.sigenmicro.<serial>.activePower`. The widget derives the device and the adapter instance from it |
+| micro_device1 … micro_device20 | selection | — | Micro-inverter from the list of SigenMicro devices of the sigenergy instances (serial number and name). The widget reads all states of the device itself. Widgets from 1.x keep their former state selection |
+| micro_take_all | button | — | Takes over all SigenMicro devices of the account at once (number and selection) |
 | micro_name1 … micro_name20 | text | — | Display name of the device (default: Micro 01, Micro 02, …) |
 
 ![SigenMicro Overview — Overview](img/widget-microinverter_01.png)
@@ -159,7 +160,7 @@ online, activePower, reactivePower, pvPower, pv1…pv4.voltage / current / power
 
 **Additionally:** `sigenergy.0.sigenmicro.totalPower`, `sigenergy.0.info.cloudConnection` — the instance is taken from the selected OID
 
-> **Upgrade from 1.8.x:** the former Modbus states (`runningState`, `outputPower`, `mppt*`, `modelType` …) no longer exist in the adapter. Select a state under `sigenergy.0.sigenmicro.<serial>` again for every `oid_microN`.
+> **Upgrade from 1.8.x:** the former Modbus states (`runningState`, `outputPower`, `mppt*`, `modelType` …) no longer exist in the adapter. Choose the micro-inverters again in the widget settings — from the list or with "Take all SigenMicro".
 
 ### Vehicle Charge Level (EV SOC)
 Displays a configurable vehicle image (e.g. Fiat 500e) as the central visual element. A colour-coded badge in the top-right corner shows a lightning bolt, the current charge level in percent and the label "CHARGE" (translated). A progress bar at the bottom reflects the current SOC. When the optional charging state is active, the badge emits a pulsing green glow.
@@ -197,6 +198,7 @@ All widgets support a **light and dark mode**, switchable via the widget setting
 * (ssbingo) No commands are sent from the vis-2 editor anymore; a click there only selects the widget
 * (ssbingo) Energy flow: the setting "Animated flow" now takes effect
 * (ssbingo) SigenMicro: the detail tab shows the values in three columns, the object ID on one line
+* (ssbingo) SigenMicro: the micro-inverters are chosen in the editor by device (serial number and name) from the SigenMicro devices of the sigenergy instances; the widget reads all states itself. New button "Take all SigenMicro" takes over all devices at once. Widgets from 1.x keep working with their former state selection
 * (ssbingo) Build with Vite and module federation; the widgets were tested in vis-2 2.20.11
 
 ### 1.9.1 (2026-11-17)

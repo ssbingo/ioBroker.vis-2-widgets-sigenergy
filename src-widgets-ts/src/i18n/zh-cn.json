@@ -10,7 +10,6 @@
   "w_micro_overview": "SigenMicro 概览",
   "w_pv_strings": "PV 功率",
   "w_ev_soc": "车辆电量",
-
   "group_oids": "对象 ID",
   "group_measurements": "对象 ID — 测量值",
   "group_control": "对象 ID — 控制",
@@ -23,7 +22,6 @@
   "group_inv_alarms": "对象 ID — 告警",
   "group_inv_info": "对象 ID — 信息",
   "group_inv_control": "对象 ID — 控制",
-
   "sig_title": "标题",
   "sig_title_tooltip": "留空：使用用户语言的默认标题",
   "sig_darkmode": "深色模式",
@@ -35,10 +33,11 @@
   "sig_name3": "组串 3 名称",
   "sig_car_image": "车辆图片",
   "micro_count": "微型逆变器数量",
-  "oid_micro": "微型逆变器（任意状态）",
-  "oid_micro_tooltip": "微型逆变器的任意状态，例如 sigenergy.0.sigenmicro.<序列号>.activePower",
+  "micro_device": "微型逆变器",
+  "micro_take_all": "导入全部 SigenMicro",
+  "micro_take_btn": "应用",
+  "micro_device_none": "未找到 SigenMicro — 请在 sigenergy 适配器中启用云端",
   "micro_name": "显示名称",
-
   "oid_pv": "PV 功率",
   "oid_bat": "电池功率",
   "oid_grid": "电网功率",
@@ -100,7 +99,6 @@
   "oid_pvtotal": "PV 总功率",
   "oid_ev_soc": "车辆 SOC",
   "oid_charging": "充电状态",
-
   "title_energy_flow": "能量流",
   "title_battery_status": "电池状态",
   "title_power_overview": "实时功率",
@@ -110,7 +108,6 @@
   "title_inverter": "逆变器",
   "title_pv_strings": "PV 功率",
   "title_ev_soc": "车辆电量",
-
   "solar_pv": "光伏",
   "battery": "电池",
   "grid": "电网",
@@ -126,7 +123,6 @@
   "daily_discharge": "今日放电",
   "battery_coverage": "电池覆盖",
   "charge_time_today": "今日充电时长",
-
   "st_init": "初始化",
   "st_free": "空闲",
   "st_connected": "已连接",
@@ -140,7 +136,6 @@
   "st_discharging": "放电中",
   "st_warning": "警告",
   "st_ready": "就绪",
-
   "charging_power": "充电功率",
   "rated_power": "额定功率",
   "rated_current": "额定电流",
@@ -149,7 +144,6 @@
   "control": "控制",
   "charging_current": "充电电流",
   "charging_running_hint": "正在充电 — 按停止结束充电",
-
   "ac_tip_0": "System init (0): 充电桩正在启动，尚无有效状态。",
   "ac_tip_1": "A1/A2 (1): 未连接车辆，插头空闲。A1 = 充电桩未就绪，A2 = 充电桩就绪并等待车辆。",
   "ac_tip_2": "B1 (2): 车辆已插枪，充电桩尚未允许充电（例如 App/后台、负载管理、锁定）。",
@@ -160,7 +154,6 @@
   "ac_tip_7": "E (7): 控制导引信号 / 充电线缆故障 — CP 信号短路或中断、断电、线缆或车辆故障。",
   "ac_tip_none": "未收到系统状态值。",
   "ac_tip_unknown": "未知的系统状态（值 %s）。",
-
   "output_power": "输出功率",
   "vehicle_soc": "车辆 SOC",
   "voltage": "电压",
@@ -169,7 +162,6 @@
   "session_duration": "本次充电时长",
   "unknown": "未知",
   "before_v26": "V2.6 之前",
-
   "dc_tip_0": "Idle (0): 未连接车辆，充电桩已就绪并等待。",
   "dc_tip_1": "Occupied (1): 充电枪已插入车辆，但尚未建立连接或完成识别 — 握手尚未开始。",
   "dc_tip_2": "Preparing (2): 正在与车辆建立通信 — 按 CCS/ISO 15118 或 DIN 70121 协商（充电参数、电压和电流限值）。",
@@ -191,7 +183,6 @@
   "dc_hint_no_value": "适配器未提供 %s 的值，尽管设备报告的协议为 %s。要么充电桩将该寄存器标记为无效，要么适配器将其作为不支持项剔除 — 适配器日志中 31509–31518 区块下会显示属于哪种情况。",
   "dc_hint_no_protocol": "适配器未提供 %s 的值（充电桩运行状态，需要 Sigenergy 协议 V2.8）。此处无法读取实例的协议版本 — 请在小部件设置中设置对象 ID“协议版本”(info.protocolVersion)，此提示将给出具体原因。",
   "dc_hint_invalid": "充电桩对寄存器 31513 报告“无效”值 (0xFFFF)，因此不提供运行状态。这既不是适配器问题，也不是配置问题 — 其他直流充电桩寄存器（额定功率、PV 发电量、电表读数）均正常读取。3.3.1 及以上版本的适配器对此类寄存器不再提供值，而不是直接传递原始值 65535。",
-
   "tab_power": "功率",
   "tab_battery": "电池",
   "tab_grid": "电网",
@@ -220,17 +211,15 @@
   "serial_number": "序列号",
   "active": "激活",
   "inactive": "未激活",
-
   "total_pv": "PV 总计",
   "charge_level_badge": "电量",
-
   "sm_overview": "概览",
   "sm_producing": "发电中",
   "sm_online": "在线",
   "sm_offline": "离线",
   "sm_nodata": "无数据",
   "sm_cloud_lost": "云连接已断开 — 数值可能已过时",
-  "sm_no_device": "未配置微型逆变器 — 请在小部件设置中为每台微型逆变器选择一个状态（例如 sigenergy.0.sigenmicro.<序列号>.activePower）。",
+  "sm_no_device": "未选择微型逆变器 — 请在小部件设置中选择，或点击“导入全部 SigenMicro”。",
   "sm_ac_power": "AC 功率",
   "sm_all_micro": "全部微型逆变器",
   "sm_sum_devices": "设备合计",
