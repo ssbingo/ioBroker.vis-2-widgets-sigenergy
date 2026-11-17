@@ -179,6 +179,9 @@ Zeigt ein konfigurierbares Fahrzeugbild (z.B. Fiat 500e) als zentrales Sichtelem
 Alle Widgets unterstützen einen **Hell- und Dunkelmodus**, der über die Widget-Einstellung `Dunkelmodus` umgeschaltet werden kann.
 
 ## Changelog
+### 1.9.1 (2026-11-17)
+* (ssbingo) vis-2 2.20.x: Die Widgets setzen `box-sizing: border-box` für ihren eigenen Inhalt wieder selbst. vis-2 2.20 lädt MUIs `CssBaseline` nicht mehr, das bisher das ganze Dokument auf border-box umgestellt hat; Karten, Kacheln und Buttons mit Innenabstand konnten dadurch breiter als vorgesehen werden. Die Regel gilt nur für dieses Widget-Set; das Set enthält keinen React-/MUI-Code und läuft als klassisches vis-Widget-Set unter vis-2 2.20 (React 19, MUI 9)
+
 ### 1.9.0 (2026-11-17)
 * (ssbingo) **SigenMicro-Übersicht für die neue Cloud-Anbindung von `ioBroker.sigenergy` 3.5.0 überarbeitet.** Das Widget liest jetzt `sigenergy.0.sigenmicro.<Seriennummer>.*` (online, activePower, pvPower, PV-Eingänge pv1…pv4, Netzwerte, Temperatur, Isolationswiderstand, Ertrag, Firmware, Nennleistung, letzte Aktualisierung), die Kontosumme `sigenmicro.totalPower` und `info.cloudConnection`. Das bisherige Modbus-Registermodell (`runningState`, `outputPower`, `mppt*`, `modelType`) entfällt
 * (ssbingo) SigenMicro: Status aus `online` und AC-Leistung (Producing / Online / Offline / No data), Hinweis bei verlorener Cloud-Verbindung, Zeit der letzten Cloud-Aktualisierung und Nennleistung im Detail-Tab, PV-Eingänge nur wenn gemeldet, neuer optionaler Anzeigename je Gerät (`micro_nameN`), alle Widget-Texte auf Englisch

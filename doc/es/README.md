@@ -170,6 +170,9 @@ Muestra una imagen de vehículo configurable (p. ej. Fiat 500e) como elemento vi
 Todos los widgets admiten un **modo claro y oscuro**, conmutable mediante el ajuste de widget `Modo oscuro`.
 
 ## Changelog
+### 1.9.1 (2026-11-17)
+* (ssbingo) vis-2 2.20.x: los widgets vuelven a aplicar ellos mismos `box-sizing: border-box` a su contenido. vis-2 2.20 ya no carga el `CssBaseline` de MUI, que antes cambiaba todo el documento a border-box, por lo que tarjetas, mosaicos y botones con relleno podían quedar más anchos de lo previsto. La regla solo afecta a este conjunto de widgets; el conjunto no contiene código React/MUI y funciona como conjunto de widgets vis clásico en vis-2 2.20 (React 19, MUI 9)
+
 ### 1.9.0 (2026-11-17)
 * (ssbingo) **Vista general SigenMicro rehecha para la nueva conexión a la nube de `ioBroker.sigenergy` 3.5.0.** El widget lee ahora `sigenergy.0.sigenmicro.<número de serie>.*` (online, activePower, pvPower, entradas FV pv1…pv4, valores de red, temperatura, resistencia de aislamiento, producción, firmware, potencia nominal, última actualización), el total de la cuenta `sigenmicro.totalPower` e `info.cloudConnection`. Se elimina el antiguo modelo de registros Modbus (`runningState`, `outputPower`, `mppt*`, `modelType`)
 * (ssbingo) SigenMicro: estado derivado de `online` y de la potencia de CA (Producing / Online / Offline / No data), aviso al perderse la conexión con la nube, hora de la última actualización de la nube y potencia nominal en la pestaña de detalle, entradas FV solo si se comunican, nuevo nombre opcional por dispositivo (`micro_nameN`), todos los textos del widget en inglés

@@ -27,3 +27,21 @@ oder eine Admin-Config), gilt React 19 + MUI 9 als verbindliches Ziel: kein `def
 an Funktionskomponenten, `ref` als normale Prop statt `forwardRef`, `createRoot` statt
 `ReactDOM.render`, `sx`/`styled()` statt `makeStyles`/`withStyles`, Grid mit `size`-Prop.
 React und MUI kommen dabei vom Host — als externals/peerDependencies führen, nicht mitbundeln.
+
+## vis-2 2.20.x — Pflicht-Zielplattform (gesetzt am 2026-11-17)
+
+Die Widgets müssen unter vis-2 2.20.x laufen (2.20 = React 19 + MUI 9). Geprüft gegen
+den Quellstand 2.20.1 (`/home/ssternitzke/ioBroker.vis-2`, `packages/iobroker.vis-2/src-vis/src/Vis/`):
+
+- Legacy-Sets aus `widgets.html` bleiben unterstützt; jQuery/can.js werden on demand
+  geladen, bevor deren Scripts laufen (`visLoadLegacy.ts`, `visEngine.tsx`).
+- `CssBaseline` ist entfernt → global gilt wieder `content-box`. Das Widget-CSS setzt
+  `border-box` selbst, begrenzt auf `.sig-w *` (seit 1.9.1) — nicht entfernen.
+- VIS abonniert nur OIDs aus Widget-Attributen. Abgeleitete OIDs per
+  `vis.conn.subscribe(ids, cb)` abonnieren und in `$div.data("destroy")` per
+  `vis.conn.unsubscribe` + `vis.states.unbind` freigeben (vis-2 ruft beim Entfernen nur
+  `destroy` auf, nicht `bound`/`bindHandler`). Frisch abonnierte States stehen zuerst als
+  String `"null"` in `vis.states`.
+- Widget-Sets mit Module Federation, die für ein älteres React gebaut sind, überspringt
+  2.20 — betrifft dieses vanilla-Set nicht, wäre aber bei einer React-Portierung zu beachten.
+- `common.dependencies` bleibt `vis-2: >=2.0.0` (unterstützen ≠ voraussetzen).

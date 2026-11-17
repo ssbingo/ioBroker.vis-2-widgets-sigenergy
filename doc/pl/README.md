@@ -170,6 +170,9 @@ Wyświetla konfigurowalne zdjęcie pojazdu (np. Fiat 500e) jako centralny elemen
 Wszystkie widżety obsługują **tryb jasny i ciemny**, przełączany przez ustawienie widżetu `Tryb ciemny`.
 
 ## Changelog
+### 1.9.1 (2026-11-17)
+* (ssbingo) vis-2 2.20.x: widżety znów same ustawiają `box-sizing: border-box` dla własnej zawartości. vis-2 2.20 nie ładuje już `CssBaseline` z MUI, który wcześniej przełączał cały dokument na border-box, przez co karty, kafelki i przyciski z wypełnieniem mogły być szersze niż zaplanowano. Reguła dotyczy tylko tego zestawu widżetów; zestaw nie zawiera kodu React/MUI i działa jako klasyczny zestaw widżetów vis w vis-2 2.20 (React 19, MUI 9)
+
 ### 1.9.0 (2026-11-17)
 * (ssbingo) **Przegląd SigenMicro przebudowany pod nowe połączenie z chmurą w `ioBroker.sigenergy` 3.5.0.** Widżet odczytuje teraz `sigenergy.0.sigenmicro.<numer seryjny>.*` (online, activePower, pvPower, wejścia PV pv1…pv4, parametry sieci, temperatura, rezystancja izolacji, uzysk, oprogramowanie, moc znamionowa, ostatnia aktualizacja), sumę konta `sigenmicro.totalPower` oraz `info.cloudConnection`. Dotychczasowy model rejestrów Modbus (`runningState`, `outputPower`, `mppt*`, `modelType`) został usunięty
 * (ssbingo) SigenMicro: stan wyznaczany z `online` i mocy AC (Producing / Online / Offline / No data), ostrzeżenie przy utracie połączenia z chmurą, czas ostatniej aktualizacji z chmury i moc znamionowa w karcie szczegółów, wejścia PV wyświetlane tylko, gdy są zgłaszane, nowa opcjonalna nazwa wyświetlana dla każdego urządzenia (`micro_nameN`), wszystkie teksty widżetu po angielsku

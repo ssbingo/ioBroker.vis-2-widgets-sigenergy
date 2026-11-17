@@ -169,6 +169,9 @@ Toont een configureerbaar voertuigafbeelding (bijv. Fiat 500e) als centraal visu
 Alle widgets ondersteunen een **lichte en donkere modus**, die kan worden omgeschakeld via de widget-instelling `Donkere modus`.
 
 ## Changelog
+### 1.9.1 (2026-11-17)
+* (ssbingo) vis-2 2.20.x: de widgets passen `box-sizing: border-box` weer zelf toe op hun eigen inhoud. vis-2 2.20 laadt de `CssBaseline` van MUI niet meer, die voorheen het hele document op border-box zette, waardoor kaarten, tegels en knoppen met opvulling breder konden worden dan bedoeld. De regel geldt alleen voor deze widgetset; de set bevat geen React-/MUI-code en draait als klassieke vis-widgetset onder vis-2 2.20 (React 19, MUI 9)
+
 ### 1.9.0 (2026-11-17)
 * (ssbingo) **SigenMicro-overzicht herzien voor de nieuwe cloudkoppeling van `ioBroker.sigenergy` 3.5.0.** De widget leest nu `sigenergy.0.sigenmicro.<serienummer>.*` (online, activePower, pvPower, PV-ingangen pv1…pv4, netwaarden, temperatuur, isolatieweerstand, opbrengst, firmware, nominaal vermogen, laatste update), het accounttotaal `sigenmicro.totalPower` en `info.cloudConnection`. Het vroegere Modbus-registermodel (`runningState`, `outputPower`, `mppt*`, `modelType`) vervalt
 * (ssbingo) SigenMicro: status afgeleid van `online` en het AC-vermogen (Producing / Online / Offline / No data), waarschuwing bij verlies van de cloudverbinding, tijd van de laatste cloud-update en nominaal vermogen in het detailtabblad, PV-ingangen alleen indien gemeld, nieuwe optionele weergavenaam per apparaat (`micro_nameN`), alle widgetteksten in het Engels

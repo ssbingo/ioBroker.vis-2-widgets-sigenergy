@@ -6,6 +6,12 @@
     box-sizing: border-box;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
+/* vis-2 >= 2.20 no longer loads MUI's CssBaseline, which switched the whole
+   document to border-box. The widgets were laid out under that rule, so it is
+   applied here again — scoped to this widget set only. */
+.sig-w *, .sig-w *::before, .sig-w *::after, .sig-tip-popup {
+    box-sizing: border-box;
+}
 
 /* ── Skalierung (Widget-Inhalt skaliert synchron mit Container-Größe) ──── */
 .sig-scale-outer {

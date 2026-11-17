@@ -179,6 +179,9 @@ online, activePower, reactivePower, pvPower, pv1…pv4.voltage / current / power
 所有小部件均支持**浅色和深色模式**,可通过小部件设置 `Dark mode` 切换。
 
 ## 更新日志
+### 1.9.1 (2026-11-17)
+* (ssbingo) vis-2 2.20.x：小部件重新为自身内容设置 `box-sizing: border-box`。vis-2 2.20 不再加载 MUI 的 `CssBaseline`，它以前会把整个文档切换为 border-box，因此带内边距的卡片、磁贴和按钮可能比设计的更宽。该规则仅作用于本小部件集；本小部件集不含 React/MUI 代码，作为经典 vis 小部件集在 vis-2 2.20（React 19、MUI 9）下运行
+
 ### 1.9.0 (2026-11-17)
 * (ssbingo) **SigenMicro 概览已针对 `ioBroker.sigenergy` 3.5.0 的新云端接入进行重构。** 小部件现在读取 `sigenergy.0.sigenmicro.<序列号>.*`（online、activePower、pvPower、光伏输入 pv1…pv4、电网数值、温度、绝缘电阻、发电量、固件、额定功率、最近更新时间）、账户总功率 `sigenmicro.totalPower` 以及 `info.cloudConnection`。原有的 Modbus 寄存器模型（`runningState`、`outputPower`、`mppt*`、`modelType`）已移除
 * (ssbingo) SigenMicro：状态由 `online` 和交流功率得出（Producing / Online / Offline / No data），云端连接中断时显示警告，详情选项卡显示最近一次云端更新时间和额定功率，光伏输入仅在有上报时显示，每台设备新增可选显示名称（`micro_nameN`），所有小部件文本改为英文
