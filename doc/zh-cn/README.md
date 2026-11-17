@@ -106,38 +106,50 @@ Display of up to 3 PV strings with live power values and animated flow arrows le
 **OIDs:** `plant.pv1Power`, `plant.pv2Power`, `plant.pv3Power`, `plant.pvPower`
 
 ### SigenMicro 概览
-Overview and detail view of all SigenMicro micro-inverters connected via Modbus. Tab 1 shows all devices as an animated network segment (Ethernet bus topology with vertical drop lines). Each additional tab shows all 15 registers of the respective device in ascending order.
+SigenMicro 微型逆变器的概览和详细视图。自 `ioBroker.sigenergy` 3.5.0 起，适配器通过 Sigenergy 云端读取微型逆变器（适配器设置中的“SigenMicro (Cloud)”选项卡），并为每台微型逆变器在 `sigenergy.0.sigenmicro.<序列号>` 下创建一个设备。**需要启用云端的 `ioBroker.sigenergy` ≥ 3.5.0。** 云端每 300 秒（OpenAPI）或 60 秒（应用接口）轮询一次，因此小部件无法更快地更新。
 
-| Tab | Content |
+| 选项卡 | 内容 |
 |---|---|
-| **Overview** | All devices as animated bus topology, aggregate tiles (total power, daily yield, lifetime yield, online count) |
-| **Device 01–20** | Device image top-left (10 px offset), model/serial/firmware/status badge, all 15 registers (01–15) with value, unit and OID path |
+| **Overview** | 所有设备显示为带动画的交流母线，并显示每台设备的状态；磁贴显示交流功率（适配器总和 `sigenmicro.totalPower`，否则为各设备之和）、今日发电量、累计发电量和在线设备数 |
+| **每台设备一个选项卡** | 图片、名称、额定功率、序列号、固件、最近一次云端更新时间、状态徽章、所有实时值（含单位和 OID），以及适配器上报的光伏输入 pv1 … pv4 |
 
-#### Network segment animation
-The horizontal backbone line and the vertical drop lines show animated dashes that flow along the cables when a device is active (Running). Inactive devices (Standby/Fault) show only the dark base line without animation.
-
-#### Dynamic layout
-| Devices | Rows | Image size |
+#### 状态
+| 状态 | 条件 | 显示 |
 |---|---|---|
-| 1–5 | 1 row | 80 × 90 px |
-| 6–10 | 1 row | 52 × 60 px |
-| 11–15 | 2 rows | 46 × 52 px |
-| 16–20 | 2 rows | 40 × 46 px |
+| Producing | `online` = true, `activePower` > 0 | 绿色，母线动画 |
+| Online | `online` = true, `activePower` = 0 | 蓝色 |
+| Offline | `online` = false — 夜间属正常 | 灰色 |
+| No data | 尚未收到数值 | 灰色 |
 
-#### Widget settings
-| Parameter | Type | Default | Description |
+如果 `info.cloudConnection` 为 `false`，小部件会显示警告“Cloud connection lost”，因为数值可能已过时。
+
+#### 动态布局
+| 设备数 | 行数 | 图片尺寸 |
+|---|---|---|
+| 1–5 | 1 行 | 80 × 90 px |
+| 6–10 | 1 行 | 52 × 60 px |
+| 11–15 | 2 行 | 46 × 52 px |
+| 16–20 | 2 行 | 40 × 46 px |
+
+#### 小部件设置
+| 参数 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
-| micro_count | number (1–20) | 3 | Number of micro-inverters to display |
-| sig_title | text | SigenMicro Micro-Inverter | Widget title |
-| sig_darkmode | checkbox | true | Dark / Light mode |
-| oid_micro1 … oid_micro20 | OID | — | Anchor OID per device (e.g. sigenergy.0.sigenmicro.11.outputPower) |
+| micro_count | 数字 (1–20) | 3 | 要显示的微型逆变器数量 |
+| sig_title | 文本 | SigenMicro Micro-Inverter | 小部件标题 |
+| sig_darkmode | checkbox | true | 深色 / 浅色模式 |
+| oid_micro1 … oid_micro20 | OID | — | 微型逆变器的任意状态，例如 `sigenergy.0.sigenmicro.<序列号>.activePower`。小部件据此推导出设备和适配器实例 |
+| micro_name1 … micro_name20 | 文本 | — | 设备显示名称（默认：Micro 01、Micro 02 …） |
 
-![SigenMicro Übersicht — Übersichts-Tab](../../img/widget-microinverter_01.png)
+![SigenMicro 概览 — Overview](../../img/widget-microinverter_01.png)
 
-![SigenMicro Übersicht — Detail-Tab](../../img/widget-microinverter_02.png)
+![SigenMicro 概览 — 详情](../../img/widget-microinverter_02.png)
 
-**OIDs (per device, prefix sigenergy.0.sigenmicro.<slaveId>):**
-modelType, serialNumber, firmwareVersion, runningState, outputPower, gridFrequency, temperature, mppt1Voltage, mppt1Current, mppt1Power, mppt2Voltage, mppt2Current, mppt2Power, dailyYield, totalYield
+**每台设备的状态 (`sigenergy.0.sigenmicro.<serial>`):**
+online, activePower, reactivePower, pvPower, pv1…pv4.voltage / current / power, gridVoltage, gridCurrent, gridFrequency, powerFactor, temperature, insulationResistance, dailyYield, totalYield, serialNumber, firmware, ratedPower, lastUpdate
+
+**此外:** `sigenergy.0.sigenmicro.totalPower`, `sigenergy.0.info.cloudConnection` — 实例取自所选 OID
+
+> **从 1.8.x 升级:** 适配器中已不再有以前的 Modbus 状态（`runningState`、`outputPower`、`mppt*`、`modelType` …）。请为每个 `oid_microN` 重新选择 `sigenergy.0.sigenmicro.<序列号>` 下的一个状态。
 
 ### 车辆电量显示 (EV SOC)
 将可配置的车辆图片（如 Fiat 500e）作为中心视觉元素显示。右上角的彩色徽章显示闪电符号、当前电量百分比和标签"LADESTAND"。底部的进度条反映当前 SOC。当可选充电状态激活时，徽章会发出绿色脉冲光晕。
@@ -167,6 +179,12 @@ modelType, serialNumber, firmwareVersion, runningState, outputPower, gridFrequen
 所有小部件均支持**浅色和深色模式**,可通过小部件设置 `Dark mode` 切换。
 
 ## 更新日志
+### 1.9.0 (2026-11-17)
+* (ssbingo) **SigenMicro 概览已针对 `ioBroker.sigenergy` 3.5.0 的新云端接入进行重构。** 小部件现在读取 `sigenergy.0.sigenmicro.<序列号>.*`（online、activePower、pvPower、光伏输入 pv1…pv4、电网数值、温度、绝缘电阻、发电量、固件、额定功率、最近更新时间）、账户总功率 `sigenmicro.totalPower` 以及 `info.cloudConnection`。原有的 Modbus 寄存器模型（`runningState`、`outputPower`、`mppt*`、`modelType`）已移除
+* (ssbingo) SigenMicro：状态由 `online` 和交流功率得出（Producing / Online / Offline / No data），云端连接中断时显示警告，详情选项卡显示最近一次云端更新时间和额定功率，光伏输入仅在有上报时显示，每台设备新增可选显示名称（`micro_nameN`），所有小部件文本改为英文
+* (ssbingo) SigenMicro：锚点 OID 可以是微型逆变器的任意状态；派生状态现在通过 `vis.conn.subscribe` 订阅（VIS 只订阅属性中的 OID），并在移除小部件时释放。**更新后，请为每个 `oid_microN` 重新选择 `sigenergy.0.sigenmicro.<序列号>` 下的一个状态**
+* (ssbingo) CI：按 ioBroker 模板更新 Dependabot 自动合并工作流 — 改用 `pull_request` 代替 `pull_request_target`（#46、#47）；`@iobroker/testing` 从 6.2.1 更新到 6.3.1
+
 ### 1.8.11 (2026-09-12)
 * (ssbingo) CI：软件包测试现在在 Node.js 22、24 和 26 上运行（新增 `adapter-tests` 作业，仓库检查器 #41）；`@iobroker/testing` 从 5.3.0 更新到 6.2.1
 

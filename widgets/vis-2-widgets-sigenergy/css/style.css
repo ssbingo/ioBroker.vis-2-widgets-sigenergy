@@ -505,7 +505,7 @@
 
 
 /* ═══════════════════════════════════════════════════════════════════
-   WIDGET 8 — SigenMicro Übersicht
+   WIDGET 8 — SigenMicro Overview (cloud data, ioBroker.sigenergy >= 3.5.0)
    ═══════════════════════════════════════════════════════════════════ */
 
 /* ── Keyframes für Backbone + Stichleitung ── */
@@ -686,6 +686,8 @@
 }
 .sig-sm-det-img.run { border-color: #2ecc8a; box-shadow: 0 0 8px rgba(46,204,138,0.3); }
 .sig-sm-det-img.err { border-color: #e05555; }
+.sig-sm-det-img.on  { border-color: #4a9eed; }
+.sig-sm-det-img.idle img { opacity: 0.55; }
 .sig-sm-det-info { flex: 1; }
 .sig-sm-det-model  { font-size: 0.85rem; font-weight: 600; margin-bottom: 2px; }
 .sig-sm-det-serial { font-size: 0.65rem; color: #5a7a90; }
@@ -698,6 +700,7 @@
 .sig-sm-badge-run  { background: rgba(46,204,138,0.12); color: #2ecc8a; border: 1px solid rgba(46,204,138,0.25); }
 .sig-sm-badge-idle { background: rgba(42,58,80,0.3); color: #5a7a90; border: 1px solid #2a3a50; }
 .sig-sm-badge-err  { background: rgba(224,85,85,0.12); color: #e05555; border: 1px solid rgba(224,85,85,0.25); }
+.sig-sm-badge-on   { background: rgba(74,158,237,0.12); color: #4a9eed; border: 1px solid rgba(74,158,237,0.25); }
 .sig-sm-badge-dot  { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
 .sig-sm-badge-run .sig-sm-badge-dot { animation: sig-pulse 1.8s infinite; }
 
@@ -793,4 +796,30 @@
 .sig-ev-bar-fill {
     height: 100%; border-radius: 6px; width: 0%;
     transition: width .5s ease, background-color .5s ease;
+}
+
+/* ── SigenMicro: cloud warning, empty state, PV input section ── */
+.sig-sm-cloud-warn {
+    margin: 0 10px 6px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.6rem;
+    color: #e8a22a;
+    background: rgba(232,162,42,0.1);
+    border: 1px solid rgba(232,162,42,0.3);
+    text-align: center;
+}
+.sig-sm-empty {
+    padding: 18px 14px;
+    font-size: 0.65rem;
+    color: #5a7a90;
+    text-align: center;
+    line-height: 1.5;
+}
+.sig-sm-sect {
+    padding: 2px 10px 4px;
+    font-size: 0.58rem;
+    color: #5a7a90;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
 }

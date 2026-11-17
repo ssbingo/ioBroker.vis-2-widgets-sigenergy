@@ -106,38 +106,50 @@ Display of up to 3 PV strings with live power values and animated flow arrows le
 **OIDs:** `plant.pv1Power`, `plant.pv2Power`, `plant.pv3Power`, `plant.pvPower`
 
 ### Огляд SigenMicro
-Overview and detail view of all SigenMicro micro-inverters connected via Modbus. Tab 1 shows all devices as an animated network segment (Ethernet bus topology with vertical drop lines). Each additional tab shows all 15 registers of the respective device in ascending order.
+Огляд і детальне представлення мікроінверторів SigenMicro. Починаючи з `ioBroker.sigenergy` 3.5.0 адаптер зчитує їх через хмару Sigenergy (вкладка «SigenMicro (Cloud)» у налаштуваннях адаптера) і створює для кожного мікроінвертора пристрій у `sigenergy.0.sigenmicro.<серійний номер>`. **Потрібен `ioBroker.sigenergy` ≥ 3.5.0 з увімкненою хмарою.** Хмара опитується кожні 300 с (OpenAPI) або 60 с (інтерфейс застосунку), тому віджет не може оновлюватися частіше.
 
-| Tab | Content |
+| Вкладка | Вміст |
 |---|---|
-| **Overview** | All devices as animated bus topology, aggregate tiles (total power, daily yield, lifetime yield, online count) |
-| **Device 01–20** | Device image top-left (10 px offset), model/serial/firmware/status badge, all 15 registers (01–15) with value, unit and OID path |
+| **Overview** | Усі пристрої у вигляді анімованої шини змінного струму зі станом кожного пристрою; плитки: потужність AC (сума адаптера `sigenmicro.totalPower`, інакше сума пристроїв), вироблення за сьогодні, вироблення за весь час і кількість пристроїв у мережі |
+| **по вкладці на пристрій** | Зображення, назва, номінальна потужність, серійний номер, прошивка, час останнього оновлення з хмари, значок стану, усі поточні значення з одиницями та OID, а також повідомлені адаптером входи PV pv1 … pv4 |
 
-#### Network segment animation
-The horizontal backbone line and the vertical drop lines show animated dashes that flow along the cables when a device is active (Running). Inactive devices (Standby/Fault) show only the dark base line without animation.
-
-#### Dynamic layout
-| Devices | Rows | Image size |
+#### Стан
+| Стан | Умова | Відображення |
 |---|---|---|
-| 1–5 | 1 row | 80 × 90 px |
-| 6–10 | 1 row | 52 × 60 px |
-| 11–15 | 2 rows | 46 × 52 px |
-| 16–20 | 2 rows | 40 × 46 px |
+| Producing | `online` = true, `activePower` > 0 | зелений, шина анімована |
+| Online | `online` = true, `activePower` = 0 | синій |
+| Offline | `online` = false — уночі це нормально | сірий |
+| No data | значення ще не отримано | сірий |
 
-#### Widget settings
-| Parameter | Type | Default | Description |
+Якщо `info.cloudConnection` дорівнює `false`, віджет показує попередження «Cloud connection lost», оскільки значення можуть бути застарілими.
+
+#### Динамічне компонування
+| Пристрої | Ряди | Розмір зображення |
+|---|---|---|
+| 1–5 | 1 ряд | 80 × 90 px |
+| 6–10 | 1 ряд | 52 × 60 px |
+| 11–15 | 2 ряди | 46 × 52 px |
+| 16–20 | 2 ряди | 40 × 46 px |
+
+#### Налаштування віджета
+| Параметр | Тип | Типово | Опис |
 |---|---|---|---|
-| micro_count | number (1–20) | 3 | Number of micro-inverters to display |
-| sig_title | text | SigenMicro Micro-Inverter | Widget title |
-| sig_darkmode | checkbox | true | Dark / Light mode |
-| oid_micro1 … oid_micro20 | OID | — | Anchor OID per device (e.g. sigenergy.0.sigenmicro.11.outputPower) |
+| micro_count | число (1–20) | 3 | Кількість мікроінверторів для відображення |
+| sig_title | текст | SigenMicro Micro-Inverter | Заголовок віджета |
+| sig_darkmode | checkbox | true | Темний / світлий режим |
+| oid_micro1 … oid_micro20 | OID | — | Будь-який стан мікроінвертора, наприклад `sigenergy.0.sigenmicro.<серійний номер>.activePower`. Віджет визначає з нього пристрій та екземпляр адаптера |
+| micro_name1 … micro_name20 | текст | — | Відображувана назва пристрою (типово: Micro 01, Micro 02, …) |
 
-![SigenMicro Übersicht — Übersichts-Tab](../../img/widget-microinverter_01.png)
+![Огляд SigenMicro — Overview](../../img/widget-microinverter_01.png)
 
-![SigenMicro Übersicht — Detail-Tab](../../img/widget-microinverter_02.png)
+![Огляд SigenMicro — Деталі](../../img/widget-microinverter_02.png)
 
-**OIDs (per device, prefix sigenergy.0.sigenmicro.<slaveId>):**
-modelType, serialNumber, firmwareVersion, runningState, outputPower, gridFrequency, temperature, mppt1Voltage, mppt1Current, mppt1Power, mppt2Voltage, mppt2Current, mppt2Power, dailyYield, totalYield
+**Стани пристрою (`sigenergy.0.sigenmicro.<serial>`):**
+online, activePower, reactivePower, pvPower, pv1…pv4.voltage / current / power, gridVoltage, gridCurrent, gridFrequency, powerFactor, temperature, insulationResistance, dailyYield, totalYield, serialNumber, firmware, ratedPower, lastUpdate
+
+**Додатково:** `sigenergy.0.sigenmicro.totalPower`, `sigenergy.0.info.cloudConnection` — екземпляр береться з вибраного OID
+
+> **Оновлення з 1.8.x:** колишніх станів Modbus (`runningState`, `outputPower`, `mppt*`, `modelType` …) в адаптері більше немає. Для кожного `oid_microN` знову виберіть стан у `sigenergy.0.sigenmicro.<серійний номер>`.
 
 ### Рівень заряду автомобіля (EV SOC)
 Відображає налаштовуване зображення автомобіля (наприклад, Fiat 500e) як центральний візуальний елемент. Кольоровий значок у правому верхньому куті показує символ блискавки, поточний рівень заряду у відсотках і напис «LADESTAND». Смуга прогресу внизу відображає поточний SOC. Коли опціональний стан зарядки активний, значок пульсує зеленим світінням.
@@ -167,6 +179,12 @@ modelType, serialNumber, firmwareVersion, runningState, outputPower, gridFrequen
 Усі віджети підтримують **світлий і темний режим**, що перемикається через налаштування `Dark mode`.
 
 ## Журнал змін
+### 1.9.0 (2026-11-17)
+* (ssbingo) **Огляд SigenMicro перероблено під нове хмарне підключення `ioBroker.sigenergy` 3.5.0.** Віджет тепер читає `sigenergy.0.sigenmicro.<серійний номер>.*` (online, activePower, pvPower, входи PV pv1…pv4, параметри мережі, температура, опір ізоляції, вироблення, прошивка, номінальна потужність, останнє оновлення), суму облікового запису `sigenmicro.totalPower` та `info.cloudConnection`. Колишню модель регістрів Modbus (`runningState`, `outputPower`, `mppt*`, `modelType`) вилучено
+* (ssbingo) SigenMicro: стан визначається за `online` і потужністю AC (Producing / Online / Offline / No data), попередження при втраті зв'язку з хмарою, час останнього оновлення з хмари та номінальна потужність на вкладці пристрою, входи PV показуються лише за наявності даних, нова необов'язкова відображувана назва для кожного пристрою (`micro_nameN`), усі тексти віджета англійською
+* (ssbingo) SigenMicro: опорним OID може бути будь-який стан мікроінвертора; похідні стани тепер підписуються через `vis.conn.subscribe` (VIS підписує лише OID з атрибутів) і звільняються під час видалення віджета. **Після оновлення знову виберіть для кожного `oid_microN` стан у `sigenergy.0.sigenmicro.<серійний номер>`**
+* (ssbingo) CI: workflow автозлиття Dependabot оновлено за шаблоном ioBroker — використовується `pull_request` замість `pull_request_target` (#46, #47); `@iobroker/testing` оновлено з 6.2.1 до 6.3.1
+
 ### 1.8.11 (2026-09-12)
 * (ssbingo) CI: тести пакета тепер виконуються на Node.js 22, 24 і 26 (нове завдання `adapter-tests`, repository checker #41); `@iobroker/testing` оновлено з 5.3.0 до 6.2.1
 

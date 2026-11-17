@@ -133,20 +133,22 @@
 
 
 <!-- ═══════════════════════════════════════════════════════════════════════
-     WIDGET 8 – SigenMicro Übersicht
-     VIS-2-konform: Anker-OID-Muster (oid_micro1..N vom Typ /id)
-     → VIS lädt alle oid_micro*-States beim Start vor (Namensgebung "oid_*")
-     → Widget extrahiert Geräte-Präfix und subscribed alle 15 Register-OIDs
+     WIDGET 8 – SigenMicro Overview
+     Datenquelle: ioBroker.sigenergy >= 3.5.0, SigenMicro über die Sigenergy-Cloud
+     (sigenergy.0.sigenmicro.<Seriennummer>.*)
+     VIS-2-konform: Anker-OID-Muster (oid_micro1..N vom Typ /id, beliebiger State des Geräts)
+     → Widget leitet Geräte-Präfix + Adapter-Namespace ab und bindet alle Geräte-States,
+       sigenmicro.totalPower und info.cloudConnection
      ═══════════════════════════════════════════════════════════════════════ -->
 <script id="tplVis-2-widgets-sigenergyMicroOverview"
         type="text/ejs"
         class="vis-tpl"
         data-vis-set="vis-2-widgets-sigenergy"
-        data-vis-name="SigenMicro Übersicht"
+        data-vis-name="SigenMicro Overview"
         data-vis-type="val"
-        data-vis-attrs="group.Einstellungen;micro_count[3]/number,1,20,1;sig_title[SigenMicro Micro-Inverter]/text;sig_darkmode[true]/checkbox;group.Micro-Inverter/byindex;oid_micro(1-micro_count)[sigenergy.0.sigenmicro.11.outputPower]/id"
+        data-vis-attrs="group.Settings;micro_count[3]/number,1,20,1;sig_title[SigenMicro Micro-Inverter]/text;sig_darkmode[true]/checkbox;group.Micro-Inverter/byindex;oid_micro(1-micro_count)/id;micro_name(1-micro_count)/text"
         data-vis-style="width:420px;height:420px;position:static;"
-        data-vis-prev='<div style="background:linear-gradient(135deg,#0f1218,#131a25);border-radius:14px;padding:10px;width:400px;height:200px;font-family:sans-serif;color:#d8e4f0;box-sizing:border-box"><div style="font-size:.6rem;text-transform:uppercase;letter-spacing:1px;text-align:center;margin-bottom:8px;opacity:.65">&#9889; SigenMicro Übersicht</div><div style="display:flex;justify-content:space-evenly;align-items:flex-end;padding:0 10px"><div style="text-align:center"><div style="width:60px;height:68px;border:2px solid #2ecc8a;border-radius:8px;background:#1a3028;margin:0 auto 4px"></div><div style="font-size:.55rem;color:#2ecc8a">Gerät 01</div></div><div style="width:60%;height:3px;background:#2ecc8a;margin-bottom:20px;border-radius:2px;opacity:.7"></div><div style="text-align:center"><div style="width:60px;height:68px;border:2px solid #2ecc8a;border-radius:8px;background:#1a3028;margin:0 auto 4px"></div><div style="font-size:.55rem;color:#2ecc8a">Gerät 02</div></div></div></div>'>
+        data-vis-prev='<div style="background:linear-gradient(135deg,#0f1218,#131a25);border-radius:14px;padding:10px;width:400px;height:200px;font-family:sans-serif;color:#d8e4f0;box-sizing:border-box"><div style="font-size:.6rem;text-transform:uppercase;letter-spacing:1px;text-align:center;margin-bottom:8px;opacity:.65">&#9889; SigenMicro Overview</div><div style="display:flex;justify-content:space-evenly;align-items:flex-end;padding:0 10px"><div style="text-align:center"><div style="width:60px;height:68px;border:2px solid #2ecc8a;border-radius:8px;background:#1a3028;margin:0 auto 4px"></div><div style="font-size:.55rem;color:#2ecc8a">Micro 01</div></div><div style="width:60%;height:3px;background:#2ecc8a;margin-bottom:20px;border-radius:2px;opacity:.7"></div><div style="text-align:center"><div style="width:60px;height:68px;border:2px solid #2ecc8a;border-radius:8px;background:#1a3028;margin:0 auto 4px"></div><div style="font-size:.55rem;color:#2ecc8a">Micro 02</div></div></div></div>'>
     <div class="vis-widget <%== this.data.attr('class') %>" style="width:420px;height:420px;" id="<%= this.data.attr('wid') %>"><%
         vis.binds['vis-2-widgets-sigenergy'].createSigenMicroOverview(this.data.wid, this.view, this.data, this.style);
     %></div>

@@ -106,15 +106,22 @@ Darstellung von bis zu 3 PV-Strings mit Live-Leistungswerten und animierten Flus
 **OIDs:** `plant.pv1Power`, `plant.pv2Power`, `plant.pv3Power`, `plant.pvPower`
 
 ### SigenMicro Übersicht
-Übersicht und Detailansicht aller SigenMicro Mikro-Wechselrichter am Modbus-Bus. Tab 1 zeigt alle Geräte als animiertes Netzwerksegment (Ethernet-Bus-Topologie mit senkrechten Stichleitungen). Jeder weitere Tab zeigt alle 15 Register des jeweiligen Geräts in aufsteigender Reihenfolge.
+Übersicht und Detailansicht der SigenMicro-Mikrowechselrichter. Seit `ioBroker.sigenergy` 3.5.0 liest der Adapter sie über die Sigenergy-Cloud (Reiter „SigenMicro (Cloud)“ in den Adapter-Einstellungen) und legt je Mikrowechselrichter ein Gerät unter `sigenergy.0.sigenmicro.<Seriennummer>` an. **Voraussetzung: `ioBroker.sigenergy` ≥ 3.5.0 mit aktivierter Cloud.** Die Cloud wird alle 300 s (OpenAPI) bzw. 60 s (App-Schnittstelle) abgefragt, schneller kann das Widget nicht aktualisieren.
 
 | Tab | Inhalt |
 |---|---|
-| **Übersicht** | Alle Geräte als animierte Bus-Topologie, Aggregat-Kacheln (Gesamtleistung, Tagesertrag, Lebensertrag, Online-Anzahl) |
-| **Gerät 01–20** | Gerätebild oben-links (10 px Abstand), Modell/Seriennummer/Firmware/Status-Badge, alle 15 Register (01–15) mit Wert, Einheit und OID-Pfad |
+| **Overview** | Alle Geräte als animierter AC-Bus mit Status je Gerät; Kacheln für AC-Leistung (Adapter-Summe `sigenmicro.totalPower`, sonst Summe der Geräte), Tagesertrag, Gesamtertrag und Geräte online |
+| **ein Tab je Gerät** | Bild, Name, Nennleistung, Seriennummer, Firmware, Zeit der letzten Cloud-Aktualisierung, Status-Badge, alle Live-Werte mit Einheit und OID sowie die vom Adapter gemeldeten PV-Eingänge pv1 … pv4 |
 
-#### Netzwerksegment-Animation
-Die waagerechte Backbone-Linie und die senkrechten Stichleitungen zeigen animierte Dashes, die bei aktiven Geräten (Running) entlang der Leitungen fließen. Inaktive Geräte (Standby/Fault) zeigen nur die dunkle Basislinie ohne Animation.
+#### Status
+| Status | Bedingung | Anzeige |
+|---|---|---|
+| Producing | `online` = true, `activePower` > 0 | grün, Bus animiert |
+| Online | `online` = true, `activePower` = 0 | blau |
+| Offline | `online` = false — nachts normal | grau |
+| No data | noch kein Wert empfangen | grau |
+
+Ist `info.cloudConnection` `false`, zeigt das Widget den Hinweis „Cloud connection lost“, da die Werte veraltet sein können.
 
 #### Dynamisches Layout
 | Geräte | Zeilen | Bildgröße |
@@ -127,17 +134,22 @@ Die waagerechte Backbone-Linie und die senkrechten Stichleitungen zeigen animier
 #### Widget-Einstellungen
 | Parameter | Typ | Standard | Beschreibung |
 |---|---|---|---|
-| micro_count | Zahl (1–20) | 3 | Anzahl der anzuzeigenden Mikro-Wechselrichter |
+| micro_count | Zahl (1–20) | 3 | Anzahl der anzuzeigenden Mikrowechselrichter |
 | sig_title | Text | SigenMicro Micro-Inverter | Widget-Titel |
-| sig_darkmode | Checkbox | true | Dunkel- / Hellmodus |
-| oid_micro1 … oid_micro20 | OID | — | Anker-OID je Gerät (z.B. sigenergy.0.sigenmicro.11.outputPower) |
+| sig_darkmode | checkbox | true | Dunkel- / Hellmodus |
+| oid_micro1 … oid_micro20 | OID | — | Beliebiger State des Mikrowechselrichters, z. B. `sigenergy.0.sigenmicro.<Seriennummer>.activePower`. Das Widget leitet daraus Gerät und Adapter-Instanz ab |
+| micro_name1 … micro_name20 | Text | — | Anzeigename des Geräts (Standard: Micro 01, Micro 02, …) |
 
-![SigenMicro Übersicht — Übersichts-Tab](../../img/widget-microinverter_01.png)
+![SigenMicro Übersicht — Overview](../../img/widget-microinverter_01.png)
 
-![SigenMicro Übersicht — Detail-Tab](../../img/widget-microinverter_02.png)
+![SigenMicro Übersicht — Detail](../../img/widget-microinverter_02.png)
 
-**OIDs (je Gerät, Präfix sigenergy.0.sigenmicro.<slaveId>):**
-modelType, serialNumber, firmwareVersion, runningState, outputPower, gridFrequency, temperature, mppt1Voltage, mppt1Current, mppt1Power, mppt2Voltage, mppt2Current, mppt2Power, dailyYield, totalYield
+**States je Gerät (`sigenergy.0.sigenmicro.<serial>`):**
+online, activePower, reactivePower, pvPower, pv1…pv4.voltage / current / power, gridVoltage, gridCurrent, gridFrequency, powerFactor, temperature, insulationResistance, dailyYield, totalYield, serialNumber, firmware, ratedPower, lastUpdate
+
+**Zusätzlich:** `sigenergy.0.sigenmicro.totalPower`, `sigenergy.0.info.cloudConnection` — die Instanz wird aus der gewählten OID übernommen
+
+> **Update von 1.8.x:** Die bisherigen Modbus-States (`runningState`, `outputPower`, `mppt*`, `modelType` …) gibt es im Adapter nicht mehr. Für jede `oid_microN` einen State unter `sigenergy.0.sigenmicro.<Seriennummer>` neu auswählen.
 
 ### Fahrzeug-Ladestand (EV SOC)
 Zeigt ein konfigurierbares Fahrzeugbild (z.B. Fiat 500e) als zentrales Sichtelement. Ein farbkodierter Badge in der oberen rechten Ecke zeigt ein Blitz-Symbol, den aktuellen Ladestand in Prozent und die Beschriftung „LADESTAND". Ein Ladebalken am unteren Rand spiegelt den aktuellen SOC wider. Wenn der optionale Lade-Status aktiv ist, pulsiert der Badge mit einem grünen Leuchten.
@@ -167,6 +179,12 @@ Zeigt ein konfigurierbares Fahrzeugbild (z.B. Fiat 500e) als zentrales Sichtelem
 Alle Widgets unterstützen einen **Hell- und Dunkelmodus**, der über die Widget-Einstellung `Dunkelmodus` umgeschaltet werden kann.
 
 ## Changelog
+### 1.9.0 (2026-11-17)
+* (ssbingo) **SigenMicro-Übersicht für die neue Cloud-Anbindung von `ioBroker.sigenergy` 3.5.0 überarbeitet.** Das Widget liest jetzt `sigenergy.0.sigenmicro.<Seriennummer>.*` (online, activePower, pvPower, PV-Eingänge pv1…pv4, Netzwerte, Temperatur, Isolationswiderstand, Ertrag, Firmware, Nennleistung, letzte Aktualisierung), die Kontosumme `sigenmicro.totalPower` und `info.cloudConnection`. Das bisherige Modbus-Registermodell (`runningState`, `outputPower`, `mppt*`, `modelType`) entfällt
+* (ssbingo) SigenMicro: Status aus `online` und AC-Leistung (Producing / Online / Offline / No data), Hinweis bei verlorener Cloud-Verbindung, Zeit der letzten Cloud-Aktualisierung und Nennleistung im Detail-Tab, PV-Eingänge nur wenn gemeldet, neuer optionaler Anzeigename je Gerät (`micro_nameN`), alle Widget-Texte auf Englisch
+* (ssbingo) SigenMicro: Die Anker-OID darf ein beliebiger State des Mikrowechselrichters sein; abgeleitete States werden jetzt per `vis.conn.subscribe` abonniert (VIS abonniert nur Attribut-OIDs) und beim Entfernen des Widgets wieder freigegeben. **Nach dem Update für jede `oid_microN` einen State unter `sigenergy.0.sigenmicro.<Seriennummer>` neu auswählen**
+* (ssbingo) CI: Dependabot-Auto-Merge-Workflow aus der ioBroker-Vorlage aktualisiert — er nutzt `pull_request` statt `pull_request_target` (#46, #47); `@iobroker/testing` von 6.2.1 auf 6.3.1 aktualisiert
+
 ### 1.8.11 (2026-09-12)
 * (ssbingo) CI: Die Paket-Tests laufen jetzt unter Node.js 22, 24 und 26 (neuer Job `adapter-tests`, Repository-Checker #41); `@iobroker/testing` von 5.3.0 auf 6.2.1 aktualisiert
 

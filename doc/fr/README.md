@@ -105,15 +105,50 @@ Affichage jusqu'à 3 chaînes PV avec valeurs de puissance en direct et flèches
 **OIDs:** `plant.pv1Power`, `plant.pv2Power`, `plant.pv3Power`, `plant.pvPower`
 
 ### Vue d'ensemble SigenMicro
-Vue d'ensemble et vue détaillée de tous les micro-onduleurs SigenMicro sur le bus Modbus. L'onglet 1 affiche tous les appareils sous forme de segment réseau animé (topologie bus Ethernet avec liaisons verticales).
+Vue d'ensemble et vue détaillée des micro-onduleurs SigenMicro. Depuis `ioBroker.sigenergy` 3.5.0, l'adaptateur les lit via le cloud Sigenergy (onglet « SigenMicro (Cloud) » dans les paramètres de l'adaptateur) et crée un appareil par micro-onduleur sous `sigenergy.0.sigenmicro.<numéro de série>`. **Nécessite `ioBroker.sigenergy` ≥ 3.5.0 avec le cloud activé.** Le cloud est interrogé toutes les 300 s (OpenAPI) ou 60 s (interface de l'application) ; le widget ne peut donc pas se mettre à jour plus vite.
 
-#### Disposition dynamique
-| Appareils | Lignes | Taille image |
+| Onglet | Contenu |
+|---|---|
+| **Overview** | Tous les appareils sous forme de bus AC animé avec l'état de chacun ; tuiles pour la puissance AC (total de l'adaptateur `sigenmicro.totalPower`, sinon somme des appareils), la production du jour, la production totale et les appareils en ligne |
+| **un onglet par appareil** | Image, nom, puissance nominale, numéro de série, firmware, heure de la dernière mise à jour du cloud, badge d'état, toutes les valeurs instantanées avec unité et OID, ainsi que les entrées PV pv1 … pv4 signalées par l'adaptateur |
+
+#### État
+| État | Condition | Affichage |
 |---|---|---|
-| 1–5 | 1 ligne | 80 × 90 px |
-| 6–10 | 1 ligne | 52 × 60 px |
-| 11–15 | 2 lignes | 46 × 52 px |
-| 16–20 | 2 lignes | 40 × 46 px |
+| Producing | `online` = true, `activePower` > 0 | vert, bus animé |
+| Online | `online` = true, `activePower` = 0 | bleu |
+| Offline | `online` = false — normal la nuit | gris |
+| No data | aucune valeur reçue pour l'instant | gris |
+
+Si `info.cloudConnection` vaut `false`, le widget affiche l'avertissement « Cloud connection lost », car les valeurs peuvent être obsolètes.
+
+#### Mise en page dynamique
+| Appareils | Rangées | Taille de l'image |
+|---|---|---|
+| 1–5 | 1 rangée | 80 × 90 px |
+| 6–10 | 1 rangée | 52 × 60 px |
+| 11–15 | 2 rangées | 46 × 52 px |
+| 16–20 | 2 rangées | 40 × 46 px |
+
+#### Paramètres du widget
+| Paramètre | Type | Défaut | Description |
+|---|---|---|---|
+| micro_count | nombre (1–20) | 3 | Nombre de micro-onduleurs à afficher |
+| sig_title | texte | SigenMicro Micro-Inverter | Titre du widget |
+| sig_darkmode | checkbox | true | Mode sombre / clair |
+| oid_micro1 … oid_micro20 | OID | — | N'importe quel état du micro-onduleur, p. ex. `sigenergy.0.sigenmicro.<numéro de série>.activePower`. Le widget en déduit l'appareil et l'instance de l'adaptateur |
+| micro_name1 … micro_name20 | texte | — | Nom affiché de l'appareil (par défaut : Micro 01, Micro 02, …) |
+
+![Vue d'ensemble SigenMicro — Overview](../../img/widget-microinverter_01.png)
+
+![Vue d'ensemble SigenMicro — Détail](../../img/widget-microinverter_02.png)
+
+**États par appareil (`sigenergy.0.sigenmicro.<serial>`):**
+online, activePower, reactivePower, pvPower, pv1…pv4.voltage / current / power, gridVoltage, gridCurrent, gridFrequency, powerFactor, temperature, insulationResistance, dailyYield, totalYield, serialNumber, firmware, ratedPower, lastUpdate
+
+**En outre:** `sigenergy.0.sigenmicro.totalPower`, `sigenergy.0.info.cloudConnection` — l'instance est reprise de l'OID sélectionné
+
+> **Mise à jour depuis la 1.8.x:** les anciens états Modbus (`runningState`, `outputPower`, `mppt*`, `modelType` …) n'existent plus dans l'adaptateur. Sélectionnez à nouveau, pour chaque `oid_microN`, un état sous `sigenergy.0.sigenmicro.<numéro de série>`.
 
 ### Niveau de charge du véhicule (EV SOC)
 Affiche une image de véhicule configurable (p. ex. Fiat 500e) comme élément visuel central. Un badge coloré en haut à droite montre un symbole d'éclair, le niveau de charge actuel en pourcentage et le libellé « LADESTAND ». Une barre de progression en bas reflète le SOC actuel. Lorsque l'état de charge optionnel est actif, le badge émet une lueur verte pulsante.
@@ -134,6 +169,12 @@ Affiche une image de véhicule configurable (p. ex. Fiat 500e) comme élément v
 Tous les widgets prennent en charge un **mode clair et sombre**, commutable via le paramètre de widget `Mode sombre`.
 
 ## Changelog
+### 1.9.0 (2026-11-17)
+* (ssbingo) **Vue d'ensemble SigenMicro remaniée pour la nouvelle connexion cloud de `ioBroker.sigenergy` 3.5.0.** Le widget lit désormais `sigenergy.0.sigenmicro.<numéro de série>.*` (online, activePower, pvPower, entrées PV pv1…pv4, valeurs réseau, température, résistance d'isolement, production, firmware, puissance nominale, dernière mise à jour), le total du compte `sigenmicro.totalPower` et `info.cloudConnection`. L'ancien modèle de registres Modbus (`runningState`, `outputPower`, `mppt*`, `modelType`) disparaît
+* (ssbingo) SigenMicro : état déduit de `online` et de la puissance AC (Producing / Online / Offline / No data), avertissement en cas de perte de la connexion cloud, heure de la dernière mise à jour du cloud et puissance nominale dans l'onglet de détail, entrées PV affichées uniquement si elles sont signalées, nouveau nom d'affichage facultatif par appareil (`micro_nameN`), tous les textes du widget en anglais
+* (ssbingo) SigenMicro : l'OID d'ancrage peut être n'importe quel état du micro-onduleur ; les états dérivés sont désormais abonnés via `vis.conn.subscribe` (VIS n'abonne que les OID des attributs) et libérés à la suppression du widget. **Après la mise à jour, sélectionnez à nouveau pour chaque `oid_microN` un état sous `sigenergy.0.sigenmicro.<numéro de série>`**
+* (ssbingo) CI : workflow de fusion automatique Dependabot mis à jour depuis le modèle ioBroker — il utilise `pull_request` au lieu de `pull_request_target` (#46, #47) ; `@iobroker/testing` mis à jour de 6.2.1 à 6.3.1
+
 ### 1.8.11 (2026-09-12)
 * (ssbingo) CI : les tests du paquet s'exécutent désormais sous Node.js 22, 24 et 26 (nouveau job `adapter-tests`, vérificateur de dépôt #41) ; `@iobroker/testing` mis à jour de 5.3.0 à 6.2.1
 

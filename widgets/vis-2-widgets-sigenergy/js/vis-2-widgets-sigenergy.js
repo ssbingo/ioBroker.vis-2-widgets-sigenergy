@@ -2,7 +2,7 @@
     ioBroker.vis vis-2-widgets-sigenergy — Widget-Set
     4 Widgets: Energiefluss · Akku-Status · Echtzeit-Leistung · Statistiken
 
-    version: "1.8.11"
+    version: "1.9.0"
     Copyright 2026 ssbingo s.sternitzke@online.de
 */
 "use strict";
@@ -43,13 +43,16 @@ if (typeof systemDictionary !== "undefined") {
         "sig_name3":    { "en": "Name String 3",         "de": "Name String 3" },
         "oid_ev_soc":   { "en": "Vehicle SOC OID",        "de": "Fahrzeug SOC OID" },
         "oid_charging": { "en": "Charging State OID",     "de": "Lade-Status OID" },
-        "sig_car_image":{ "en": "Car Image",               "de": "Fahrzeug-Bild" }
+        "sig_car_image":{ "en": "Car Image",               "de": "Fahrzeug-Bild" },
+        "micro_count":  { "en": "Number of micro-inverters", "de": "Anzahl Mikro-Wechselrichter" },
+        "oid_micro":    { "en": "Micro-inverter (any state)", "de": "Mikro-Wechselrichter (beliebiger State)" },
+        "micro_name":   { "en": "Display name",              "de": "Anzeigename" }
         }
     );
 }
 
 vis.binds["vis-2-widgets-sigenergy"] = {
-    version: "1.8.11",
+    version: "1.9.0",
 
     showVersion: function () {
         if (vis.binds["vis-2-widgets-sigenergy"].version) {
@@ -1457,42 +1460,55 @@ vis.binds["vis-2-widgets-sigenergy"] = {
 
 
 
-    // ── Widget 8: SigenMicro Übersicht ──────────────────────────────────────
+    // ── Widget 8: SigenMicro Overview ───────────────────────────────────────
     //
-    // VIS-2-konforme Implementierung mit Anker-OID-Muster:
-    //   oid_micro1 … oid_micro20  (Typ /id, Namensgebung beginnt mit "oid_")
-    //   → VIS lädt diese States beim Start vor und subscribed automatisch
-    //   → Widget extrahiert den Geräte-Präfix und baut alle 15 Register-Pfade
+    // Data source: ioBroker.sigenergy >= 3.5.0 reads SigenMicro micro-inverters
+    // from the Sigenergy cloud (Sigen OpenAPI or mySigen app interface). One
+    // device per micro-inverter, named after its serial number:
     //
-    // Layout-Schwellen:
-    //   1–5  Geräte: 1 Zeile, 80×90 px
-    //   6–10 Geräte: 1 Zeile, 52×60 px
-    //  11–15 Geräte: 2 Zeilen, 46×52 px
-    //  16–20 Geräte: 2 Zeilen, 40×46 px
+    //   <ns>.sigenmicro.<serial>.online            boolean  reports live values
+    //   <ns>.sigenmicro.<serial>.activePower       kW       AC active power
+    //   <ns>.sigenmicro.<serial>.pvPower           kW       PV (DC) power
+    //   <ns>.sigenmicro.<serial>.pv<n>.voltage|current|power  per PV input
+    //   <ns>.sigenmicro.<serial>.gridVoltage|gridCurrent|gridFrequency|...
+    //   <ns>.sigenmicro.<serial>.dailyYield|totalYield (total: OpenAPI only)
+    //   <ns>.sigenmicro.<serial>.serialNumber|firmware|ratedPower|lastUpdate
+    //   <ns>.sigenmicro.totalPower                 kW       all micro-inverters
+    //   <ns>.info.cloudConnection                  boolean  last cloud cycle OK
     //
-    // Register-Reihenfolge (01–15, aufsteigend nach Adresse):
-    //   01 modelType  02 serialNumber  03 firmwareVersion  04 runningState
-    //   05 outputPower  06 gridFrequency  07 temperature
-    //   08 mppt1Voltage  09 mppt1Current  10 mppt1Power
-    //   11 mppt2Voltage  12 mppt2Current  13 mppt2Power
-    //   14 dailyYield  15 totalYield
+    // Anchor OID pattern: oid_micro1 … oid_micro20 (type /id) point to ANY state
+    // of a micro-inverter (e.g. .activePower). The widget derives the device
+    // prefix and the adapter namespace from it and binds all other states.
+    //
+    // Layout thresholds:
+    //   1–5  devices: 1 row, 80×90 px
+    //   6–10 devices: 1 row, 52×60 px
+    //  11–15 devices: 2 rows, 46×52 px
+    //  16–20 devices: 2 rows, 40×46 px
 
-    _SM_REGISTERS: [
-        { nr:"01", name:"modelType",      desc:"Modell-Typ",      unit:"",    col:"" },
-        { nr:"02", name:"serialNumber",   desc:"Seriennummer",    unit:"",    col:"" },
-        { nr:"03", name:"firmwareVersion",desc:"Firmware",        unit:"",    col:"" },
-        { nr:"04", name:"runningState",   desc:"Betriebsstatus",  unit:"",    col:"state" },
-        { nr:"05", name:"outputPower",    desc:"AC-Leistung",     unit:"kW",  col:"power" },
-        { nr:"06", name:"gridFrequency",  desc:"Netzfrequenz",    unit:"Hz",  col:"blue" },
-        { nr:"07", name:"temperature",    desc:"Temperatur",      unit:"°C",  col:"temp" },
-        { nr:"08", name:"mppt1Voltage",   desc:"MPPT1 Spannung",  unit:"V",   col:"" },
-        { nr:"09", name:"mppt1Current",   desc:"MPPT1 Strom",     unit:"A",   col:"" },
-        { nr:"10", name:"mppt1Power",     desc:"MPPT1 Leistung",  unit:"kW",  col:"power" },
-        { nr:"11", name:"mppt2Voltage",   desc:"MPPT2 Spannung",  unit:"V",   col:"" },
-        { nr:"12", name:"mppt2Current",   desc:"MPPT2 Strom",     unit:"A",   col:"" },
-        { nr:"13", name:"mppt2Power",     desc:"MPPT2 Leistung",  unit:"kW",  col:"power" },
-        { nr:"14", name:"dailyYield",     desc:"Tagesertrag",     unit:"kWh", col:"energy" },
-        { nr:"15", name:"totalYield",     desc:"Gesamtertrag",    unit:"kWh", col:"blue" }
+    _SM_STATES: [
+        { name:"activePower",          desc:"AC active power",       unit:"kW",   col:"power"  },
+        { name:"pvPower",              desc:"PV power (DC)",         unit:"kW",   col:"pv"     },
+        { name:"reactivePower",        desc:"Reactive power",        unit:"kvar", col:""       },
+        { name:"gridVoltage",          desc:"Grid voltage",          unit:"V",    col:""       },
+        { name:"gridCurrent",          desc:"Grid current",          unit:"A",    col:""       },
+        { name:"gridFrequency",        desc:"Grid frequency",        unit:"Hz",   col:"blue"   },
+        { name:"powerFactor",          desc:"Power factor",          unit:"",     col:""       },
+        { name:"temperature",          desc:"Temperature",           unit:"°C",   col:"temp"   },
+        { name:"insulationResistance", desc:"Insulation resistance", unit:"MΩ",   col:""       },
+        { name:"dailyYield",           desc:"Yield today",           unit:"kWh",  col:"energy" },
+        { name:"totalYield",           desc:"Yield total",           unit:"kWh",  col:"blue"   }
+    ],
+
+    // States that are only shown in the header / used for the status
+    _SM_INFO_STATES: ["online", "serialNumber", "firmware", "ratedPower", "lastUpdate"],
+
+    // PV inputs: the adapter creates pv<n>.* only for inputs the cloud reports
+    _SM_PV_MAX: 4,
+    _SM_PV_STATES: [
+        { name:"voltage", desc:"voltage", unit:"V",  col:""   },
+        { name:"current", desc:"current", unit:"A",  col:""   },
+        { name:"power",   desc:"power",   unit:"kW", col:"pv" }
     ],
 
     _SM_LAYOUTS: [
@@ -1508,17 +1524,74 @@ vis.binds["vis-2-widgets-sigenergy"] = {
         return L[L.length - 1];
     },
 
-    _smStateInfo: function(state) {
-        var s = parseInt(state);
-        if (s === 1) return { label:"Running",  cls:"run",  badge:"sig-sm-badge-run",  col:"#2ecc8a" };
-        if (s === 2) return { label:"Fault",    cls:"err",  badge:"sig-sm-badge-err",  col:"#e05555" };
-        if (s === 3) return { label:"Shutdown", cls:"idle", badge:"sig-sm-badge-idle", col:"#5a7a90" };
-        return              { label:"Standby",  cls:"idle", badge:"sig-sm-badge-idle", col:"#5a7a90" };
+    // Derives device prefix and adapter namespace from an anchor OID.
+    //   "sigenergy.0.sigenmicro.SN123.activePower" → prefix "sigenergy.0.sigenmicro.SN123", ns "sigenergy.0"
+    //   "sigenergy.0.sigenmicro.SN123.pv1.power"   → same prefix (PV channel is skipped)
+    _smParseAnchor: function(oid) {
+        var parts = String(oid).split(".");
+        var idx = parts.indexOf("sigenmicro");
+        if (idx >= 0 && parts.length > idx + 2) {
+            return {
+                prefix: parts.slice(0, idx + 2).join("."),
+                ns:     parts.slice(0, idx).join("."),
+                serial: parts[idx + 1]
+            };
+        }
+        // Fallback (renamed/aliased OIDs): device = parent of the selected state
+        parts.pop();
+        return {
+            prefix: parts.join("."),
+            ns:     parts.slice(0, 2).join("."),
+            serial: parts[parts.length - 1] || ""
+        };
+    },
+
+    // Local cache for values fetched once via vis.conn.getStates. Fallback only:
+    // vis.conn.subscribe already delivers the current values into vis.states.
+    _smCache: {},
+
+    _smGet: function(oid) {
+        var B = vis.binds["vis-2-widgets-sigenergy"];
+        var st = vis.states[oid + ".val"];
+        // vis-2 creates a freshly subscribed state with the placeholder string "null"
+        if (st !== undefined && st !== "null") return st;
+        var c = B._smCache[oid];
+        return c !== undefined ? c : (st === "null" ? null : st);
+    },
+
+    _smNum: function(oid) {
+        var v = parseFloat(vis.binds["vis-2-widgets-sigenergy"]._smGet(oid));
+        return isNaN(v) ? null : v;
+    },
+
+    _smBool: function(oid) {
+        var v = vis.binds["vis-2-widgets-sigenergy"]._smGet(oid);
+        if (v === undefined || v === null || v === "") return null;
+        return (v === true || v === "true" || v === 1 || v === "1");
+    },
+
+    // Status of a micro-inverter from online + activePower
+    //   producing: online and AC power > 0   → green, animated
+    //   online:    online, no AC power       → blue
+    //   offline:   online === false          → grey (normal at night)
+    //   nodata:    no value received yet     → grey
+    _smStatus: function(d) {
+        var B = vis.binds["vis-2-widgets-sigenergy"];
+        var online = B._smBool(d.prefix + ".online");
+        var pwr    = B._smNum(d.prefix + ".activePower");
+        if (online === true && pwr !== null && pwr > 0.0005)
+            return { key:"producing", label:"Producing", cls:"run",  badge:"sig-sm-badge-run",  col:"#2ecc8a", active:true };
+        if (online === true)
+            return { key:"online",    label:"Online",    cls:"on",   badge:"sig-sm-badge-on",   col:"#4a9eed", active:false };
+        if (online === false)
+            return { key:"offline",   label:"Offline",   cls:"idle", badge:"sig-sm-badge-idle", col:"#5a7a90", active:false };
+        return     { key:"nodata",    label:"No data",   cls:"idle", badge:"sig-sm-badge-idle", col:"#5a7a90", active:false };
     },
 
     _smValCol: function(col, val, dark) {
         var tc = dark ? "#d8e4f0" : "#2c3e50";
         if (col === "power")  return "#2ecc8a";
+        if (col === "pv")     return "#f39c12";
         if (col === "energy") return "#e8a22a";
         if (col === "blue")   return "#4a9eed";
         if (col === "temp") {
@@ -1528,57 +1601,44 @@ vis.binds["vis-2-widgets-sigenergy"] = {
         return tc;
     },
 
-    _smFmtVal: function(reg, raw) {
-        if (raw === undefined || raw === null) return "--";
-        if (reg.unit === "" || reg.name === "runningState" ||
-            reg.name === "modelType" || reg.name === "serialNumber" ||
-            reg.name === "firmwareVersion") return String(raw);
+    _smFmtVal: function(unit, raw) {
+        if (raw === undefined || raw === null || raw === "") return "--";
         var n = parseFloat(raw);
         if (isNaN(n)) return "--";
-        if (reg.unit === "kW" || reg.unit === "kWh") return n.toFixed(2);
-        if (reg.unit === "V") return n.toFixed(1);
-        if (reg.unit === "A") return n.toFixed(2);
-        if (reg.unit === "Hz") return n.toFixed(2);
-        if (reg.unit === "°C") return n.toFixed(1);
+        if (unit === "kW" || unit === "kvar") return n.toFixed(3);
+        if (unit === "kWh") return n.toFixed(2);
+        if (unit === "V" || unit === "°C") return n.toFixed(1);
+        if (unit === "A" || unit === "Hz") return n.toFixed(2);
+        if (unit === "MΩ") return n.toFixed(1);
+        if (unit === "") return n.toFixed(2);
         return String(raw);
     },
 
-    // ── SVG Device Icon (inline, kein externes Bild nötig für den SVG-Canvas) ──
-    _smDevIcon: function(state, w, h) {
-        var si = vis.binds["vis-2-widgets-sigenergy"]._smStateInfo(state);
-        var c  = si.col;
-        var bg = state === 1 ? "#1a3028" : "#1a2230";
-        var rx = Math.max(3, w * 0.11);
-        return "<svg viewBox=\"0 0 " + w + " " + h + "\" xmlns=\"http://www.w3.org/2000/svg\"" +
-            " style=\"width:" + w + "px;height:" + h + "px;display:block\">" +
-            "<rect x=\"1.5\" y=\"1.5\" width=\"" + (w-3) + "\" height=\"" + (h-3) + "\"" +
-            " rx=\"" + rx + "\" fill=\"" + bg + "\" stroke=\"" + c + "\" stroke-width=\"1.5\"/>" +
-            "<rect x=\"" + (w*.14) + "\" y=\"" + (h*.1) + "\" width=\"" + (w*.72) + "\" height=\"" + (h*.07) + "\"" +
-            " rx=\"2\" fill=\"" + c + "\" opacity=\".28\"/>" +
-            "<rect x=\"" + (w*.14) + "\" y=\"" + (h*.21) + "\" width=\"" + (w*.72) + "\" height=\"" + (h*.33) + "\"" +
-            " rx=\"2.5\" fill=\"rgba(255,255,255,.04)\" stroke=\"" + c + "\" stroke-width=\".7\" opacity=\".45\"/>" +
-            "<rect x=\"" + (w*.21) + "\" y=\"" + (h*.26) + "\" width=\"" + (w*.28) + "\" height=\"" + (h*.055) + "\"" +
-            " rx=\"1\" fill=\"" + c + "\" opacity=\".5\"/>" +
-            "<rect x=\"" + (w*.21) + "\" y=\"" + (h*.33) + "\" width=\"" + (w*.46) + "\" height=\"" + (h*.055) + "\"" +
-            " rx=\"1\" fill=\"" + c + "\" opacity=\".35\"/>" +
-            "<rect x=\"" + (w*.21) + "\" y=\"" + (h*.40) + "\" width=\"" + (w*.36) + "\" height=\"" + (h*.055) + "\"" +
-            " rx=\"1\" fill=\"" + c + "\" opacity=\".22\"/>" +
-            "<rect x=\"" + (w*.14) + "\" y=\"" + (h*.65) + "\" width=\"" + (w*.72) + "\" height=\"" + (h*.1) + "\"" +
-            " rx=\"2\" fill=\"rgba(255,255,255,.04)\" stroke=\"" + c + "\" stroke-width=\".6\" opacity=\".38\"/>" +
-            "<circle cx=\"" + (w*.3) + "\" cy=\"" + (h*.7) + "\" r=\"" + Math.max(1.5, w*.036) + "\"" +
-            " fill=\"" + (state===1 ? c : "rgba(255,255,255,.1)") + "\"/>" +
-            "<circle cx=\"" + (w*.5) + "\" cy=\"" + (h*.7) + "\" r=\"" + Math.max(1.5, w*.036) + "\"" +
-            " fill=\"" + (state===1 ? c : "rgba(255,255,255,.1)") + "\"/>" +
-            "<circle cx=\"" + (w*.7) + "\" cy=\"" + (h*.7) + "\" r=\"" + Math.max(1.5, w*.036) + "\"" +
-            " fill=\"" + (state===1 ? c : "rgba(255,255,255,.1)") + "\"/>" +
-            "<rect x=\"" + (w*.34) + "\" y=\"" + (h*.82) + "\" width=\"" + (w*.32) + "\" height=\"" + (h*.065) + "\"" +
-            " rx=\"1.5\" fill=\"" + c + "\" opacity=\".42\"/>" +
-            "</svg>";
+    _smFmtTime: function(ts) {
+        var n = parseFloat(ts);
+        if (isNaN(n) || n <= 0) return "--";
+        var dt = new Date(n);
+        var now = new Date();
+        var pad = function(x) { return String(x).padStart(2, "0"); };
+        var t = pad(dt.getHours()) + ":" + pad(dt.getMinutes());
+        if (dt.toDateString() === now.toDateString()) return t;
+        return dt.getFullYear() + "-" + pad(dt.getMonth() + 1) + "-" + pad(dt.getDate()) + " " + t;
+    },
+
+    _smEsc: function(s) {
+        return String(s).replace(/[&<>"']/g, function(c) {
+            return { "&":"&amp;", "<":"&lt;", ">":"&gt;", "\"":"&quot;", "'":"&#39;" }[c];
+        });
+    },
+
+    // Display name: configured name, else "Micro 01"
+    _smName: function(d, nr) {
+        return d.name ? d.name : "Micro " + String(nr).padStart(2, "0");
     },
 
     // ── Bus-Zeile als SVG ──────────────────────────────────────────────────
+    // devSlice: [{ st: <_smStatus result> }]
     _smBusRow: function(devSlice, startNr, VW, imgW, imgH, rowIdx) {
-        var B = vis.binds["vis-2-widgets-sigenergy"];
         var n    = devSlice.length;
         if (n === 0) return "";
         var spc  = VW / n;
@@ -1589,7 +1649,7 @@ vis.binds["vis-2-widgets-sigenergy"] = {
         var stubH  = Math.max(14, Math.round(imgH * 0.28));
         var busY   = imgBot + stubH;
         var svgH   = busY + 12;
-        var anyActive = devSlice.some(function(d) { return d.state === 1; });
+        var anyActive = devSlice.some(function(d) { return d.st.active; });
         var delay = rowIdx * 0.35;
 
         var s = "<svg viewBox=\"0 0 " + VW + " " + svgH + "\" xmlns=\"http://www.w3.org/2000/svg\"" +
@@ -1606,12 +1666,11 @@ vis.binds["vis-2-widgets-sigenergy"] = {
                  " class=\"sig-sm-bus-anim\" style=\"animation-delay:" + delay + "s\"/>";
         }
 
-        for (var i = 0; i < n; i++) {
-            var d    = devSlice[i];
-            var x    = cx[i];
-            var si   = B._smStateInfo(d.state);
-            var active = (d.state === 1);
-            var iDelay = ((i + rowIdx * n) * 0.18) + "s";
+        for (var j = 0; j < n; j++) {
+            var si     = devSlice[j].st;
+            var x      = cx[j];
+            var active = si.active;
+            var iDelay = ((j + rowIdx * n) * 0.18) + "s";
 
             // Stichleitung Basis
             s += "<line x1=\"" + x + "\" y1=\"" + busY + "\" x2=\"" + x + "\" y2=\"" + imgBot + "\"" +
@@ -1628,142 +1687,148 @@ vis.binds["vis-2-widgets-sigenergy"] = {
             var tR = Math.max(3.5, imgW * 0.06);
             s += "<circle cx=\"" + x + "\" cy=\"" + busY + "\" r=\"" + tR + "\"" +
                  " fill=\"" + (active ? "#2ecc8a" : "#1e2d3a") + "\"" +
-                 " stroke=\"" + si.col + "\" stroke-width=\"1.5\" opacity=\"" + (active ? 1 : 0.5) + "\"/>";
+                 " stroke=\"" + si.col + "\" stroke-width=\"1.5\" opacity=\"" + (si.key === "offline" || si.key === "nodata" ? 0.5 : 1) + "\"/>";
 
             // Gerätebild via foreignObject
             var glow = active ? "drop-shadow(0 0 6px rgba(46,204,138,.4))" : "none";
-            var brd  = "2px solid " + si.col;
+            var dim  = (si.key === "offline" || si.key === "nodata") ? "opacity:.55;" : "";
             s += "<foreignObject x=\"" + (x - imgW/2) + "\" y=\"" + imgTop + "\"" +
                  " width=\"" + imgW + "\" height=\"" + imgH + "\">" +
                  "<div xmlns=\"http://www.w3.org/1999/xhtml\"" +
                  " style=\"width:" + imgW + "px;height:" + imgH + "px;" +
                  "border-radius:" + Math.max(4, imgW*.1) + "px;" +
-                 "overflow:hidden;border:" + brd + ";" +
+                 "overflow:hidden;border:2px solid " + si.col + ";" + dim +
                  "filter:" + glow + "\">" +
                  "<img src=\"widgets/vis-2-widgets-sigenergy/img/SigenMicroInverter.png\"" +
                  " style=\"width:100%;height:100%;object-fit:contain;display:block\"/>" +
                  "</div></foreignObject>";
 
             // Gerätenummer-Label
-            var nr  = String(startNr + i).padStart(2, "0");
+            var nr  = String(startNr + j).padStart(2, "0");
             var fs  = Math.max(7, imgW * 0.1);
             s += "<text x=\"" + x + "\" y=\"" + (busY + 11) + "\" text-anchor=\"middle\"" +
                  " font-family=\"monospace\" font-size=\"" + fs + "\"" +
-                 " fill=\"" + si.col + "\" opacity=\"" + (active ? 1 : 0.5) + "\">" + nr + "</text>";
+                 " fill=\"" + si.col + "\" opacity=\"" + (active ? 1 : 0.6) + "\">" + nr + "</text>";
         }
 
         s += "</svg>";
         return s;
     },
 
-    // ── Übersicht-Tab (Tab 1) ─────────────────────────────────────────────
+    // Hinweiszeile bei fehlender Cloud-Verbindung
+    _smCloudBanner: function(devices) {
+        var B = vis.binds["vis-2-widgets-sigenergy"];
+        if (!devices.length) return "";
+        var cloud = B._smBool(devices[0].ns + ".info.cloudConnection");
+        if (cloud !== false) return "";
+        return "<div class=\"sig-sm-cloud-warn\">&#9888; Cloud connection lost — values may be outdated</div>";
+    },
+
+    // ── Overview tab (tab 1) ──────────────────────────────────────────────
     _smBuildOverview: function(w, devices, dark) {
         var B   = vis.binds["vis-2-widgets-sigenergy"];
+        if (!devices.length) {
+            return "<div class=\"sig-sm-empty\">No micro-inverter configured — select a state of each " +
+                   "micro-inverter (e.g. sigenergy.0.sigenmicro.&lt;serial&gt;.activePower) " +
+                   "in the widget settings.</div>";
+        }
         var VW  = 620;
         var lay = B._smLayout(devices.length);
         var perRow = Math.ceil(devices.length / lay.rows);
+        var stats  = devices.map(function(d) { return B._smStatus(d); });
         var svgHTML = "";
 
         for (var r = 0; r < lay.rows; r++) {
-            var slice = devices.slice(r * perRow, (r + 1) * perRow);
+            var slice = stats.slice(r * perRow, (r + 1) * perRow);
             if (slice.length === 0) continue;
-            // Geräte mit aktuellem State anreichern
-            var sliceWithState = slice.map(function(d) {
-                var stateVal = vis.states[d.prefix + ".runningState.val"];
-                return { state: (stateVal !== undefined ? parseInt(stateVal) : 0) };
-            });
-            svgHTML += B._smBusRow(sliceWithState, r * perRow + 1, VW, lay.imgW, lay.imgH, r);
+            svgHTML += B._smBusRow(slice.map(function(st) { return { st: st }; }),
+                r * perRow + 1, VW, lay.imgW, lay.imgH, r);
         }
 
-        // Labels-Reihe
-        var labelsHTML = "<div class=\"sig-sm-labels\">";
-        for (var i = 0; i < Math.min(devices.length, lay.rows === 1 ? 20 : perRow); i++) {
-            var d    = devices[i];
-            var stV  = vis.states[d.prefix + ".runningState.val"];
-            var si   = B._smStateInfo(stV);
-            var pwrV = parseFloat(vis.states[d.prefix + ".outputPower.val"]);
-            var nr   = String(i + 1).padStart(2, "0");
-            labelsHTML +=
-                "<div class=\"sig-sm-label\">" +
-                "<div class=\"sig-sm-label-id\" style=\"color:" + si.col + "\">Gerät " + nr + "</div>" +
-                (si.cls === "run" && !isNaN(pwrV) ?
-                    "<div class=\"sig-sm-label-pwr\">" + pwrV.toFixed(2) + " kW</div>" : "") +
-                "<div class=\"sig-sm-label-st\" style=\"color:" + si.col + "\">" +
-                (si.cls === "run" ? "● " : si.cls === "err" ? "▲ " : "○ ") + si.label +
-                "</div></div>";
-        }
-        if (lay.rows > 1 && devices.length > perRow) {
-            labelsHTML += "</div><div class=\"sig-sm-labels\">";
-            for (var i = perRow; i < devices.length; i++) {
+        // Labels-Reihe(n) — eine Reihe je Bus-Zeile
+        var labelsHTML = "";
+        for (var row = 0; row < lay.rows; row++) {
+            var from = row * perRow, to = Math.min(devices.length, from + perRow);
+            if (from >= to) continue;
+            labelsHTML += "<div class=\"sig-sm-labels\">";
+            for (var i = from; i < to; i++) {
                 var d    = devices[i];
-                var stV  = vis.states[d.prefix + ".runningState.val"];
-                var si   = B._smStateInfo(stV);
-                var pwrV = parseFloat(vis.states[d.prefix + ".outputPower.val"]);
-                var nr   = String(i + 1).padStart(2, "0");
+                var si   = stats[i];
+                var pwrV = B._smNum(d.prefix + ".activePower");
                 labelsHTML +=
                     "<div class=\"sig-sm-label\">" +
-                    "<div class=\"sig-sm-label-id\" style=\"color:" + si.col + "\">Gerät " + nr + "</div>" +
-                    (si.cls === "run" && !isNaN(pwrV) ?
+                    "<div class=\"sig-sm-label-id\" style=\"color:" + si.col + "\">" +
+                        B._smEsc(B._smName(d, i + 1)) + "</div>" +
+                    (si.key !== "offline" && si.key !== "nodata" && pwrV !== null ?
                         "<div class=\"sig-sm-label-pwr\">" + pwrV.toFixed(2) + " kW</div>" : "") +
                     "<div class=\"sig-sm-label-st\" style=\"color:" + si.col + "\">" +
-                    (si.cls === "run" ? "● " : si.cls === "err" ? "▲ " : "○ ") + si.label +
+                    (si.key === "producing" ? "● " : si.key === "online" ? "◐ " : "○ ") + si.label +
                     "</div></div>";
             }
+            labelsHTML += "</div>";
         }
-        labelsHTML += "</div>";
 
         // Aggregat-Kacheln
-        var totalP = 0, totalDay = 0, totalLife = 0, running = 0;
-        devices.forEach(function(d) {
-            var pwr  = parseFloat(vis.states[d.prefix + ".outputPower.val"])  || 0;
-            var day  = parseFloat(vis.states[d.prefix + ".dailyYield.val"])   || 0;
-            var life = parseFloat(vis.states[d.prefix + ".totalYield.val"])   || 0;
-            var st   = parseInt(vis.states[d.prefix + ".runningState.val"]);
-            totalP    += pwr;
-            totalDay  += day;
-            totalLife += life;
-            if (st === 1) running++;
+        var sumP = 0, haveP = false, totalDay = 0, haveDay = false, totalLife = 0, haveLife = false, online = 0;
+        devices.forEach(function(d, idx) {
+            var pwr  = B._smNum(d.prefix + ".activePower");
+            var day  = B._smNum(d.prefix + ".dailyYield");
+            var life = B._smNum(d.prefix + ".totalYield");
+            if (pwr  !== null) { sumP += pwr; haveP = true; }
+            if (day  !== null) { totalDay += day; haveDay = true; }
+            if (life !== null) { totalLife += life; haveLife = true; }
+            if (stats[idx].key === "producing" || stats[idx].key === "online") online++;
         });
-        var runCol = running === devices.length ? "#2ecc8a" : running > 0 ? "#e8a22a" : "#e05555";
+        // Adapter-Summe aller Micro-Inverter des Kontos bevorzugen (auch nicht konfigurierte Geräte)
+        var totalP = B._smNum(devices[0].ns + ".sigenmicro.totalPower");
+        var pSub   = "All micro-inverters";
+        if (totalP === null) { totalP = haveP ? sumP : null; pSub = "Sum of devices"; }
+        var runCol = online === devices.length ? "#2ecc8a" : online > 0 ? "#e8a22a" : "#5a7a90";
+
+        function tile(lbl, val, unit, col, sub) {
+            return "<div class=\"sig-sm-kach\">" +
+                "<div class=\"sig-sm-kach-lbl\">" + lbl + "</div>" +
+                "<div class=\"sig-sm-kach-val\" style=\"color:" + col + "\">" + val +
+                "<span class=\"sig-sm-kach-unit\">" + unit + "</span></div>" +
+                "<div class=\"sig-sm-kach-sub\">" + sub + "</div></div>";
+        }
 
         var kacheln =
             "<div class=\"sig-sm-kacheln\">" +
-            "<div class=\"sig-sm-kach\">" +
-                "<div class=\"sig-sm-kach-lbl\">AC-Leistung</div>" +
-                "<div class=\"sig-sm-kach-val\" style=\"color:#2ecc8a\">" + totalP.toFixed(2) +
-                "<span class=\"sig-sm-kach-unit\">kW</span></div>" +
-                "<div class=\"sig-sm-kach-sub\">Gesamt aktiv</div></div>" +
-            "<div class=\"sig-sm-kach\">" +
-                "<div class=\"sig-sm-kach-lbl\">Heute</div>" +
-                "<div class=\"sig-sm-kach-val\" style=\"color:#e8a22a\">" + totalDay.toFixed(2) +
-                "<span class=\"sig-sm-kach-unit\">kWh</span></div>" +
-                "<div class=\"sig-sm-kach-sub\">Tagesertrag</div></div>" +
-            "<div class=\"sig-sm-kach\">" +
-                "<div class=\"sig-sm-kach-lbl\">Gesamt</div>" +
-                "<div class=\"sig-sm-kach-val\" style=\"color:#4a9eed\">" + totalLife.toFixed(1) +
-                "<span class=\"sig-sm-kach-unit\">kWh</span></div>" +
-                "<div class=\"sig-sm-kach-sub\">Lebensertrag</div></div>" +
-            "<div class=\"sig-sm-kach\">" +
-                "<div class=\"sig-sm-kach-lbl\">Online</div>" +
-                "<div class=\"sig-sm-kach-val\" style=\"color:" + runCol + "\">" + running +
-                "<span class=\"sig-sm-kach-unit\">/" + devices.length + "</span></div>" +
-                "<div class=\"sig-sm-kach-sub\">Running</div></div>" +
+            tile("AC power", totalP !== null ? totalP.toFixed(2) : "--", "kW", "#2ecc8a", pSub) +
+            tile("Today", haveDay ? totalDay.toFixed(2) : "--", "kWh", "#e8a22a", "Yield today") +
+            tile("Total", haveLife ? totalLife.toFixed(1) : "--", "kWh", "#4a9eed", "Lifetime yield") +
+            tile("Online", String(online), "/" + devices.length, runCol, "Reporting") +
             "</div>";
 
-        return svgHTML + labelsHTML + kacheln;
+        return B._smCloudBanner(devices) + svgHTML + labelsHTML + kacheln;
     },
 
-    // ── Detail-Tab (Tabs 2+) ──────────────────────────────────────────────
-    _smBuildDetail: function(d, nr, dark) {
-        var B    = vis.binds["vis-2-widgets-sigenergy"];
-        var REGS = B._SM_REGISTERS;
-        var stV  = vis.states[d.prefix + ".runningState.val"];
-        var si   = B._smStateInfo(stV);
-        var tc   = dark ? "#d8e4f0" : "#2c3e50";
+    // ── Detail tab (tabs 2+) ──────────────────────────────────────────────
+    _smCard: function(label, unit, col, oid, dark) {
+        var B   = vis.binds["vis-2-widgets-sigenergy"];
+        var raw = B._smGet(oid);
+        return "<div class=\"sig-sm-reg-card\">" +
+            "<div class=\"sig-sm-reg-lbl\">" + label + "</div>" +
+            "<div class=\"sig-sm-reg-val\" style=\"color:" + B._smValCol(col, raw, dark) + "\">" +
+                B._smFmtVal(unit, raw) +
+                (unit ? "<span class=\"sig-sm-reg-unit\">" + unit + "</span>" : "") +
+            "</div>" +
+            "<div class=\"sig-sm-reg-oid\">" + B._smEsc(oid) + "</div>" +
+            "</div>";
+    },
 
-        var modelVal  = vis.states[d.prefix + ".modelType.val"]       || "–";
-        var serialVal = vis.states[d.prefix + ".serialNumber.val"]    || "–";
-        var fwVal     = vis.states[d.prefix + ".firmwareVersion.val"] || "–";
+    _smBuildDetail: function(d, nr, dark) {
+        var B   = vis.binds["vis-2-widgets-sigenergy"];
+        var si  = B._smStatus(d);
+        var tc  = dark ? "#d8e4f0" : "#2c3e50";
+        var p   = d.prefix;
+
+        var serialVal = B._smGet(p + ".serialNumber");
+        if (serialVal === undefined || serialVal === null || serialVal === "") serialVal = d.serial || "–";
+        var fwVal     = B._smGet(p + ".firmware") || "–";
+        var rated     = B._smNum(p + ".ratedPower");
+        var lastUpd   = B._smFmtTime(B._smGet(p + ".lastUpdate"));
 
         var header =
             "<div class=\"sig-sm-det-hdr\">" +
@@ -1771,42 +1836,45 @@ vis.binds["vis-2-widgets-sigenergy"] = {
             "<img src=\"widgets/vis-2-widgets-sigenergy/img/SigenMicroInverter.png\"" +
             " style=\"width:100%;height:100%;object-fit:contain\"/></div>" +
             "<div class=\"sig-sm-det-info\">" +
-            "<div class=\"sig-sm-det-model\" style=\"color:" + tc + "\">Gerät " +
-            String(nr).padStart(2,"0") + " — " + modelVal + "</div>" +
-            "<div class=\"sig-sm-det-serial\">SN: " + serialVal + "</div>" +
-            "<div class=\"sig-sm-det-fw\">FW: " + fwVal + " · Slave-ID: " + d.slaveId + "</div>" +
-            "<div class=\"det-badge " + si.badge + "\">" +
+            "<div class=\"sig-sm-det-model\" style=\"color:" + tc + "\">" +
+                B._smEsc(B._smName(d, nr)) +
+                (rated !== null ? " — " + rated.toFixed(2) + " kW" : "") + "</div>" +
+            "<div class=\"sig-sm-det-serial\">SN: " + B._smEsc(serialVal) + "</div>" +
+            "<div class=\"sig-sm-det-fw\">FW: " + B._smEsc(fwVal) + " · Last update: " + lastUpd + "</div>" +
+            "<div class=\"sig-sm-det-badge " + si.badge + "\">" +
             "<span class=\"sig-sm-badge-dot\"></span>" + si.label + "</div>" +
             "</div></div>";
 
-        var regCards = "";
-        for (var i = 0; i < REGS.length; i++) {
-            var reg = REGS[i];
-            var raw = vis.states[d.prefix + "." + reg.name + ".val"];
-            var fmtVal = B._smFmtVal(reg, raw);
-            var col    = reg.col === "state" ? si.col : B._smValCol(reg.col, raw, dark);
-            var isStr  = (reg.unit === "" && reg.col === "");
-            regCards +=
-                "<div class=\"sig-sm-reg-card\">" +
-                "<div class=\"sig-sm-reg-nr\">" + reg.nr + "</div>" +
-                "<div class=\"sig-sm-reg-lbl\">" + reg.desc + "</div>" +
-                "<div class=\"sig-sm-reg-val\" style=\"color:" + (isStr ? tc : col) + ";font-size:" +
-                    (isStr ? "0.72rem" : "1rem") + "\">" +
-                    fmtVal +
-                    (reg.unit ? "<span class=\"sig-sm-reg-unit\">" + reg.unit + "</span>" : "") +
-                "</div>" +
-                "<div class=\"sig-sm-reg-oid\">" + d.prefix + "." + reg.name + "</div>" +
-                "</div>";
+        var cards = "";
+        B._SM_STATES.forEach(function(s) {
+            cards += B._smCard(s.desc, s.unit, s.col, p + "." + s.name, dark);
+        });
+
+        // PV inputs: only those for which the adapter delivers values
+        var pvCards = "";
+        for (var n = 1; n <= B._SM_PV_MAX; n++) {
+            var hasPv = B._SM_PV_STATES.some(function(s) {
+                var v = B._smGet(p + ".pv" + n + "." + s.name);
+                return v !== undefined && v !== null;
+            });
+            if (!hasPv) continue;
+            for (var k = 0; k < B._SM_PV_STATES.length; k++) {
+                var ps = B._SM_PV_STATES[k];
+                pvCards += B._smCard("PV" + n + " " + ps.desc, ps.unit, ps.col, p + ".pv" + n + "." + ps.name, dark);
+            }
         }
 
-        return header + "<div class=\"sig-sm-reg-grid\">" + regCards + "</div>";
+        return B._smCloudBanner([d]) + header +
+            "<div class=\"sig-sm-reg-grid\">" + cards + "</div>" +
+            (pvCards ? "<div class=\"sig-sm-sect\">PV inputs</div>" +
+                       "<div class=\"sig-sm-reg-grid\">" + pvCards + "</div>" : "");
     },
 
     // ── Haupt-Render (Update) ─────────────────────────────────────────────
-    _smRender: function(w, devices, dark, activeTab) {
+    _smRender: function(w, devices, dark) {
         var B = vis.binds["vis-2-widgets-sigenergy"];
 
-        // Tab 1: Übersicht
+        // Tab 1: Overview
         var ov = B._el("sm_ov_" + w);
         if (ov) ov.innerHTML = B._smBuildOverview(w, devices, dark);
 
@@ -1815,6 +1883,18 @@ vis.binds["vis-2-widgets-sigenergy"] = {
             var det = B._el("sm_det_" + w + "_" + (i+1));
             if (det) det.innerHTML = B._smBuildDetail(d, i+1, dark);
         });
+    },
+
+    // All OIDs a device needs (without ".val")
+    _smDeviceOids: function(d) {
+        var B = vis.binds["vis-2-widgets-sigenergy"];
+        var list = [];
+        B._SM_STATES.forEach(function(s) { list.push(d.prefix + "." + s.name); });
+        B._SM_INFO_STATES.forEach(function(n) { list.push(d.prefix + "." + n); });
+        for (var n = 1; n <= B._SM_PV_MAX; n++) {
+            B._SM_PV_STATES.forEach(function(s) { list.push(d.prefix + ".pv" + n + "." + s.name); });
+        }
+        return list;
     },
 
     // ── Initialisierung ───────────────────────────────────────────────────
@@ -1833,38 +1913,40 @@ vis.binds["vis-2-widgets-sigenergy"] = {
         var w     = widgetID;
         var cls   = dark ? "sig-sm-wrap" : "sig-sm-wrap light";
 
-        // Geräte-Daten aus Anker-OIDs extrahieren
+        // Geräte aus Anker-OIDs ableiten (beliebiger State des Micro-Inverters)
         var devices = [];
         for (var i = 1; i <= count; i++) {
             var anchorOid = data.attr("oid_micro" + i);
             if (!anchorOid) continue;
-            // "sigenergy.0.sigenmicro.11.outputPower" → prefix = "sigenergy.0.sigenmicro.11"
-            var parts = anchorOid.split(".");
-            parts.pop();
-            var prefix  = parts.join(".");
-            var slaveId = parts[parts.length - 1];
-            devices.push({ anchorOid: anchorOid, prefix: prefix, slaveId: slaveId });
+            var a = B._smParseAnchor(anchorOid);
+            devices.push({
+                anchorOid: anchorOid,
+                prefix:    a.prefix,
+                ns:        a.ns,
+                serial:    a.serial,
+                name:      data.attr("micro_name" + i) || ""
+            });
         }
 
         // ── Tab-Bar aufbauen ──
         var tabBarHTML = "<div class=\"sig-sm-tabbar\" id=\"sm_tabs_" + w + "\">";
-        tabBarHTML += "<div class=\"sig-sm-tab active\" data-tab=\"0\">Übersicht</div>";
-        for (var i = 0; i < devices.length; i++) {
-            tabBarHTML += "<div class=\"sig-sm-tab\" data-tab=\"" + (i+1) + "\">Gerät " +
-                String(i+1).padStart(2,"0") + "</div>";
+        tabBarHTML += "<div class=\"sig-sm-tab active\" data-tab=\"0\">Overview</div>";
+        for (var t = 0; t < devices.length; t++) {
+            tabBarHTML += "<div class=\"sig-sm-tab\" data-tab=\"" + (t+1) + "\">" +
+                B._smEsc(B._smName(devices[t], t + 1)) + "</div>";
         }
         tabBarHTML += "</div>";
 
         // ── Panel-Container aufbauen ──
         var panelsHTML = "<div id=\"sm_ov_" + w + "\" class=\"sig-sm-panel active\"></div>";
-        for (var i = 0; i < devices.length; i++) {
-            panelsHTML += "<div id=\"sm_det_" + w + "_" + (i+1) + "\" class=\"sig-sm-panel\"></div>";
+        for (var q = 0; q < devices.length; q++) {
+            panelsHTML += "<div id=\"sm_det_" + w + "_" + (q+1) + "\" class=\"sig-sm-panel\"></div>";
         }
 
         // ── Widget HTML zusammensetzen ──
         $div.html(
             "<div class=\"sig-w\"><div class=\"" + cls + "\">" +
-            "<div class=\"sig-sm-title\">&#9889; " + title + "</div>" +
+            "<div class=\"sig-sm-title\">&#9889; " + B._smEsc(title) + "</div>" +
             tabBarHTML +
             panelsHTML +
             "</div></div>"
@@ -1882,27 +1964,69 @@ vis.binds["vis-2-widgets-sigenergy"] = {
             $panels.eq(idx).addClass("active");
         });
 
+        // ── Rendering (entprellt: ein Cloud-Zyklus schreibt ~20 States je Gerät) ──
+        var timer = null;
+        function render() { timer = null; B._smRender(w, devices, dark); }
+        function doUpdate() {
+            if (timer) return;
+            timer = setTimeout(render, 50);
+        }
+
         // ── State-Subscription ──────────────────────────────────────────
-        // Die Anker-OIDs (oid_micro1..N) sind /id-Felder → VIS lädt sie vor.
-        // Alle weiteren Register-OIDs werden manuell subscribed.
-        var REGS = B._SM_REGISTERS;
-        var bound = [];
-
-        function doUpdate() { B._smRender(w, devices, dark, 0); }
-
+        // VIS abonniert nur OIDs aus Widget-Attributen (oid_micro1..N). Alle
+        // abgeleiteten States werden per vis.conn.subscribe (vis-2, mit Referenz-
+        // zählung, liefert auch den aktuellen Wert) abonniert und an vis.states
+        // gebunden; zusätzlich einmalig per getStates gelesen (Fallback).
+        var oids = [];
+        devices.forEach(function(d) { oids = oids.concat(B._smDeviceOids(d)); });
+        var nsSeen = {};
         devices.forEach(function(d) {
-            REGS.forEach(function(reg) {
-                var key = d.prefix + "." + reg.name + ".val";
-                bound.push(key);
-                vis.states.bind(key, doUpdate);
-            });
+            if (nsSeen[d.ns]) return;
+            nsSeen[d.ns] = true;
+            oids.push(d.ns + ".sigenmicro.totalPower");
+            oids.push(d.ns + ".info.cloudConnection");
         });
 
+        var hasSub = !!(vis.conn && typeof vis.conn.subscribe === "function");
+        if (hasSub && oids.length) {
+            try { vis.conn.subscribe(oids, function() {}); } catch (e) { hasSub = false; }
+        }
+
+        var bound = [];
+        oids.forEach(function(oid) {
+            bound.push(oid + ".val");
+            vis.states.bind(oid + ".val", doUpdate);
+        });
         $div.data("bound", bound);
         $div.data("bindHandler", doUpdate);
 
+        // vis-2 ruft beim Entfernen des Widgets $div.data("destroy") auf
+        $div.data("destroy", function() {
+            if (timer) { clearTimeout(timer); timer = null; }
+            bound.forEach(function(key) {
+                try { vis.states.unbind(key, doUpdate); } catch (e) { /* bereits entfernt */ }
+            });
+            if (hasSub && vis.conn && typeof vis.conn.unsubscribe === "function") {
+                try { vis.conn.unsubscribe(oids, function() {}); } catch (e) { /* ignore */ }
+            }
+        });
+
+        // Initialwerte holen (Fallback, falls subscribe keine Werte liefert)
+        if (oids.length && vis.conn && typeof vis.conn.getStates === "function") {
+            try {
+                vis.conn.getStates(oids, function(err, states) {
+                    if (err || !states) return;
+                    Object.keys(states).forEach(function(id) {
+                        var st = states[id];
+                        if (st && st.val !== undefined) B._smCache[id] = st.val;
+                    });
+                    doUpdate();
+                });
+            } catch (e) { /* Werte kommen dann mit dem nächsten Cloud-Zyklus */ }
+        }
+
         // Initiales Rendering
-        doUpdate();
+        render();
     }
 
 

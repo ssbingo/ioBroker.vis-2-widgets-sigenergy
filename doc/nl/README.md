@@ -105,7 +105,22 @@ Weergave van maximaal 3 PV-strings met live vermogenswaarden en geanimeerde stro
 **OIDs:** `plant.pv1Power`, `plant.pv2Power`, `plant.pv3Power`, `plant.pvPower`
 
 ### SigenMicro Overzicht
-Overzicht en detailweergave van alle SigenMicro micro-omvormers op de Modbus-bus. Tab 1 toont alle apparaten als een geanimeerd netwerksegment (Ethernet-bustopologie met verticale aftakkingen).
+Overzicht en detailweergave van SigenMicro-micro-omvormers. Sinds `ioBroker.sigenergy` 3.5.0 leest de adapter ze via de Sigenergy-cloud (tabblad 'SigenMicro (Cloud)' in de adapterinstellingen) en maakt per micro-omvormer een apparaat aan onder `sigenergy.0.sigenmicro.<serienummer>`. **Vereist `ioBroker.sigenergy` ≥ 3.5.0 met ingeschakelde cloud.** De cloud wordt elke 300 s (OpenAPI) of 60 s (app-interface) bevraagd, sneller kan de widget niet bijwerken.
+
+| Tabblad | Inhoud |
+|---|---|
+| **Overview** | Alle apparaten als geanimeerde AC-bus met status per apparaat; tegels voor AC-vermogen (adaptertotaal `sigenmicro.totalPower`, anders de som van de apparaten), opbrengst vandaag, totale opbrengst en apparaten online |
+| **één tabblad per apparaat** | Afbeelding, naam, nominaal vermogen, serienummer, firmware, tijd van de laatste cloud-update, statusbadge, alle actuele waarden met eenheid en OID, en de door de adapter gemelde PV-ingangen pv1 … pv4 |
+
+#### Status
+| Status | Voorwaarde | Weergave |
+|---|---|---|
+| Producing | `online` = true, `activePower` > 0 | groen, bus geanimeerd |
+| Online | `online` = true, `activePower` = 0 | blauw |
+| Offline | `online` = false — 's nachts normaal | grijs |
+| No data | nog geen waarde ontvangen | grijs |
+
+Als `info.cloudConnection` `false` is, toont de widget de waarschuwing 'Cloud connection lost', omdat de waarden verouderd kunnen zijn.
 
 #### Dynamische lay-out
 | Apparaten | Rijen | Afbeeldingsgrootte |
@@ -114,6 +129,26 @@ Overzicht en detailweergave van alle SigenMicro micro-omvormers op de Modbus-bus
 | 6–10 | 1 rij | 52 × 60 px |
 | 11–15 | 2 rijen | 46 × 52 px |
 | 16–20 | 2 rijen | 40 × 46 px |
+
+#### Widgetinstellingen
+| Parameter | Type | Standaard | Beschrijving |
+|---|---|---|---|
+| micro_count | getal (1–20) | 3 | Aantal weer te geven micro-omvormers |
+| sig_title | tekst | SigenMicro Micro-Inverter | Widgettitel |
+| sig_darkmode | checkbox | true | Donkere / lichte modus |
+| oid_micro1 … oid_micro20 | OID | — | Willekeurige state van de micro-omvormer, bijv. `sigenergy.0.sigenmicro.<serienummer>.activePower`. De widget leidt daaruit het apparaat en de adapterinstantie af |
+| micro_name1 … micro_name20 | tekst | — | Weergavenaam van het apparaat (standaard: Micro 01, Micro 02, …) |
+
+![SigenMicro Overzicht — Overview](../../img/widget-microinverter_01.png)
+
+![SigenMicro Overzicht — Detail](../../img/widget-microinverter_02.png)
+
+**States per apparaat (`sigenergy.0.sigenmicro.<serial>`):**
+online, activePower, reactivePower, pvPower, pv1…pv4.voltage / current / power, gridVoltage, gridCurrent, gridFrequency, powerFactor, temperature, insulationResistance, dailyYield, totalYield, serialNumber, firmware, ratedPower, lastUpdate
+
+**Daarnaast:** `sigenergy.0.sigenmicro.totalPower`, `sigenergy.0.info.cloudConnection` — de instantie wordt overgenomen uit de gekozen OID
+
+> **Update vanaf 1.8.x:** de vroegere Modbus-states (`runningState`, `outputPower`, `mppt*`, `modelType` …) bestaan niet meer in de adapter. Kies voor elke `oid_microN` opnieuw een state onder `sigenergy.0.sigenmicro.<serienummer>`.
 
 ### Voertuig laadniveau (EV SOC)
 Toont een configureerbaar voertuigafbeelding (bijv. Fiat 500e) als centraal visueel element. Een kleurgecodeerde badge rechtsboven toont een bliksemschicht, het huidige laadniveau in procent en het label "LADESTAND". Een voortgangsbalk onderaan weerspiegelt de huidige SOC. Wanneer de optionele laadstatus actief is, pulseert de badge met een groene gloed.
@@ -134,6 +169,12 @@ Toont een configureerbaar voertuigafbeelding (bijv. Fiat 500e) als centraal visu
 Alle widgets ondersteunen een **lichte en donkere modus**, die kan worden omgeschakeld via de widget-instelling `Donkere modus`.
 
 ## Changelog
+### 1.9.0 (2026-11-17)
+* (ssbingo) **SigenMicro-overzicht herzien voor de nieuwe cloudkoppeling van `ioBroker.sigenergy` 3.5.0.** De widget leest nu `sigenergy.0.sigenmicro.<serienummer>.*` (online, activePower, pvPower, PV-ingangen pv1…pv4, netwaarden, temperatuur, isolatieweerstand, opbrengst, firmware, nominaal vermogen, laatste update), het accounttotaal `sigenmicro.totalPower` en `info.cloudConnection`. Het vroegere Modbus-registermodel (`runningState`, `outputPower`, `mppt*`, `modelType`) vervalt
+* (ssbingo) SigenMicro: status afgeleid van `online` en het AC-vermogen (Producing / Online / Offline / No data), waarschuwing bij verlies van de cloudverbinding, tijd van de laatste cloud-update en nominaal vermogen in het detailtabblad, PV-ingangen alleen indien gemeld, nieuwe optionele weergavenaam per apparaat (`micro_nameN`), alle widgetteksten in het Engels
+* (ssbingo) SigenMicro: de anker-OID mag elke state van de micro-omvormer zijn; afgeleide states worden nu via `vis.conn.subscribe` geabonneerd (VIS abonneert alleen attribuut-OID's) en weer vrijgegeven wanneer de widget wordt verwijderd. **Kies na de update voor elke `oid_microN` opnieuw een state onder `sigenergy.0.sigenmicro.<serienummer>`**
+* (ssbingo) CI: Dependabot-auto-merge-workflow bijgewerkt vanuit de ioBroker-sjabloon — gebruikt `pull_request` in plaats van `pull_request_target` (#46, #47); `@iobroker/testing` bijgewerkt van 6.2.1 naar 6.3.1
+
 ### 1.8.11 (2026-09-12)
 * (ssbingo) CI: de pakkettests draaien nu onder Node.js 22, 24 en 26 (nieuwe job `adapter-tests`, repository checker #41); `@iobroker/testing` bijgewerkt van 5.3.0 naar 6.2.1
 

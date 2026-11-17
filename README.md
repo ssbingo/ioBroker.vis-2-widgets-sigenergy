@@ -106,15 +106,22 @@ Display of up to 3 PV strings with live power values and animated flow arrows le
 **OIDs:** `plant.pv1Power`, `plant.pv2Power`, `plant.pv3Power`, `plant.pvPower`
 
 ### SigenMicro Overview
-Overview and detail view of all SigenMicro micro-inverters connected via Modbus. Tab 1 shows all devices as an animated network segment (Ethernet bus topology with vertical drop lines). Each additional tab shows all 15 registers of the respective device in ascending order.
+Overview and detail view of SigenMicro micro-inverters. Since `ioBroker.sigenergy` 3.5.0 the adapter reads them from the Sigenergy cloud (tab "SigenMicro (Cloud)" in the adapter settings) and creates one device per micro-inverter under `sigenergy.0.sigenmicro.<serial>`. **Requires `ioBroker.sigenergy` ≥ 3.5.0 with the cloud enabled.** The cloud is polled every 300 s (OpenAPI) or 60 s (app interface), so the widget cannot update faster.
 
 | Tab | Content |
 |---|---|
-| **Overview** | All devices as animated bus topology, aggregate tiles (total power, daily yield, lifetime yield, online count) |
-| **Device 01–20** | Device image top-left (10 px offset), model/serial/firmware/status badge, all 15 registers (01–15) with value, unit and OID path |
+| **Overview** | All devices as animated AC bus with status per device; tiles for AC power (adapter total `sigenmicro.totalPower`, otherwise the sum of the devices), yield today, lifetime yield and devices online |
+| **one tab per device** | Image, name, rated power, serial number, firmware, time of the last cloud update, status badge, all live values with unit and OID, and the PV inputs pv1 … pv4 that the adapter reports |
 
-#### Network segment animation
-The horizontal backbone line and the vertical drop lines show animated dashes that flow along the cables when a device is active (Running). Inactive devices (Standby/Fault) show only the dark base line without animation.
+#### Status
+| Status | Condition | Display |
+|---|---|---|
+| Producing | `online` = true, `activePower` > 0 | green, bus animated |
+| Online | `online` = true, `activePower` = 0 | blue |
+| Offline | `online` = false — normal at night | grey |
+| No data | no value received yet | grey |
+
+If `info.cloudConnection` is `false`, the widget shows the warning "Cloud connection lost", because the values may be outdated.
 
 #### Dynamic layout
 | Devices | Rows | Image size |
@@ -129,15 +136,20 @@ The horizontal backbone line and the vertical drop lines show animated dashes th
 |---|---|---|---|
 | micro_count | number (1–20) | 3 | Number of micro-inverters to display |
 | sig_title | text | SigenMicro Micro-Inverter | Widget title |
-| sig_darkmode | checkbox | true | Dark / Light mode |
-| oid_micro1 … oid_micro20 | OID | — | Anchor OID per device (e.g. sigenergy.0.sigenmicro.11.outputPower) |
+| sig_darkmode | checkbox | true | Dark / light mode |
+| oid_micro1 … oid_micro20 | OID | — | Any state of the micro-inverter, e.g. `sigenergy.0.sigenmicro.<serial>.activePower`. The widget derives the device and the adapter instance from it |
+| micro_name1 … micro_name20 | text | — | Display name of the device (default: Micro 01, Micro 02, …) |
 
-![SigenMicro Übersicht — Übersichts-Tab](img/widget-microinverter_01.png)
+![SigenMicro Overview — Overview](img/widget-microinverter_01.png)
 
-![SigenMicro Übersicht — Detail-Tab](img/widget-microinverter_02.png)
+![SigenMicro Overview — Detail](img/widget-microinverter_02.png)
 
-**OIDs (per device, prefix sigenergy.0.sigenmicro.<slaveId>):**
-modelType, serialNumber, firmwareVersion, runningState, outputPower, gridFrequency, temperature, mppt1Voltage, mppt1Current, mppt1Power, mppt2Voltage, mppt2Current, mppt2Power, dailyYield, totalYield
+**States per device (`sigenergy.0.sigenmicro.<serial>`):**
+online, activePower, reactivePower, pvPower, pv1…pv4.voltage / current / power, gridVoltage, gridCurrent, gridFrequency, powerFactor, temperature, insulationResistance, dailyYield, totalYield, serialNumber, firmware, ratedPower, lastUpdate
+
+**Additionally:** `sigenergy.0.sigenmicro.totalPower`, `sigenergy.0.info.cloudConnection` — the instance is taken from the selected OID
+
+> **Upgrade from 1.8.x:** the former Modbus states (`runningState`, `outputPower`, `mppt*`, `modelType` …) no longer exist in the adapter. Select a state under `sigenergy.0.sigenmicro.<serial>` again for every `oid_microN`.
 
 ### Vehicle Charge Level (EV SOC)
 Displays a configurable vehicle image (e.g. Fiat 500e) as the central visual element. A colour-coded badge in the top-right corner shows a lightning bolt, the current charge level in percent and the label "LADESTAND". A progress bar at the bottom reflects the current SOC. When the optional charging state is active, the badge emits a pulsing green glow.
@@ -167,6 +179,12 @@ Displays a configurable vehicle image (e.g. Fiat 500e) as the central visual ele
 All widgets support a **light and dark mode**, switchable via the widget setting `Dark mode`.
 
 ## Changelog
+### 1.9.0 (2026-11-17)
+* (ssbingo) **SigenMicro Overview reworked for the new cloud connection of `ioBroker.sigenergy` 3.5.0.** The widget now reads `sigenergy.0.sigenmicro.<serial>.*` (online, activePower, pvPower, PV inputs pv1…pv4, grid values, temperature, insulation resistance, yield, firmware, rated power, last update), the account total `sigenmicro.totalPower` and `info.cloudConnection`. The former Modbus register model (`runningState`, `outputPower`, `mppt*`, `modelType`) is gone
+* (ssbingo) SigenMicro: status derived from `online` and the AC power (Producing / Online / Offline / No data), warning when the cloud connection is lost, time of the last cloud update and rated power in the detail tab, PV inputs shown only when reported, new optional display name per device (`micro_nameN`), all widget texts in English
+* (ssbingo) SigenMicro: the anchor OID may be any state of the micro-inverter; derived states are now subscribed via `vis.conn.subscribe` (VIS only subscribes attribute OIDs) and released again when the widget is removed. **After updating, select a state under `sigenergy.0.sigenmicro.<serial>` again for each `oid_microN`**
+* (ssbingo) CI: Dependabot auto-merge workflow updated from the ioBroker template — it uses `pull_request` instead of `pull_request_target` (#46, #47); `@iobroker/testing` updated from 6.2.1 to 6.3.1
+
 ### 1.8.11 (2026-09-12)
 * (ssbingo) CI: the package tests now run on Node.js 22, 24 and 26 (new `adapter-tests` job, repository checker #41); `@iobroker/testing` updated from 5.3.0 to 6.2.1
 
