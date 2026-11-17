@@ -181,6 +181,10 @@ Wyświetla konfigurowalne zdjęcie pojazdu (np. Fiat 500e) jako centralny elemen
 Wszystkie widżety obsługują **tryb jasny i ciemny**, przełączany przez ustawienie widżetu `Tryb ciemny`. Widżety skalują się wraz ze swoim rozmiarem: szerokość i wysokość dopasowują się do widżetu niezależnie od siebie, a tekst zachowuje swoje proporcje.
 
 ## Changelog
+### 2.0.1 (2026-11-17)
+* (ssbingo) Odnowione zrzuty ekranu w README: wszystkie widżety w postaci wyświetlanej przez zestaw widżetów React w vis-2 2.20, z tekstami w języku angielskim
+* (ssbingo) Zaktualizowano zależności (vite 7.3.8, `@iobroker/gui-components` 10.4.6, `@iobroker/testing` 6.3.2)
+
 ### 2.0.0 (2026-11-17)
 * (ssbingo) **Breaking:** widżety są teraz natywnym zestawem widżetów React dla vis-2 (React 19, MUI 9) i wymagają vis-2 2.20.0 lub nowszego. Klasyczna VIS (vis-1) nie jest już obsługiwana
 * (ssbingo) Istniejące widżety działają dalej bez ponownego umieszczania: identyfikatory widżetów i wszystkie ustawienia pozostały bez zmian

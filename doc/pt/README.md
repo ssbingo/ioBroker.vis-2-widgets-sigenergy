@@ -181,6 +181,10 @@ Mostra uma imagem de veículo configurável (p. ex. Fiat 500e) como elemento vis
 Todos os widgets suportam um **modo claro e escuro**, comutável através da definição do widget `Modo escuro`. Os widgets escalam com o seu tamanho: a largura e a altura acompanham o widget de forma independente, enquanto o texto mantém as suas proporções.
 
 ## Changelog
+### 2.0.1 (2026-11-17)
+* (ssbingo) Capturas de ecrã do README renovadas: todos os widgets tal como o conjunto de widgets React os apresenta no vis-2 2.20, com textos em inglês
+* (ssbingo) Dependências atualizadas (vite 7.3.8, `@iobroker/gui-components` 10.4.6, `@iobroker/testing` 6.3.2)
+
 ### 2.0.0 (2026-11-17)
 * (ssbingo) **Breaking:** os widgets são agora um conjunto de widgets React nativo do vis-2 (React 19, MUI 9) e requerem o vis-2 2.20.0 ou mais recente. O VIS clássico (vis-1) deixou de ser suportado
 * (ssbingo) Os widgets existentes continuam a funcionar sem ser necessário colocá-los novamente: os IDs dos widgets e todas as definições mantêm-se inalterados

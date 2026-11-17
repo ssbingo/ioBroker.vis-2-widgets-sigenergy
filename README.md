@@ -190,6 +190,10 @@ Displays a configurable vehicle image (e.g. Fiat 500e) as the central visual ele
 All widgets support a **light and dark mode**, switchable via the widget setting `Dark mode`. The widgets scale with their size: width and height follow the widget independently, while the text keeps its proportions.
 
 ## Changelog
+### 2.0.1 (2026-11-17)
+* (ssbingo) README screenshots renewed: all widgets as rendered by the React widget set in vis-2 2.20, with English texts
+* (ssbingo) Dependencies updated (vite 7.3.8, `@iobroker/gui-components` 10.4.6, `@iobroker/testing` 6.3.2)
+
 ### 2.0.0 (2026-11-17)
 * (ssbingo) **Breaking:** the widgets are now a native vis-2 React widget set (React 19, MUI 9) and require vis-2 2.20.0 or newer. The classic VIS (vis-1) is no longer supported
 * (ssbingo) Existing widgets keep working without being placed again: the widget IDs and all settings are unchanged

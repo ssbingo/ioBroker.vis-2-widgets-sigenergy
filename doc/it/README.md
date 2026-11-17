@@ -181,6 +181,10 @@ Mostra un'immagine del veicolo configurabile (ad es. Fiat 500e) come elemento vi
 Tutti i widget supportano una **modalità chiara e scura**, commutabile tramite l'impostazione widget `Modalità scura`. I widget si adattano alle loro dimensioni: larghezza e altezza seguono il widget in modo indipendente, mentre il testo mantiene le sue proporzioni.
 
 ## Changelog
+### 2.0.1 (2026-11-17)
+* (ssbingo) Screenshot del README rinnovati: tutti i widget come li mostra il set di widget React in vis-2 2.20, con testi in inglese
+* (ssbingo) Dipendenze aggiornate (vite 7.3.8, `@iobroker/gui-components` 10.4.6, `@iobroker/testing` 6.3.2)
+
 ### 2.0.0 (2026-11-17)
 * (ssbingo) **Breaking:** i widget sono ora un set di widget React nativo per vis-2 (React 19, MUI 9) e richiedono vis-2 2.20.0 o successivo. La VIS classica (vis-1) non è più supportata
 * (ssbingo) I widget esistenti continuano a funzionare senza doverli posizionare di nuovo: gli ID dei widget e tutte le impostazioni sono invariati

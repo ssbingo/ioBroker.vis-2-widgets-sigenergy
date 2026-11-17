@@ -180,6 +180,10 @@ Toont een configureerbaar voertuigafbeelding (bijv. Fiat 500e) als centraal visu
 Alle widgets ondersteunen een **lichte en donkere modus**, die kan worden omgeschakeld via de widget-instelling `Donkere modus`. De widgets schalen mee met hun grootte: breedte en hoogte volgen de widget onafhankelijk van elkaar, terwijl de tekst zijn verhoudingen behoudt.
 
 ## Changelog
+### 2.0.1 (2026-11-17)
+* (ssbingo) README-schermafbeeldingen vernieuwd: alle widgets zoals de React-widgetset ze in vis-2 2.20 weergeeft, met Engelse teksten
+* (ssbingo) Afhankelijkheden bijgewerkt (vite 7.3.8, `@iobroker/gui-components` 10.4.6, `@iobroker/testing` 6.3.2)
+
 ### 2.0.0 (2026-11-17)
 * (ssbingo) **Breaking:** de widgets zijn nu een native vis-2-React-widgetset (React 19, MUI 9) en vereisen vis-2 2.20.0 of nieuwer. De klassieke VIS (vis-1) wordt niet meer ondersteund
 * (ssbingo) Bestaande widgets blijven werken zonder ze opnieuw te plaatsen: de widget-ID's en alle instellingen zijn ongewijzigd

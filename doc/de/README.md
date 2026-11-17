@@ -190,6 +190,10 @@ Zeigt ein konfigurierbares Fahrzeugbild (z.B. Fiat 500e) als zentrales Sichtelem
 Alle Widgets unterstützen einen **Hell- und Dunkelmodus**, der über die Widget-Einstellung `Dunkelmodus` umgeschaltet werden kann. Die Widgets skalieren mit ihrer Größe: Breite und Höhe folgen dem Widget unabhängig voneinander, die Schrift behält ihre Proportionen.
 
 ## Changelog
+### 2.0.1 (2026-11-17)
+* (ssbingo) README-Screenshots erneuert: alle Widgets so, wie das React-Widget-Set sie in vis-2 2.20 darstellt, mit englischen Texten
+* (ssbingo) Abhängigkeiten aktualisiert (vite 7.3.8, `@iobroker/gui-components` 10.4.6, `@iobroker/testing` 6.3.2)
+
 ### 2.0.0 (2026-11-17)
 * (ssbingo) **Breaking:** Die Widgets sind jetzt ein natives vis-2-React-Widget-Set (React 19, MUI 9) und benötigen vis-2 2.20.0 oder neuer. Die klassische VIS (vis-1) wird nicht mehr unterstützt
 * (ssbingo) Vorhandene Widgets laufen ohne Neuanlage weiter: Widget-IDs und alle Einstellungen sind unverändert

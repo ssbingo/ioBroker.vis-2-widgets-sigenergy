@@ -190,6 +190,10 @@ online, activePower, reactivePower, pvPower, pv1…pv4.voltage / current / power
 所有小部件均支持**浅色和深色模式**,可通过小部件设置 `Dark mode` 切换。小部件会随其尺寸缩放:宽度和高度分别独立跟随小部件,而文字保持其比例。
 
 ## 更新日志
+### 2.0.1 (2026-11-17)
+* (ssbingo) 更新了 README 截图：所有小部件均按 vis-2 2.20 中 React 小部件集的显示效果呈现，使用英文文本
+* (ssbingo) 更新了依赖项（vite 7.3.8, `@iobroker/gui-components` 10.4.6, `@iobroker/testing` 6.3.2）
+
 ### 2.0.0 (2026-11-17)
 * (ssbingo) **Breaking:** 小部件现在是原生的 vis-2 React 小部件集(React 19、MUI 9),需要 vis-2 2.20.0 或更高版本。不再支持经典 VIS(vis-1)
 * (ssbingo) 现有小部件无需重新放置即可继续使用:小部件 ID 和所有设置均未改变

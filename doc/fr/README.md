@@ -180,6 +180,10 @@ Affiche une image de véhicule configurable (p. ex. Fiat 500e) comme élément v
 Tous les widgets prennent en charge un **mode clair et sombre**, commutable via le paramètre de widget `Mode sombre`. Les widgets s'adaptent à leur taille : la largeur et la hauteur suivent le widget indépendamment l'une de l'autre, tandis que le texte conserve ses proportions.
 
 ## Changelog
+### 2.0.1 (2026-11-17)
+* (ssbingo) Captures d'écran du README renouvelées : tous les widgets tels que le jeu de widgets React les affiche dans vis-2 2.20, avec des textes en anglais
+* (ssbingo) Dépendances mises à jour (vite 7.3.8, `@iobroker/gui-components` 10.4.6, `@iobroker/testing` 6.3.2)
+
 ### 2.0.0 (2026-11-17)
 * (ssbingo) **Breaking:** les widgets sont désormais un ensemble de widgets React natif pour vis-2 (React 19, MUI 9) et nécessitent vis-2 2.20.0 ou ultérieur. La VIS classique (vis-1) n'est plus prise en charge
 * (ssbingo) Les widgets existants continuent de fonctionner sans devoir être replacés : les ID de widget et tous les paramètres sont inchangés
