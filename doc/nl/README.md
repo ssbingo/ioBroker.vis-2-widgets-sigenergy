@@ -13,12 +13,22 @@
 ## vis-2-widgets-sigenergy adapter voor ioBroker
 
 VIS-2 widget-set voor de Sigenergy energieopslag-adapter (`ioBroker.sigenergy`).
-Bevat 8 widgets voor visualisatie en besturing van energiestroom, batterijstatus, realtime vermogen, dagstatistieken, AC-lader, DC-lader, omvormer en SigenMicro micro-omvormer overzicht. voor visualisatie en bediening van energiestroom, batterijstatus, realtime vermogen, dagstatistieken, AC-lader, DC-lader en omvormer.
+Bevat 10 widgets voor visualisatie en besturing van energiestroom, batterijstatus, realtime vermogen, dagstatistieken, AC-lader, DC-lader, omvormer, SigenMicro-micro-omvormeroverzicht, PV-strings en laadniveau van het voertuig.
+
+Sinds versie 2.0.0 zijn de widgets een native vis-2-React-widgetset (React 19, MUI 9).
 
 ## Vereisten
 
 - ioBroker met geïnstalleerde en geconfigureerde `sigenergy`-adapter
-- ioBroker VIS-2 adapter (≥ 2.0.0)
+- ioBroker VIS-2 adapter (≥ 2.20.0) — vis-2 2.20 is de eerste versie op basis van React 19 en MUI 9
+- De klassieke VIS (vis-1) wordt niet ondersteund
+
+## Bijwerken vanaf 1.x
+
+- Bestaande widgets blijven werken zonder ze opnieuw te plaatsen: de widget-ID's en alle instellingen (object-ID's, titels, donkere modus, namen) zijn dezelfde als voorheen.
+- vis-2 moet eerst worden bijgewerkt naar 2.20.0 of nieuwer. Oudere vis-2-versies draaien op React 18 en kunnen deze widgetset niet laden.
+- Alle teksten volgen de taal van vis-2 (11 talen). Zelf ingevoerde titels blijven behouden; een lege titel toont de standaardtitel in de taal van de gebruiker.
+- De statusuitleg (AC-/DC-lader) verschijnt als knopinfo die niet meer door de widget wordt afgesneden en bij elke widgetgrootte leesbaar blijft.
 
 ## Widgets
 
@@ -136,7 +146,8 @@ Als `info.cloudConnection` `false` is, toont de widget de waarschuwing 'Cloud co
 | micro_count | getal (1–20) | 3 | Aantal weer te geven micro-omvormers |
 | sig_title | tekst | SigenMicro Micro-Inverter | Widgettitel |
 | sig_darkmode | checkbox | true | Donkere / lichte modus |
-| oid_micro1 … oid_micro20 | OID | — | Willekeurige state van de micro-omvormer, bijv. `sigenergy.0.sigenmicro.<serienummer>.activePower`. De widget leidt daaruit het apparaat en de adapterinstantie af |
+| micro_device1 … micro_device20 | keuzelijst | — | Micro-omvormer uit de lijst van SigenMicro-apparaten van de sigenergy-instanties (serienummer en naam). De widget leest alle states van het apparaat zelf. Widgets uit 1.x behouden hun eerdere state-keuze |
+| micro_take_all | knop | — | Neemt alle SigenMicro-apparaten van het account in één keer over (aantal en keuze) |
 | micro_name1 … micro_name20 | tekst | — | Weergavenaam van het apparaat (standaard: Micro 01, Micro 02, …) |
 
 ![SigenMicro Overzicht — Overview](../../img/widget-microinverter_01.png)
@@ -148,10 +159,10 @@ online, activePower, reactivePower, pvPower, pv1…pv4.voltage / current / power
 
 **Daarnaast:** `sigenergy.0.sigenmicro.totalPower`, `sigenergy.0.info.cloudConnection` — de instantie wordt overgenomen uit de gekozen OID
 
-> **Update vanaf 1.8.x:** de vroegere Modbus-states (`runningState`, `outputPower`, `mppt*`, `modelType` …) bestaan niet meer in de adapter. Kies voor elke `oid_microN` opnieuw een state onder `sigenergy.0.sigenmicro.<serienummer>`.
+> **Update vanaf 1.8.x:** de vroegere Modbus-states (`runningState`, `outputPower`, `mppt*`, `modelType` …) bestaan niet meer in de adapter. Kies de micro-omvormers opnieuw in de widgetinstellingen — uit de lijst of met „Alle SigenMicro overnemen”.
 
 ### Voertuig laadniveau (EV SOC)
-Toont een configureerbaar voertuigafbeelding (bijv. Fiat 500e) als centraal visueel element. Een kleurgecodeerde badge rechtsboven toont een bliksemschicht, het huidige laadniveau in procent en het label "LADESTAND". Een voortgangsbalk onderaan weerspiegelt de huidige SOC. Wanneer de optionele laadstatus actief is, pulseert de badge met een groene gloed.
+Toont een configureerbaar voertuigafbeelding (bijv. Fiat 500e) als centraal visueel element. Een kleurgecodeerde badge rechtsboven toont een bliksemschicht, het huidige laadniveau in procent en het label "LAADNIVEAU" (vertaald). Een voortgangsbalk onderaan weerspiegelt de huidige SOC. Wanneer de optionele laadstatus actief is, pulseert de badge met een groene gloed.
 
 #### Kleurlogica
 | Laadniveau | Kleur |
@@ -160,15 +171,26 @@ Toont een configureerbaar voertuigafbeelding (bijv. Fiat 500e) als centraal visu
 | ≤ 35 % | Geel (#fbbf24) |
 | > 35 % | Groen (#4ade80) |
 
-![Fahrzeug-Ladestand Widget](../../img/widget-autoLadestand.png)
+![EV SOC](../../img/widget-autoLadestand.png)
 
 **OIDs:** `oid_ev_soc`, `oid_charging`
 
 ## Weergave
 
-Alle widgets ondersteunen een **lichte en donkere modus**, die kan worden omgeschakeld via de widget-instelling `Donkere modus`.
+Alle widgets ondersteunen een **lichte en donkere modus**, die kan worden omgeschakeld via de widget-instelling `Donkere modus`. De widgets schalen mee met hun grootte: breedte en hoogte volgen de widget onafhankelijk van elkaar, terwijl de tekst zijn verhoudingen behoudt.
 
 ## Changelog
+### 2.0.0 (2026-11-17)
+* (ssbingo) **Breaking:** de widgets zijn nu een native vis-2-React-widgetset (React 19, MUI 9) en vereisen vis-2 2.20.0 of nieuwer. De klassieke VIS (vis-1) wordt niet meer ondersteund
+* (ssbingo) Bestaande widgets blijven werken zonder ze opnieuw te plaatsen: de widget-ID's en alle instellingen zijn ongewijzigd
+* (ssbingo) Alle teksten zijn vertaald in de 11 ioBroker-talen (voorheen grotendeels Duits). Ingevoerde titels blijven behouden; een lege titel toont de standaardtitel in de taal van de gebruiker
+* (ssbingo) AC-/DC-lader: de statusuitleg is een MUI-knopinfo die niet meer door de widget wordt afgesneden; de laadstroom en het EMS-vermogensaandeel zijn MUI-schuifregelaars die bij het loslaten schrijven
+* (ssbingo) Vanuit de vis-2-editor worden geen opdrachten meer verzonden; een klik daar selecteert alleen de widget
+* (ssbingo) Energiestroom: de instelling "Geanimeerde stroom" werkt nu
+* (ssbingo) SigenMicro: het detailtabblad toont de waarden in drie kolommen, de object-ID op één regel
+* (ssbingo) SigenMicro: de micro-omvormers worden in de editor per apparaat (serienummer en naam) gekozen uit de SigenMicro-apparaten van de sigenergy-instanties; de widget leest alle states zelf. Nieuwe knop „Alle SigenMicro overnemen” neemt alle apparaten in één keer over. Widgets uit 1.x blijven werken met hun eerdere state-keuze
+* (ssbingo) Gebouwd met Vite en modulefederatie; de widgets zijn getest in vis-2 2.20.11
+
 ### 1.9.1 (2026-11-17)
 * (ssbingo) vis-2 2.20.x: de widgets passen `box-sizing: border-box` weer zelf toe op hun eigen inhoud. vis-2 2.20 laadt de `CssBaseline` van MUI niet meer, die voorheen het hele document op border-box zette, waardoor kaarten, tegels en knoppen met opvulling breder konden worden dan bedoeld. De regel geldt alleen voor deze widgetset; de set bevat geen React-/MUI-code en draait als klassieke vis-widgetset onder vis-2 2.20 (React 19, MUI 9)
 

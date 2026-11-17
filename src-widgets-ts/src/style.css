@@ -713,8 +713,8 @@
 /* ── Register-Grid (Tabs 2+) ── */
 .sig-sm-reg-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
-    gap: 6px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 5px;
     padding: 0 10px 10px;
 }
 .sig-sm-reg-card {
@@ -829,3 +829,10 @@
     text-transform: uppercase;
     letter-spacing: 0.4px;
 }
+
+/* Energy flow: attribute "Animated flow" off — the paths keep their highlight, without moving dashes */
+.sig-flow-path.active.no-anim { animation: none; }
+
+/* SigenMicro detail: three columns; the object ID stays on one line (full ID in the title) */
+.sig-sm-reg-card { padding: 6px 7px; min-width: 0; }
+.sig-sm-reg-oid { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

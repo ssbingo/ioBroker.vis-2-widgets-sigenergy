@@ -1,0 +1,36 @@
+const { existsSync } = require('node:fs');
+const adapterName = require('./package.json').name.replace('iobroker.', '');
+const { deleteFoldersRecursive, copyFiles, npmInstall, buildReact } = require('@iobroker/build-tools');
+
+// ------------------- tasks for typescript ----------------------
+
+const SRC_TS = 'src-widgets-ts/';
+const src_ts = `${__dirname}/${SRC_TS}`;
+
+function tsClean() {
+    deleteFoldersRecursive(`${src_ts}build`);
+    deleteFoldersRecursive(`${__dirname}/widgets`);
+}
+
+function tsCopyAllFiles() {
+    copyFiles([`${SRC_TS}build/customWidgets.js`], `widgets/${adapterName}`);
+    
+    // module-federation manifests: vis-2 requests them next to customWidgets.js
+    copyFiles([`${SRC_TS}build/mf-manifest.json`, `${SRC_TS}build/mf-stats.json`], `widgets/${adapterName}`);
+    copyFiles([`${SRC_TS}build/assets/*.*`], `widgets/${adapterName}/assets`);
+    copyFiles([`${SRC_TS}build/img/*`], `widgets/${adapterName}/img`);
+}
+
+if (process.argv.includes('--typescript') || process.argv.length === 2) {
+    tsClean();
+    let npmPromise;
+    if (existsSync(`${src_ts}/node_modules`)) {
+        npmPromise = Promise.resolve();
+    } else {
+        npmPromise = npmInstall(src_ts);
+    }
+    npmPromise
+        .then(() => buildReact(src_ts, { rootDir: __dirname, vite: true }))
+        .then(() => tsCopyAllFiles())
+        .catch(e => console.error(`Cannot build: ${e}`));
+}

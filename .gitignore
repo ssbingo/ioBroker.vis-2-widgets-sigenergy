@@ -19,3 +19,8 @@ admin/i18n/*/flat.txt
 
 # Vendor protocol documents (not to be published)
 doc/*.pdf
+
+# widget workspace (the built bundle in widgets/ IS committed)
+src-widgets-ts/node_modules
+src-widgets-ts/package-lock.json
+src-widgets-ts/build

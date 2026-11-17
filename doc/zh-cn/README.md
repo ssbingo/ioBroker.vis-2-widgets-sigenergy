@@ -13,12 +13,22 @@
 ## ioBroker 的 vis-2-widgets-sigenergy 适配器
 
 用于 Sigenergy 储能适配器的 VIS-2 小部件集 (`ioBroker.sigenergy`).
-包含 8 个小部件,用于可视化和控制能量流、电池状态、实时功率、每日统计、AC 充电器、DC 充电器、逆变器和 SigenMicro 微型逆变器概览。
+包含 10 个小部件,用于可视化和控制能量流、电池状态、实时功率、每日统计、AC 充电器、DC 充电器、逆变器、SigenMicro 微型逆变器概览、光伏组串和车辆电量。
+
+自 2.0.0 版本起,这些小部件是原生的 vis-2 React 小部件集(React 19、MUI 9)。
 
 ## 要求
 
 - 已安装并配置 `sigenergy` 适配器的 ioBroker
-- ioBroker VIS-2 适配器(≥ 2.0.0)
+- ioBroker VIS-2 适配器(≥ 2.20.0)— vis-2 2.20 是首个基于 React 19 和 MUI 9 的版本
+- 不支持经典 VIS(vis-1)
+
+## 从 1.x 升级
+
+- 现有小部件无需重新放置即可继续使用:小部件 ID 和所有设置(对象 ID、标题、深色模式、名称)均与之前相同。
+- 必须先将 vis-2 更新到 2.20.0 或更高版本。较旧的 vis-2 版本基于 React 18,无法加载此小部件集。
+- 所有文本均跟随 vis-2 的语言(11 种语言)。您自行输入的标题会被保留;标题为空时显示用户语言的默认标题。
+- 状态说明(AC/DC 充电器)以工具提示的形式显示,不再被小部件截断,并且在任何小部件尺寸下都清晰可读。
 
 ## 小部件
 
@@ -137,7 +147,8 @@ SigenMicro 微型逆变器的概览和详细视图。自 `ioBroker.sigenergy` 3.
 | micro_count | 数字 (1–20) | 3 | 要显示的微型逆变器数量 |
 | sig_title | 文本 | SigenMicro Micro-Inverter | 小部件标题 |
 | sig_darkmode | checkbox | true | 深色 / 浅色模式 |
-| oid_micro1 … oid_micro20 | OID | — | 微型逆变器的任意状态，例如 `sigenergy.0.sigenmicro.<序列号>.activePower`。小部件据此推导出设备和适配器实例 |
+| micro_device1 … micro_device20 | 选择 | — | 从 sigenergy 实例的 SigenMicro 设备列表中选择微型逆变器（序列号和名称）。小部件会自行读取该设备的所有状态。1.x 版本的小部件保留原来的状态选择 |
+| micro_take_all | 按钮 | — | 一次性导入账户中的所有 SigenMicro 设备（数量和选择） |
 | micro_name1 … micro_name20 | 文本 | — | 设备显示名称（默认：Micro 01、Micro 02 …） |
 
 ![SigenMicro 概览 — Overview](../../img/widget-microinverter_01.png)
@@ -149,10 +160,10 @@ online, activePower, reactivePower, pvPower, pv1…pv4.voltage / current / power
 
 **此外:** `sigenergy.0.sigenmicro.totalPower`, `sigenergy.0.info.cloudConnection` — 实例取自所选 OID
 
-> **从 1.8.x 升级:** 适配器中已不再有以前的 Modbus 状态（`runningState`、`outputPower`、`mppt*`、`modelType` …）。请为每个 `oid_microN` 重新选择 `sigenergy.0.sigenmicro.<序列号>` 下的一个状态。
+> **从 1.8.x 升级:** 适配器中已不再有以前的 Modbus 状态（`runningState`、`outputPower`、`mppt*`、`modelType` …）。请在小部件设置中重新选择微型逆变器 — 从列表中选择或使用“导入全部 SigenMicro”。
 
 ### 车辆电量显示 (EV SOC)
-将可配置的车辆图片（如 Fiat 500e）作为中心视觉元素显示。右上角的彩色徽章显示闪电符号、当前电量百分比和标签"LADESTAND"。底部的进度条反映当前 SOC。当可选充电状态激活时，徽章会发出绿色脉冲光晕。
+将可配置的车辆图片（如 Fiat 500e）作为中心视觉元素显示。右上角的彩色徽章显示闪电符号、当前电量百分比和标签"电量"(已翻译)。底部的进度条反映当前 SOC。当可选充电状态激活时，徽章会发出绿色脉冲光晕。
 
 #### 颜色逻辑
 | 电量 | 颜色 |
@@ -166,19 +177,30 @@ online, activePower, reactivePower, pvPower, pv1…pv4.voltage / current / power
 |---|---|---|---|
 | oid_ev_soc | OID | — | 电量 0–100 |
 | oid_charging | OID | — | 充电状态（可选）— 充电时绿色光晕 |
-| sig_title | 文本 | Fahrzeug-Ladestand | 图片下方显示的车辆名称 |
+| sig_title | 文本 | —(为空时显示"车辆电量",已翻译) | 图片下方显示的车辆名称 |
 | sig_car_image | 图片 | — | 来自 ioBroker 文件浏览器的车辆图片（如 /vis-2/img/） |
 | sig_darkmode | 复选框 | true | 深色 / 浅色模式 |
 
-![Fahrzeug-Ladestand Widget](../../img/widget-autoLadestand.png)
+![EV SOC](../../img/widget-autoLadestand.png)
 
 **OIDs:** `oid_ev_soc`, `oid_charging`
 
 ## 外观
 
-所有小部件均支持**浅色和深色模式**,可通过小部件设置 `Dark mode` 切换。
+所有小部件均支持**浅色和深色模式**,可通过小部件设置 `Dark mode` 切换。小部件会随其尺寸缩放:宽度和高度分别独立跟随小部件,而文字保持其比例。
 
 ## 更新日志
+### 2.0.0 (2026-11-17)
+* (ssbingo) **Breaking:** 小部件现在是原生的 vis-2 React 小部件集(React 19、MUI 9),需要 vis-2 2.20.0 或更高版本。不再支持经典 VIS(vis-1)
+* (ssbingo) 现有小部件无需重新放置即可继续使用:小部件 ID 和所有设置均未改变
+* (ssbingo) 所有文本均已翻译为 ioBroker 的 11 种语言(之前大多为德语)。已输入的标题会被保留;标题为空时显示用户语言的默认标题
+* (ssbingo) AC/DC 充电器:状态说明改为 MUI 工具提示,不再被小部件截断;充电电流和 EMS 功率份额改为 MUI 滑块,松开时写入
+* (ssbingo) vis-2 编辑器中不再发送任何命令;在编辑器中单击只会选中小部件
+* (ssbingo) 能量流:设置"动画流"现已生效
+* (ssbingo) SigenMicro:详情选项卡以三列显示数值,对象 ID 显示在一行中
+* (ssbingo) SigenMicro：在编辑器中按设备（序列号和名称）从 sigenergy 实例的 SigenMicro 设备中选择微型逆变器；小部件会自行读取所有状态。新增按钮“导入全部 SigenMicro”可一次导入所有设备。1.x 版本的小部件继续使用原来的状态选择
+* (ssbingo) 使用 Vite 和模块联邦构建;小部件已在 vis-2 2.20.11 中测试
+
 ### 1.9.1 (2026-11-17)
 * (ssbingo) vis-2 2.20.x：小部件重新为自身内容设置 `box-sizing: border-box`。vis-2 2.20 不再加载 MUI 的 `CssBaseline`，它以前会把整个文档切换为 border-box，因此带内边距的卡片、磁贴和按钮可能比设计的更宽。该规则仅作用于本小部件集；本小部件集不含 React/MUI 代码，作为经典 vis 小部件集在 vis-2 2.20（React 19、MUI 9）下运行
 
