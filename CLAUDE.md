@@ -1,47 +1,45 @@
 # ioBroker.vis-2-widgets-sigenergy
 
-## Mindestanforderungen (gültig bis auf Widerruf, gesetzt am 2026-08-05; admin-Abhängigkeit am 2026-09-07 entfernt)
+## Mindestanforderungen (gültig bis auf Widerruf, gesetzt am 2026-08-05; admin-Abhängigkeit am 2026-09-07 entfernt; vis-2 ≥ 2.20.0 seit 2.0.0)
 
 | Komponente | Minimum | Ort |
 | --- | --- | --- |
 | js-controller | `>=6.0.11` | `io-package.json` → `common.dependencies` |
+| vis-2 | `>=2.20.0` | `io-package.json` → `common.dependencies` |
 | Node.js | `>=22` | `package.json` → `engines.node`, CI-Matrix |
 
 Ältere Versionen werden nicht mehr unterstützt — keine Rückwärtskompatibilitäts-
-Workarounds für js-controller < 6.0.11 oder Node < 22 einbauen.
+Workarounds für js-controller < 6.0.11, vis-2 < 2.20 oder Node < 22 einbauen.
 
-Stand des Repos: `engines.node` ist auf `">= 22"`, CI testet mit `24.x`.
-`common.dependencies` führt `js-controller: >=6.0.11` und `vis-2: >=2.0.0`,
+Stand des Repos: `engines.node` ist auf `">= 22"`, CI testet mit 22/24/26.
 `globalDependencies` ist leer. Eine admin-Abhängigkeit wird für Widget-Sets nicht
 benötigt (kein Admin-UI, `adminUI.config: "none"`; Repochecker S1091) und darf nicht
 wieder eingetragen werden.
 
-## Admin ab 8.0.0 — React 19 + MUI 9
+## Architektur seit 2.0.0 — React 19 + MUI 9 (vis-2-React-Widget-Set)
 
-`iobroker.admin` > 8.0.0 basiert auf React 19 und MUI 9. **Für dieses Repo aktuell ohne
-Auswirkung:** das Widget ist reines Vanilla-JS (`widgets/vis-2-widgets-sigenergy/js/`),
-es gibt keinen React-/MUI-Code und keine Admin-Config-UI (`adminUI.config: "none"`).
+Die Widgets sind seit 2.0.0 ein vis-2-React-Widget-Set mit Module Federation (Vorbild:
+`/home/ssternitzke/ioBroker.vis-2-widgets-automatic-feeder`). Quellcode in
+`src-widgets-ts/src/`, gebaut mit `npm run build` (`tasks.js` → Vite) nach
+`widgets/vis-2-widgets-sigenergy/` (`customWidgets.js`, `assets/`, `img/`, `mf-manifest.json`).
+**Das Build-Ergebnis in `widgets/` wird eingecheckt** und auch im CI/Deploy neu gebaut.
 
-Sollte hier jemals React-/MUI-Code entstehen (z. B. Portierung auf ein vis-2-React-Widget
-oder eine Admin-Config), gilt React 19 + MUI 9 als verbindliches Ziel: kein `defaultProps`
-an Funktionskomponenten, `ref` als normale Prop statt `forwardRef`, `createRoot` statt
-`ReactDOM.render`, `sx`/`styled()` statt `makeStyles`/`withStyles`, Grid mit `size`-Prop.
-React und MUI kommen dabei vom Host — als externals/peerDependencies führen, nicht mitbundeln.
+- Widget-IDs (`tplVis-2-widgets-sigenergy…`) und Attributnamen (`oid_*`, `sig_*`,
+  `micro_*`) sind dieselben wie im früheren vis-1-Set → bestehende Views laufen ohne
+  Neuanlage weiter. Nicht umbenennen.
+- React 19 + MUI 9 sind verbindlich: kein `defaultProps` an Funktionskomponenten, `ref` als
+  normale Prop statt `forwardRef`, `sx`/`styled()` statt `makeStyles`/`withStyles`, MUI-
+  `slotProps` statt `componentsProps`. React/MUI kommen vom Host
+  (`moduleFederationShared` aus `@iobroker/types-vis-2`) — nicht mitbundeln.
+- Basisklasse `SigWidget.tsx`: Attribut-OIDs (Typ `id`) abonniert vis-2 selbst (Werte in
+  `state.values`); abgeleitete OIDs (SigenMicro-Geräte, DC-Charger-State/Protokoll) über
+  `extraIds()` → `socket.subscribeState` (liefert den Anfangswert mit), Werte in `state.extra`.
+  Schreiben nur über `write()` (→ `context.setValue`, im Editor gesperrt).
+- UI-Texte ausschließlich über i18n (`src/i18n/*.json`, alle 11 Sprachen, keine
+  englischen Kopien; vis-2 setzt das Präfix `vis-2-widgets-sigenergy_`).
+- CSS: `src/style.css` wird als String gebündelt und einmal injiziert (`styles.ts`).
+  vis-2 ≥ 2.20 lädt kein `CssBaseline` mehr → `border-box` setzt das CSS selbst
+  (`.sig-w *`) — nicht entfernen.
+- Skalierung: `Scaled.tsx` (Port von `_applyScale`, nicht-uniform + Text-Gegenskalierung).
 
-## vis-2 2.20.x — Pflicht-Zielplattform (gesetzt am 2026-11-17)
-
-Die Widgets müssen unter vis-2 2.20.x laufen (2.20 = React 19 + MUI 9). Geprüft gegen
-den Quellstand 2.20.1 (`/home/ssternitzke/ioBroker.vis-2`, `packages/iobroker.vis-2/src-vis/src/Vis/`):
-
-- Legacy-Sets aus `widgets.html` bleiben unterstützt; jQuery/can.js werden on demand
-  geladen, bevor deren Scripts laufen (`visLoadLegacy.ts`, `visEngine.tsx`).
-- `CssBaseline` ist entfernt → global gilt wieder `content-box`. Das Widget-CSS setzt
-  `border-box` selbst, begrenzt auf `.sig-w *` (seit 1.9.1) — nicht entfernen.
-- VIS abonniert nur OIDs aus Widget-Attributen. Abgeleitete OIDs per
-  `vis.conn.subscribe(ids, cb)` abonnieren und in `$div.data("destroy")` per
-  `vis.conn.unsubscribe` + `vis.states.unbind` freigeben (vis-2 ruft beim Entfernen nur
-  `destroy` auf, nicht `bound`/`bindHandler`). Frisch abonnierte States stehen zuerst als
-  String `"null"` in `vis.states`.
-- Widget-Sets mit Module Federation, die für ein älteres React gebaut sind, überspringt
-  2.20 — betrifft dieses vanilla-Set nicht, wäre aber bei einer React-Portierung zu beachten.
-- `common.dependencies` bleibt `vis-2: >=2.0.0` (unterstützen ≠ voraussetzen).
+Lokaler Test im echten vis-2: isolierter Dev-Server unter `.dev-server/` (gitignored).

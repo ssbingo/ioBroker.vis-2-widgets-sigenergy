@@ -25,6 +25,8 @@ export default [
             'admin/admin.d.ts',
             'admin/blockly.js',
             'widgets/**',
+            'src-widgets-ts/**',
+            'tasks.js',
             '**/adapter-config.d.ts',
         ],
     },

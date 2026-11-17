@@ -13,12 +13,22 @@
 ## vis-2-widgets-sigenergy Adapter für ioBroker
 
 VIS-2 Widget-Set für den Sigenergy-Energiespeicher-Adapter (`ioBroker.sigenergy`).
-Enthält 8 Widgets zur Visualisierung und Steuerung von Energiefluss, Batteriestatus, Echtzeit-Leistung, Tagesstatistiken, AC-Lader, DC-Lader, Inverter und SigenMicro Mikro-Wechselrichter-Übersicht.
+Enthält 10 Widgets zur Visualisierung und Steuerung von Energiefluss, Batteriestatus, Echtzeit-Leistung, Tagesstatistiken, AC-Lader, DC-Lader, Wechselrichter, SigenMicro-Mikrowechselrichter-Übersicht, PV-Strings und Fahrzeug-Ladestand.
+
+Seit Version 2.0.0 sind die Widgets ein natives vis-2-React-Widget-Set (React 19, MUI 9).
 
 ## Voraussetzungen
 
 - ioBroker mit installiertem und konfiguriertem `sigenergy`-Adapter
-- ioBroker VIS-2 Adapter (≥ 2.0.0)
+- ioBroker VIS-2 Adapter (≥ 2.20.0) — vis-2 2.20 ist die erste Version auf Basis von React 19 und MUI 9
+- Die klassische VIS (vis-1) wird nicht unterstützt
+
+## Update von 1.x
+
+- Vorhandene Widgets laufen ohne Neuanlage weiter: Widget-IDs und alle Einstellungen (Objekt-IDs, Titel, Dunkelmodus, Namen) sind dieselben wie bisher.
+- vis-2 muss vorher auf 2.20.0 oder neuer aktualisiert werden. Ältere vis-2-Versionen laufen mit React 18 und können dieses Widget-Set nicht laden.
+- Alle Texte folgen der Sprache von vis-2 (11 Sprachen). Selbst eingetragene Titel bleiben erhalten; ein leerer Titel zeigt den Standardtitel in der Sprache des Benutzers.
+- Die Status-Erklärungen (AC-/DC-Lader) erscheinen als Tooltip, der nicht mehr vom Widget abgeschnitten wird und in jeder Widget-Größe lesbar bleibt.
 
 ## Widgets
 
@@ -152,7 +162,7 @@ online, activePower, reactivePower, pvPower, pv1…pv4.voltage / current / power
 > **Update von 1.8.x:** Die bisherigen Modbus-States (`runningState`, `outputPower`, `mppt*`, `modelType` …) gibt es im Adapter nicht mehr. Für jede `oid_microN` einen State unter `sigenergy.0.sigenmicro.<Seriennummer>` neu auswählen.
 
 ### Fahrzeug-Ladestand (EV SOC)
-Zeigt ein konfigurierbares Fahrzeugbild (z.B. Fiat 500e) als zentrales Sichtelement. Ein farbkodierter Badge in der oberen rechten Ecke zeigt ein Blitz-Symbol, den aktuellen Ladestand in Prozent und die Beschriftung „LADESTAND". Ein Ladebalken am unteren Rand spiegelt den aktuellen SOC wider. Wenn der optionale Lade-Status aktiv ist, pulsiert der Badge mit einem grünen Leuchten.
+Zeigt ein konfigurierbares Fahrzeugbild (z.B. Fiat 500e) als zentrales Sichtelement. Ein farbkodierter Badge in der oberen rechten Ecke zeigt ein Blitz-Symbol, den aktuellen Ladestand in Prozent und die Beschriftung „LADESTAND“ (übersetzt). Ein Ladebalken am unteren Rand spiegelt den aktuellen SOC wider. Wenn der optionale Lade-Status aktiv ist, pulsiert der Badge mit einem grünen Leuchten.
 
 #### Farb-Logik
 | Ladestand | Farbe |
@@ -166,7 +176,7 @@ Zeigt ein konfigurierbares Fahrzeugbild (z.B. Fiat 500e) als zentrales Sichtelem
 |---|---|---|---|
 | oid_ev_soc | OID | — | Ladestand 0–100 |
 | oid_charging | OID | — | Lade-Status (optional) — grüner Glow bei aktivem Laden |
-| sig_title | Text | Fahrzeug-Ladestand | Fahrzeugname unter dem Bild |
+| sig_title | Text | — (leer: „Fahrzeug-Ladestand“, übersetzt) | Fahrzeugname unter dem Bild |
 | sig_car_image | Bild | — | Fahrzeugbild aus dem ioBroker-Datei-Browser (z.B. /vis-2/img/) |
 | sig_darkmode | Checkbox | true | Dunkel- / Hellmodus |
 
@@ -176,9 +186,19 @@ Zeigt ein konfigurierbares Fahrzeugbild (z.B. Fiat 500e) als zentrales Sichtelem
 
 ## Darstellung
 
-Alle Widgets unterstützen einen **Hell- und Dunkelmodus**, der über die Widget-Einstellung `Dunkelmodus` umgeschaltet werden kann.
+Alle Widgets unterstützen einen **Hell- und Dunkelmodus**, der über die Widget-Einstellung `Dunkelmodus` umgeschaltet werden kann. Die Widgets skalieren mit ihrer Größe: Breite und Höhe folgen dem Widget unabhängig voneinander, die Schrift behält ihre Proportionen.
 
 ## Changelog
+### 2.0.0 (2026-11-17)
+* (ssbingo) **Breaking:** Die Widgets sind jetzt ein natives vis-2-React-Widget-Set (React 19, MUI 9) und benötigen vis-2 2.20.0 oder neuer. Die klassische VIS (vis-1) wird nicht mehr unterstützt
+* (ssbingo) Vorhandene Widgets laufen ohne Neuanlage weiter: Widget-IDs und alle Einstellungen sind unverändert
+* (ssbingo) Alle Texte sind in die 11 ioBroker-Sprachen übersetzt (bisher überwiegend Deutsch). Selbst eingetragene Titel bleiben erhalten; ein leerer Titel zeigt den Standardtitel in der Sprache des Benutzers
+* (ssbingo) AC-/DC-Lader: Die Status-Erklärung ist ein MUI-Tooltip, der nicht mehr vom Widget abgeschnitten wird; Ladestrom und EMS-Leistungsanteil sind MUI-Schieberegler, die beim Loslassen schreiben
+* (ssbingo) Aus dem vis-2-Editor werden keine Befehle mehr gesendet; ein Klick dort wählt nur das Widget aus
+* (ssbingo) Energiefluss: Die Einstellung „Animierter Fluss“ wirkt jetzt
+* (ssbingo) SigenMicro: Der Detail-Tab zeigt die Werte in drei Spalten, die Objekt-ID einzeilig
+* (ssbingo) Build mit Vite und Module Federation; die Widgets wurden in vis-2 2.20.11 getestet
+
 ### 1.9.1 (2026-11-17)
 * (ssbingo) vis-2 2.20.x: Die Widgets setzen `box-sizing: border-box` für ihren eigenen Inhalt wieder selbst. vis-2 2.20 lädt MUIs `CssBaseline` nicht mehr, das bisher das ganze Dokument auf border-box umgestellt hat; Karten, Kacheln und Buttons mit Innenabstand konnten dadurch breiter als vorgesehen werden. Die Regel gilt nur für dieses Widget-Set; das Set enthält keinen React-/MUI-Code und läuft als klassisches vis-Widget-Set unter vis-2 2.20 (React 19, MUI 9)
 

@@ -13,12 +13,22 @@
 ## vis-2-widgets-sigenergy adapter for ioBroker
 
 VIS-2 widget set for the Sigenergy energy storage adapter (`ioBroker.sigenergy`).
-Contains 8 widgets for visualisation and control of energy flow, battery status, real-time power, daily statistics, AC charger, DC charger, inverter and SigenMicro micro-inverter overview.
+Contains 10 widgets for visualisation and control of energy flow, battery status, real-time power, daily statistics, AC charger, DC charger, inverter, SigenMicro micro-inverter overview, PV strings and vehicle charge level.
+
+Since version 2.0.0 the widgets are a native vis-2 React widget set (React 19, MUI 9).
 
 ## Requirements
 
 - ioBroker with the `sigenergy` adapter installed and configured
-- ioBroker VIS-2 adapter (≥ 2.0.0)
+- ioBroker VIS-2 adapter (≥ 2.20.0) — vis-2 2.20 is the first version based on React 19 and MUI 9
+- The classic VIS (vis-1) is not supported
+
+## Upgrading from 1.x
+
+- Existing widgets keep working without being placed again: the widget IDs and all settings (object IDs, titles, dark mode, names) are the same as before.
+- vis-2 must be updated to 2.20.0 or newer first. Older vis-2 versions run React 18 and cannot load this widget set.
+- All texts follow the language of vis-2 (11 languages). Titles you entered yourself are kept; an empty title shows the default title in the user's language.
+- Status explanations (AC/DC charger) are shown as a tooltip that is no longer cut off by the widget and stays readable at any widget size.
 
 ## Widgets
 
@@ -152,7 +162,7 @@ online, activePower, reactivePower, pvPower, pv1…pv4.voltage / current / power
 > **Upgrade from 1.8.x:** the former Modbus states (`runningState`, `outputPower`, `mppt*`, `modelType` …) no longer exist in the adapter. Select a state under `sigenergy.0.sigenmicro.<serial>` again for every `oid_microN`.
 
 ### Vehicle Charge Level (EV SOC)
-Displays a configurable vehicle image (e.g. Fiat 500e) as the central visual element. A colour-coded badge in the top-right corner shows a lightning bolt, the current charge level in percent and the label "LADESTAND". A progress bar at the bottom reflects the current SOC. When the optional charging state is active, the badge emits a pulsing green glow.
+Displays a configurable vehicle image (e.g. Fiat 500e) as the central visual element. A colour-coded badge in the top-right corner shows a lightning bolt, the current charge level in percent and the label "CHARGE" (translated). A progress bar at the bottom reflects the current SOC. When the optional charging state is active, the badge emits a pulsing green glow.
 
 #### Colour logic
 | Charge level | Colour |
@@ -166,19 +176,29 @@ Displays a configurable vehicle image (e.g. Fiat 500e) as the central visual ele
 |---|---|---|---|
 | oid_ev_soc | OID | — | State of Charge 0–100 |
 | oid_charging | OID | — | Charging state (optional) — green glow when active |
-| sig_title | text | Fahrzeug-Ladestand | Vehicle name shown below the image |
+| sig_title | text | — (empty: "Vehicle charge level", translated) | Vehicle name shown below the image |
 | sig_car_image | image | — | Vehicle image from ioBroker file browser (e.g. /vis-2/img/) |
 | sig_darkmode | checkbox | true | Dark / Light mode |
 
-![Fahrzeug-Ladestand Widget](img/widget-autoLadestand.png)
+![Vehicle charge level widget](img/widget-autoLadestand.png)
 
 **OIDs:** `oid_ev_soc`, `oid_charging`
 
 ## Appearance
 
-All widgets support a **light and dark mode**, switchable via the widget setting `Dark mode`.
+All widgets support a **light and dark mode**, switchable via the widget setting `Dark mode`. The widgets scale with their size: width and height follow the widget independently, while the text keeps its proportions.
 
 ## Changelog
+### 2.0.0 (2026-11-17)
+* (ssbingo) **Breaking:** the widgets are now a native vis-2 React widget set (React 19, MUI 9) and require vis-2 2.20.0 or newer. The classic VIS (vis-1) is no longer supported
+* (ssbingo) Existing widgets keep working without being placed again: the widget IDs and all settings are unchanged
+* (ssbingo) All texts are translated into the 11 ioBroker languages (previously mostly German). Titles you entered are kept; an empty title shows the default title in the user's language
+* (ssbingo) AC/DC charger: the status explanation is a MUI tooltip that is no longer cut off by the widget; the charging current and the EMS power share are MUI sliders that write when released
+* (ssbingo) No commands are sent from the vis-2 editor anymore; a click there only selects the widget
+* (ssbingo) Energy flow: the setting "Animated flow" now takes effect
+* (ssbingo) SigenMicro: the detail tab shows the values in three columns, the object ID on one line
+* (ssbingo) Build with Vite and module federation; the widgets were tested in vis-2 2.20.11
+
 ### 1.9.1 (2026-11-17)
 * (ssbingo) vis-2 2.20.x: the widgets apply `box-sizing: border-box` to their own content again. vis-2 2.20 no longer loads MUI's `CssBaseline`, which used to switch the whole document to border-box, so padded cards, tiles and buttons could grow wider than designed. The rule is scoped to this widget set; the widget set itself contains no React/MUI code and runs as a classic vis widget set on vis-2 2.20 (React 19, MUI 9)
 

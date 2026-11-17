@@ -13,12 +13,22 @@
 ## Adattatore vis-2-widgets-sigenergy per ioBroker
 
 Set di widget VIS-2 per l'adattatore di accumulo energetico Sigenergy (`ioBroker.sigenergy`).
-Contiene 8 widget per la visualizzazione e il controllo del flusso energetico, stato della batteria, potenza in tempo reale, statistiche giornaliere, caricatore AC, caricatore DC, inverter e panoramica dei micro-inverter SigenMicro. per la visualizzazione e il controllo del flusso energetico, dello stato della batteria, della potenza in tempo reale, delle statistiche giornaliere, del caricatore AC, del caricatore DC e dell'inverter.
+Contiene 10 widget per la visualizzazione e il controllo del flusso energetico, dello stato della batteria, della potenza in tempo reale, delle statistiche giornaliere, del caricatore AC, del caricatore DC, dell'inverter, della panoramica dei micro-inverter SigenMicro, delle stringhe fotovoltaiche e del livello di carica del veicolo.
+
+Dalla versione 2.0.0 i widget sono un set di widget React nativo per vis-2 (React 19, MUI 9).
 
 ## Requisiti
 
 - ioBroker con l'adattatore `sigenergy` installato e configurato
-- Adattatore ioBroker VIS-2 (≥ 2.0.0)
+- Adattatore ioBroker VIS-2 (≥ 2.20.0) — vis-2 2.20 è la prima versione basata su React 19 e MUI 9
+- La VIS classica (vis-1) non è supportata
+
+## Aggiornamento dalla 1.x
+
+- I widget esistenti continuano a funzionare senza doverli posizionare di nuovo: gli ID dei widget e tutte le impostazioni (ID oggetto, titoli, modalità scura, nomi) sono gli stessi di prima.
+- vis-2 deve prima essere aggiornato alla versione 2.20.0 o successiva. Le versioni precedenti di vis-2 utilizzano React 18 e non possono caricare questo set di widget.
+- Tutti i testi seguono la lingua di vis-2 (11 lingue). I titoli inseriti dall'utente vengono mantenuti; un titolo vuoto mostra il titolo predefinito nella lingua dell'utente.
+- Le spiegazioni dello stato (caricatore AC/DC) vengono mostrate come suggerimento a comparsa che non viene più tagliato dal widget e rimane leggibile con qualsiasi dimensione del widget.
 
 ## Widget
 
@@ -152,7 +162,7 @@ online, activePower, reactivePower, pvPower, pv1…pv4.voltage / current / power
 > **Aggiornamento dalla 1.8.x:** i precedenti stati Modbus (`runningState`, `outputPower`, `mppt*`, `modelType` …) non esistono più nell'adattatore. Per ogni `oid_microN` selezionare di nuovo uno stato in `sigenergy.0.sigenmicro.<numero di serie>`.
 
 ### Livello di carica del veicolo (EV SOC)
-Mostra un'immagine del veicolo configurabile (ad es. Fiat 500e) come elemento visivo centrale. Un badge colorato in alto a destra mostra un simbolo di fulmine, il livello di carica attuale in percentuale e l'etichetta «LADESTAND». Una barra di avanzamento in basso riflette il SOC attuale. Quando lo stato di carica opzionale è attivo, il badge emette un bagliore verde pulsante.
+Mostra un'immagine del veicolo configurabile (ad es. Fiat 500e) come elemento visivo centrale. Un badge colorato in alto a destra mostra un simbolo di fulmine, il livello di carica attuale in percentuale e l'etichetta «CARICA» (tradotta). Una barra di avanzamento in basso riflette il SOC attuale. Quando lo stato di carica opzionale è attivo, il badge emette un bagliore verde pulsante.
 
 #### Logica dei colori
 | Livello di carica | Colore |
@@ -161,15 +171,25 @@ Mostra un'immagine del veicolo configurabile (ad es. Fiat 500e) come elemento vi
 | ≤ 35 % | Giallo (#fbbf24) |
 | > 35 % | Verde (#4ade80) |
 
-![Fahrzeug-Ladestand Widget](../../img/widget-autoLadestand.png)
+![EV SOC](../../img/widget-autoLadestand.png)
 
 **OIDs:** `oid_ev_soc`, `oid_charging`
 
 ## Aspetto
 
-Tutti i widget supportano una **modalità chiara e scura**, commutabile tramite l'impostazione widget `Modalità scura`.
+Tutti i widget supportano una **modalità chiara e scura**, commutabile tramite l'impostazione widget `Modalità scura`. I widget si adattano alle loro dimensioni: larghezza e altezza seguono il widget in modo indipendente, mentre il testo mantiene le sue proporzioni.
 
 ## Changelog
+### 2.0.0 (2026-11-17)
+* (ssbingo) **Breaking:** i widget sono ora un set di widget React nativo per vis-2 (React 19, MUI 9) e richiedono vis-2 2.20.0 o successivo. La VIS classica (vis-1) non è più supportata
+* (ssbingo) I widget esistenti continuano a funzionare senza doverli posizionare di nuovo: gli ID dei widget e tutte le impostazioni sono invariati
+* (ssbingo) Tutti i testi sono tradotti nelle 11 lingue di ioBroker (in precedenza per lo più in tedesco). I titoli inseriti vengono mantenuti; un titolo vuoto mostra il titolo predefinito nella lingua dell'utente
+* (ssbingo) Caricatore AC/DC: la spiegazione dello stato è un suggerimento a comparsa MUI che non viene più tagliato dal widget; la corrente di carica e la quota di potenza EMS sono cursori MUI che scrivono il valore al rilascio
+* (ssbingo) L'editor di vis-2 non invia più comandi; un clic lì seleziona soltanto il widget
+* (ssbingo) Flusso energetico: l'impostazione «Flusso animato» ora ha effetto
+* (ssbingo) SigenMicro: la scheda dei dettagli mostra i valori su tre colonne, l'ID oggetto su una sola riga
+* (ssbingo) Compilazione con Vite e federazione dei moduli; i widget sono stati testati in vis-2 2.20.11
+
 ### 1.9.1 (2026-11-17)
 * (ssbingo) vis-2 2.20.x: i widget applicano di nuovo da soli `box-sizing: border-box` al proprio contenuto. vis-2 2.20 non carica più il `CssBaseline` di MUI, che finora impostava l'intero documento su border-box, per cui schede, riquadri e pulsanti con spaziatura interna potevano risultare più larghi del previsto. La regola vale solo per questo set di widget; il set non contiene codice React/MUI e funziona come set di widget vis classico con vis-2 2.20 (React 19, MUI 9)
 

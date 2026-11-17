@@ -13,12 +13,22 @@
 ## Adapter vis-2-widgets-sigenergy dla ioBroker
 
 Zestaw widżetów VIS-2 dla adaptera magazynowania energii Sigenergy (`ioBroker.sigenergy`).
-Zawiera 7 widżetów do wizualizacji i sterowania przepływem energii, stanem baterii, mocą w czasie rzeczywistym, statystykami dziennymi, ładowarką AC, ładowarką DC i falownikiem.
+Zawiera 10 widżetów do wizualizacji i sterowania przepływem energii, stanem baterii, mocą w czasie rzeczywistym, statystykami dziennymi, ładowarką AC, ładowarką DC, falownikiem, przeglądem mikrofalowników SigenMicro, łańcuchami PV i poziomem naładowania pojazdu.
+
+Od wersji 2.0.0 widżety są natywnym zestawem widżetów React dla vis-2 (React 19, MUI 9).
 
 ## Wymagania
 
 - ioBroker z zainstalowanym i skonfigurowanym adapterem `sigenergy`
-- Adapter ioBroker VIS-2 (≥ 2.0.0)
+- Adapter ioBroker VIS-2 (≥ 2.20.0) — vis-2 2.20 to pierwsza wersja oparta na React 19 i MUI 9
+- Klasyczna VIS (vis-1) nie jest obsługiwana
+
+## Aktualizacja z wersji 1.x
+
+- Istniejące widżety działają dalej bez ponownego umieszczania: identyfikatory widżetów i wszystkie ustawienia (identyfikatory obiektów, tytuły, tryb ciemny, nazwy) pozostają takie same jak dotychczas.
+- Najpierw należy zaktualizować vis-2 do wersji 2.20.0 lub nowszej. Starsze wersje vis-2 działają na React 18 i nie mogą załadować tego zestawu widżetów.
+- Wszystkie teksty są wyświetlane w języku vis-2 (11 języków). Samodzielnie wpisane tytuły zostają zachowane; pusty tytuł wyświetla domyślny tytuł w języku użytkownika.
+- Objaśnienia stanu (ładowarka AC/DC) są wyświetlane jako podpowiedź, która nie jest już przycinana przez widżet i pozostaje czytelna przy każdym rozmiarze widżetu.
 
 ## Widżety
 
@@ -152,7 +162,7 @@ online, activePower, reactivePower, pvPower, pv1…pv4.voltage / current / power
 > **Aktualizacja z 1.8.x:** dawnych stanów Modbus (`runningState`, `outputPower`, `mppt*`, `modelType` …) nie ma już w adapterze. Dla każdego `oid_microN` należy ponownie wybrać stan w `sigenergy.0.sigenmicro.<numer seryjny>`.
 
 ### Poziom naładowania pojazdu (EV SOC)
-Wyświetla konfigurowalne zdjęcie pojazdu (np. Fiat 500e) jako centralny element wizualny. Kolorowa odznaka w prawym górnym rogu pokazuje symbol błyskawicy, aktualny poziom naładowania w procentach i etykietę „LADESTAND". Pasek postępu na dole odzwierciedla aktualny SOC. Gdy opcjonalny stan ładowania jest aktywny, odznaka pulsuje zielonym blaskiem.
+Wyświetla konfigurowalne zdjęcie pojazdu (np. Fiat 500e) jako centralny element wizualny. Kolorowa odznaka w prawym górnym rogu pokazuje symbol błyskawicy, aktualny poziom naładowania w procentach i etykietę „NAŁADOWANIE" (przetłumaczona). Pasek postępu na dole odzwierciedla aktualny SOC. Gdy opcjonalny stan ładowania jest aktywny, odznaka pulsuje zielonym blaskiem.
 
 #### Logika kolorów
 | Poziom naładowania | Kolor |
@@ -161,15 +171,25 @@ Wyświetla konfigurowalne zdjęcie pojazdu (np. Fiat 500e) jako centralny elemen
 | ≤ 35 % | Żółty (#fbbf24) |
 | > 35 % | Zielony (#4ade80) |
 
-![Fahrzeug-Ladestand Widget](../../img/widget-autoLadestand.png)
+![EV SOC](../../img/widget-autoLadestand.png)
 
 **OIDs:** `oid_ev_soc`, `oid_charging`
 
 ## Wygląd
 
-Wszystkie widżety obsługują **tryb jasny i ciemny**, przełączany przez ustawienie widżetu `Tryb ciemny`.
+Wszystkie widżety obsługują **tryb jasny i ciemny**, przełączany przez ustawienie widżetu `Tryb ciemny`. Widżety skalują się wraz ze swoim rozmiarem: szerokość i wysokość dopasowują się do widżetu niezależnie od siebie, a tekst zachowuje swoje proporcje.
 
 ## Changelog
+### 2.0.0 (2026-11-17)
+* (ssbingo) **Breaking:** widżety są teraz natywnym zestawem widżetów React dla vis-2 (React 19, MUI 9) i wymagają vis-2 2.20.0 lub nowszego. Klasyczna VIS (vis-1) nie jest już obsługiwana
+* (ssbingo) Istniejące widżety działają dalej bez ponownego umieszczania: identyfikatory widżetów i wszystkie ustawienia pozostały bez zmian
+* (ssbingo) Wszystkie teksty są przetłumaczone na 11 języków ioBroker (wcześniej głównie po niemiecku). Wpisane tytuły zostają zachowane; pusty tytuł wyświetla domyślny tytuł w języku użytkownika
+* (ssbingo) Ładowarka AC/DC: objaśnienie stanu jest podpowiedzią MUI, która nie jest już przycinana przez widżet; prąd ładowania i udział mocy EMS to suwaki MUI, które zapisują wartość po zwolnieniu
+* (ssbingo) Edytor vis-2 nie wysyła już żadnych poleceń; kliknięcie w nim jedynie zaznacza widżet
+* (ssbingo) Przepływ energii: ustawienie „Animowany przepływ” teraz działa
+* (ssbingo) SigenMicro: zakładka szczegółów pokazuje wartości w trzech kolumnach, a identyfikator obiektu w jednym wierszu
+* (ssbingo) Kompilacja za pomocą Vite i federacji modułów; widżety zostały przetestowane w vis-2 2.20.11
+
 ### 1.9.1 (2026-11-17)
 * (ssbingo) vis-2 2.20.x: widżety znów same ustawiają `box-sizing: border-box` dla własnej zawartości. vis-2 2.20 nie ładuje już `CssBaseline` z MUI, który wcześniej przełączał cały dokument na border-box, przez co karty, kafelki i przyciski z wypełnieniem mogły być szersze niż zaplanowano. Reguła dotyczy tylko tego zestawu widżetów; zestaw nie zawiera kodu React/MUI i działa jako klasyczny zestaw widżetów vis w vis-2 2.20 (React 19, MUI 9)
 

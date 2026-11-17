@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "vis-2-widgets-sigenergy",
-    "version": "1.9.1",
+    "version": "2.0.0",
     "news": {
+      "2.0.0": {
+        "en": "Breaking: the widgets are now a native vis-2 React widget set (React 19, MUI 9) and require vis-2 2.20.0 or newer; vis-1 is no longer supported. Existing widgets keep working without being placed again. All texts in 11 languages, MUI tooltips and sliders, no commands from the editor, energy flow animation setting works, SigenMicro detail in three columns.",
+        "de": "Breaking: Die Widgets sind jetzt ein natives vis-2-React-Widget-Set (React 19, MUI 9) und benötigen vis-2 2.20.0 oder neuer; vis-1 wird nicht mehr unterstützt. Vorhandene Widgets laufen ohne Neuanlage weiter. Alle Texte in 11 Sprachen, MUI-Tooltips und -Schieberegler, keine Befehle aus dem Editor, Animations-Einstellung im Energiefluss wirkt, SigenMicro-Details in drei Spalten.",
+        "ru": "Критическое изменение: виджеты теперь представляют собой нативный набор React-виджетов для vis-2 (React 19, MUI 9) и требуют vis-2 2.20.0 или новее; vis-1 больше не поддерживается. Существующие виджеты продолжают работать без повторного размещения. Все тексты на 11 языках, всплывающие подсказки и ползунки MUI, никаких команд из редактора, настройка анимации потока энергии работает, детали SigenMicro в трёх столбцах.",
+        "pt": "Alteração incompatível: os widgets são agora um conjunto de widgets React nativo do vis-2 (React 19, MUI 9) e requerem o vis-2 2.20.0 ou mais recente; o vis-1 deixou de ser suportado. Os widgets existentes continuam a funcionar sem ser necessário colocá-los novamente. Todos os textos em 11 idiomas, dicas de ferramenta e controlos deslizantes MUI, nenhum comando a partir do editor, a definição de animação do fluxo de energia funciona, detalhes do SigenMicro em três colunas.",
+        "nl": "Ingrijpende wijziging: de widgets zijn nu een native vis-2-React-widgetset (React 19, MUI 9) en vereisen vis-2 2.20.0 of nieuwer; vis-1 wordt niet meer ondersteund. Bestaande widgets blijven werken zonder ze opnieuw te plaatsen. Alle teksten in 11 talen, MUI-knopinfo en -schuifregelaars, geen opdrachten vanuit de editor, de animatie-instelling van de energiestroom werkt, SigenMicro-details in drie kolommen.",
+        "fr": "Changement majeur : les widgets sont désormais un ensemble de widgets React natif pour vis-2 (React 19, MUI 9) et nécessitent vis-2 2.20.0 ou ultérieur ; vis-1 n'est plus pris en charge. Les widgets existants continuent de fonctionner sans devoir être replacés. Tous les textes en 11 langues, infobulles et curseurs MUI, aucune commande depuis l'éditeur, le paramètre d'animation du flux d'énergie fonctionne, détails SigenMicro sur trois colonnes.",
+        "it": "Modifica incompatibile: i widget sono ora un set di widget React nativo per vis-2 (React 19, MUI 9) e richiedono vis-2 2.20.0 o successivo; vis-1 non è più supportato. I widget esistenti continuano a funzionare senza doverli posizionare di nuovo. Tutti i testi in 11 lingue, suggerimenti a comparsa e cursori MUI, nessun comando dall'editor, l'impostazione dell'animazione del flusso energetico funziona, dettagli SigenMicro su tre colonne.",
+        "es": "Cambio incompatible: los widgets son ahora un conjunto de widgets React nativo de vis-2 (React 19, MUI 9) y requieren vis-2 2.20.0 o posterior; vis-1 ya no es compatible. Los widgets existentes siguen funcionando sin tener que volver a colocarlos. Todos los textos en 11 idiomas, información emergente y controles deslizantes de MUI, ningún comando desde el editor, el ajuste de animación del flujo de energía funciona, detalles de SigenMicro en tres columnas.",
+        "pl": "Zmiana niekompatybilna: widżety są teraz natywnym zestawem widżetów React dla vis-2 (React 19, MUI 9) i wymagają vis-2 2.20.0 lub nowszego; vis-1 nie jest już obsługiwany. Istniejące widżety działają dalej bez ponownego umieszczania. Wszystkie teksty w 11 językach, podpowiedzi i suwaki MUI, brak poleceń z edytora, ustawienie animacji przepływu energii działa, szczegóły SigenMicro w trzech kolumnach.",
+        "uk": "Несумісна зміна: віджети тепер є нативним набором React-віджетів для vis-2 (React 19, MUI 9) і потребують vis-2 2.20.0 або новішої версії; vis-1 більше не підтримується. Наявні віджети продовжують працювати без повторного розміщення. Усі тексти 11 мовами, спливаючі підказки та повзунки MUI, жодних команд із редактора, налаштування анімації потоку енергії працює, деталі SigenMicro у трьох стовпцях.",
+        "zh-cn": "重大变更:小部件现在是原生的 vis-2 React 小部件集(React 19、MUI 9),需要 vis-2 2.20.0 或更高版本;不再支持 vis-1。现有小部件无需重新放置即可继续使用。所有文本支持 11 种语言,采用 MUI 工具提示和滑块,编辑器中不再发送命令,能量流动画设置现已生效,SigenMicro 详情以三列显示。"
+      },
       "1.9.1": {
         "en": "vis-2 2.20.x: the widgets apply box-sizing: border-box to their own content again, since vis-2 2.20 no longer loads MUI's CssBaseline; padded cards, tiles and buttons keep their designed width. The widget set contains no React/MUI code and runs as a classic widget set on vis-2 2.20 (React 19, MUI 9).",
         "de": "vis-2 2.20.x: Die Widgets setzen box-sizing: border-box für ihren Inhalt wieder selbst, da vis-2 2.20 MUIs CssBaseline nicht mehr lädt; Karten, Kacheln und Buttons mit Innenabstand behalten ihre vorgesehene Breite. Das Widget-Set enthält keinen React-/MUI-Code und läuft als klassisches Widget-Set unter vis-2 2.20 (React 19, MUI 9).",
@@ -80,19 +93,6 @@
         "ru": "DC-зарядное устройство: если OID состояния не задан, он выводится из OID выходной мощности (…dcCharger.outputPower → …dcCharger.runningState), поэтому виджеты, размещённые до 1.8.7, показывают рабочее состояние без редактирования; DC-зарядное устройство: если рабочее состояние недоступно, подсказка объясняет причину в зависимости от версии протокола, определённой адаптером (info.protocolVersion / info.protocolLevel): регистр 31513 требует протокол Sigenergy V2.8; начиная с V2.8 она отсылает к журналу адаптера или обновлению адаптера; отрицательная выходная мощность отображается как разрядка",
         "uk": "DC-зарядний пристрій: якщо OID стану не задано, він виводиться з OID вихідної потужності (…dcCharger.outputPower → …dcCharger.runningState), тому віджети, розміщені до 1.8.7, показують робочий стан без редагування; DC-зарядний пристрій: якщо робочий стан недоступний, підказка пояснює причину залежно від версії протоколу, визначеної адаптером (info.protocolVersion / info.protocolLevel): регістр 31513 потребує протоколу Sigenergy V2.8; починаючи з V2.8 вона відсилає до журналу адаптера або оновлення адаптера; від'ємна вихідна потужність відображається як розряджання",
         "zh-cn": "DC 充电桩：未设置状态 OID 时，将从输出功率 OID 推导（…dcCharger.outputPower → …dcCharger.runningState），因此在 1.8.7 之前放置的微件无需编辑即可显示运行状态；DC 充电桩：无运行状态可用时，提示信息会根据适配器检测到的协议版本（info.protocolVersion / info.protocolLevel）说明原因：寄存器 31513 需要 Sigenergy 协议 V2.8；V2.8 及以上时提示查看适配器日志或更新适配器；负的输出功率显示为放电"
-      },
-      "1.8.7": {
-        "en": "DC charger: new state OID dcCharger.runningState (default) – the state badge now shows the operating state of the charging station (free, connected/preparing, scheduled, charging, discharging, ended, warning, fault/unavailable) with a detailed explanation as tooltip; without the OID the badge is derived from the output power as before; DC charger: while charging or discharging is active, the Start button is locked and the Stop button is highlighted; negative output power (discharging) is shown in purple",
-        "de": "DC-Charger: Neue State-OID dcCharger.runningState (Vorbelegung) – der Status-Badge zeigt jetzt den Betriebszustand der Ladesäule (Frei, Verbunden/Vorbereitung, Geplant, Lädt, Entlädt, Beendet, Warnung, Fehler/Nicht verfügbar) mit ausführlicher Erklärung als Tooltip; ohne OID wird der Badge wie bisher aus der Ausgangsleistung abgeleitet; DC-Charger: Während des Ladens oder Entladens ist der Start-Button gesperrt und der Stop-Button hervorgehoben; negative Ausgangsleistung (Entladen) wird violett dargestellt",
-        "es": "Cargador DC: nuevo OID de estado dcCharger.runningState (predeterminado): la insignia de estado muestra ahora el estado operativo de la estación de carga (libre, conectado/preparación, programado, cargando, descargando, finalizado, aviso, fallo/no disponible) con una explicación detallada como información emergente; sin el OID, la insignia se deriva de la potencia de salida como antes; Cargador DC: durante una carga o descarga activa, el botón Start está bloqueado y el botón Stop se resalta; la potencia de salida negativa (descarga) se muestra en morado",
-        "fr": "Chargeur DC : nouvel OID d'état dcCharger.runningState (par défaut) – le badge d'état affiche désormais l'état de fonctionnement de la borne (libre, connecté/préparation, planifié, en charge, en décharge, terminé, avertissement, défaut/indisponible) avec une explication détaillée en infobulle ; sans l'OID, le badge est dérivé de la puissance de sortie comme auparavant; Chargeur DC : pendant une charge ou une décharge active, le bouton Start est verrouillé et le bouton Stop est mis en évidence ; une puissance de sortie négative (décharge) est affichée en violet",
-        "it": "Caricatore DC: nuovo OID di stato dcCharger.runningState (predefinito) – il badge di stato mostra ora lo stato operativo della stazione di ricarica (libero, collegato/preparazione, programmato, in carica, in scarica, terminato, avviso, guasto/non disponibile) con una spiegazione dettagliata come tooltip; senza l'OID il badge viene derivato come prima dalla potenza di uscita; Caricatore DC: durante una carica o scarica attiva il pulsante Start è bloccato e il pulsante Stop è evidenziato; la potenza di uscita negativa (scarica) viene mostrata in viola",
-        "nl": "DC-lader: nieuwe status-OID dcCharger.runningState (standaard) – de statusbadge toont nu de bedrijfstoestand van het laadstation (vrij, verbonden/voorbereiding, gepland, laden, ontladen, beëindigd, waarschuwing, fout/niet beschikbaar) met een uitgebreide uitleg als tooltip; zonder de OID wordt de badge zoals voorheen uit het uitgangsvermogen afgeleid; DC-lader: tijdens actief laden of ontladen is de Start-knop geblokkeerd en wordt de Stop-knop benadrukt; negatief uitgangsvermogen (ontladen) wordt paars weergegeven",
-        "pl": "Ładowarka DC: nowy OID stanu dcCharger.runningState (domyślny) – plakietka stanu pokazuje teraz stan pracy stacji ładowania (wolna, podłączony/przygotowanie, zaplanowane, ładowanie, rozładowywanie, zakończone, ostrzeżenie, błąd/niedostępna) ze szczegółowym objaśnieniem jako podpowiedź; bez OID plakietka jest jak dotychczas wyprowadzana z mocy wyjściowej; Ładowarka DC: podczas aktywnego ładowania lub rozładowywania przycisk Start jest zablokowany, a przycisk Stop wyróżniony; ujemna moc wyjściowa (rozładowywanie) jest wyświetlana na fioletowo",
-        "pt": "Carregador DC: novo OID de estado dcCharger.runningState (predefinido) – o distintivo de estado mostra agora o estado de funcionamento da estação de carregamento (livre, ligado/preparação, agendado, a carregar, a descarregar, terminado, aviso, falha/indisponível) com uma explicação detalhada como dica; sem o OID, o distintivo é derivado da potência de saída como antes; Carregador DC: durante um carregamento ou descarregamento ativo, o botão Start está bloqueado e o botão Stop é realçado; a potência de saída negativa (descarga) é apresentada a roxo",
-        "ru": "DC-зарядное устройство: новый OID состояния dcCharger.runningState (по умолчанию) – значок состояния теперь показывает рабочее состояние зарядной станции (свободно, подключено/подготовка, запланировано, зарядка, разрядка, завершено, предупреждение, ошибка/недоступно) с подробным объяснением в подсказке; без OID значок, как и раньше, определяется по выходной мощности; DC-зарядное устройство: во время активной зарядки или разрядки кнопка Start заблокирована, а кнопка Stop выделена; отрицательная выходная мощность (разрядка) отображается фиолетовым",
-        "uk": "DC-зарядний пристрій: новий OID стану dcCharger.runningState (за замовчуванням) – значок стану тепер показує робочий стан зарядної станції (вільно, підключено/підготовка, заплановано, заряджання, розряджання, завершено, попередження, помилка/недоступно) з докладним поясненням у підказці; без OID значок, як і раніше, визначається за вихідною потужністю; DC-зарядний пристрій: під час активного заряджання або розряджання кнопка Start заблокована, а кнопка Stop виділена; від'ємна вихідна потужність (розряджання) відображається фіолетовим",
-        "zh-cn": "DC 充电桩：新增状态 OID dcCharger.runningState（默认）——状态标记现在显示充电桩的运行状态（空闲、已连接/准备中、已计划、充电中、放电中、已结束、警告、故障/不可用），并以提示信息显示详细说明；未配置该 OID 时，状态标记仍像以前一样根据输出功率推断；DC 充电桩：充电或放电进行中时，Start 按钮被锁定，Stop 按钮高亮显示；负的输出功率（放电）以紫色显示"
       }
     },
     "titleLang": {
@@ -140,8 +140,7 @@
     "loglevel": "info",
     "tier": 3,
     "restartAdapters": [
-      "vis-2",
-      "vis"
+      "vis-2"
     ],
     "onlyWWW": true,
     "singleton": true,
@@ -155,10 +154,30 @@
         "js-controller": ">=6.0.11"
       },
       {
-        "vis-2": ">=2.0.0"
+        "vis-2": ">=2.20.0"
       }
     ],
-    "globalDependencies": []
+    "globalDependencies": [],
+    "visWidgets": {
+      "vis2Sigenergy": {
+        "i18n": "component",
+        "name": "vis2Sigenergy",
+        "url": "vis-2-widgets-sigenergy/customWidgets.js",
+        "bundlerType": "module",
+        "components": [
+          "EnergyFlow",
+          "BatteryStatus",
+          "PowerOverview",
+          "Statistics",
+          "AcCharger",
+          "DcCharger",
+          "Inverter",
+          "MicroOverview",
+          "PvStrings",
+          "EvSoc"
+        ]
+      }
+    }
   },
   "native": {},
   "objects": [],

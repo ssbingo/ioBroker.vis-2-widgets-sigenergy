@@ -30,7 +30,8 @@ jobs:
         with:
           node-version: '24.x'
           lint: true
-          install-command: 'npm install'
+          # the widgets live in the src-widgets-ts workspace; "npm run lint" lints it too
+          install-command: 'npm install && npm --prefix src-widgets-ts install'
 
   # Runs the package tests on all supported Node.js versions
   adapter-tests:
@@ -57,6 +58,8 @@ jobs:
             | tar xz --strip-components=1 -C "$NPM_GLOBAL"
           echo "npm version: $(npm --version)"
       - run: npm install
+      # builds the module-federation bundle into widgets/ (installs src-widgets-ts itself)
+      - run: npm run build
       - run: npm test
 
   # Deploys the final package to NPM
@@ -81,4 +84,5 @@ jobs:
         with:
           node-version: '24.x'
           install-command: 'npm install'
+          build: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
