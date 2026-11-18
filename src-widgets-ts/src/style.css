@@ -593,23 +593,26 @@
 }
 
 /* ── Labels unter dem SVG ── */
+/* same equal columns as the nodes of the SVG above (x = column centre) */
 .sig-sm-labels {
-    display: flex;
-    justify-content: space-evenly;
-    padding: 3px 12px 0;
+    display: grid;
+    padding: 3px 0 0;
 }
 .sig-sm-label {
     text-align: center;
     line-height: 1.4;
+    min-width: 0;
+    padding: 0 3px;
+    cursor: pointer;
 }
-.sig-sm-label-id  { font-size: 0.62rem; font-weight: 600; }
+.sig-sm-node { cursor: pointer; }
+.sig-sm-label-id  { font-size: 0.62rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .sig-sm-label-pwr { font-size: 0.58rem; color: #2ecc8a; }
 .sig-sm-label-st  { font-size: 0.58rem; }
 
 /* ── Tab-Bar ── */
 .sig-sm-tabbar {
-    display: flex;
-    overflow-x: auto;
+    display: grid;
     background: rgba(0,0,0,0.25);
     border-top: 1px solid rgba(255,255,255,0.06);
     border-bottom: 1px solid rgba(255,255,255,0.06);
@@ -622,11 +625,14 @@
     border-color: rgba(0,0,0,0.08);
 }
 .sig-sm-tab {
-    padding: 6px 14px;
+    padding: 6px 8px;
     font-size: 0.62rem;
     cursor: pointer;
     white-space: nowrap;
-    flex-shrink: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    border-bottom: 2px solid transparent;
     border-right: 1px solid rgba(255,255,255,0.05);
     color: #5a7a90;
     transition: color 0.15s, background 0.15s;
@@ -634,9 +640,15 @@
 .sig-sm-tab:hover { background: rgba(255,255,255,0.04); color: #aac0d0; }
 .sig-sm-tab.active {
     color: #2ecc8a;
-    border-bottom: 2px solid #2ecc8a;
+    border-bottom-color: #2ecc8a;
     font-weight: 600;
 }
+/* grid: "Overview" keeps its width (and spans both rows with more than 10 devices),
+   the device tabs share the rest in equal columns, in the same rows as the nodes below */
+.sig-sm-tab      { min-width: 0; }
+.sig-sm-tab-ov   { padding: 6px 12px; display: flex; align-items: center; justify-content: center; }
+.sig-sm-tab-nr   { padding: 6px 2px; font-variant-numeric: tabular-nums; }
+.sig-sm-tab-txt  { display: block; overflow: hidden; text-overflow: ellipsis; }
 .sig-sm-wrap.light .sig-sm-tab.active { color: #1a9060; border-bottom-color: #1a9060; }
 
 /* ── Panel ── */
@@ -661,10 +673,10 @@
     background: rgba(0,0,0,0.04);
     border-color: rgba(0,0,0,0.09);
 }
-.sig-sm-kach-lbl  { font-size: 0.58rem; color: #4a6070; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 3px; }
+.sig-sm-kach-lbl  { font-size: 0.58rem; color: #6a8298; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 3px; }
 .sig-sm-kach-val  { font-size: 1.1rem; font-weight: 700; line-height: 1.1; }
-.sig-sm-kach-unit { font-size: 0.58rem; color: #4a6070; margin-left: 1px; }
-.sig-sm-kach-sub  { font-size: 0.52rem; color: #2a3a4a; margin-top: 2px; }
+.sig-sm-kach-unit { font-size: 0.58rem; color: #6a8298; margin-left: 1px; }
+.sig-sm-kach-sub  { font-size: 0.52rem; color: #4f6478; margin-top: 2px; line-height: 1.25; }
 .sig-sm-wrap.light .sig-sm-kach-lbl { color: #7a8a9a; }
 .sig-sm-wrap.light .sig-sm-kach-sub { color: #aab0ba; }
 
@@ -699,7 +711,7 @@
 .sig-sm-det-serial { font-size: 0.65rem; color: #5a7a90; }
 .sig-sm-det-fw     { font-size: 0.58rem; color: #3a5060; margin-top: 1px; }
 .sig-sm-det-badge  {
-    display: inline-flex; align-items: center; gap: 4px;
+    display: inline-block; white-space: nowrap;
     font-size: 0.62rem; font-weight: 600;
     padding: 2px 8px; border-radius: 10px; margin-top: 5px;
 }
@@ -707,7 +719,7 @@
 .sig-sm-badge-idle { background: rgba(42,58,80,0.3); color: #5a7a90; border: 1px solid #2a3a50; }
 .sig-sm-badge-err  { background: rgba(224,85,85,0.12); color: #e05555; border: 1px solid rgba(224,85,85,0.25); }
 .sig-sm-badge-on   { background: rgba(74,158,237,0.12); color: #4a9eed; border: 1px solid rgba(74,158,237,0.25); }
-.sig-sm-badge-dot  { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+.sig-sm-badge-dot  { display: inline-block; vertical-align: middle; margin: -2px 4px 0 0; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
 .sig-sm-badge-run .sig-sm-badge-dot { animation: sig-pulse 1.8s infinite; }
 
 /* ── Register-Grid (Tabs 2+) ── */

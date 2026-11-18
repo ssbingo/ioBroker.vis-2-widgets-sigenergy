@@ -181,6 +181,11 @@ Muestra una imagen de vehículo configurable (p. ej. Fiat 500e) como elemento vi
 Todos los widgets admiten un **modo claro y oscuro**, conmutable mediante el ajuste de widget `Modo oscuro`. Los widgets se escalan con su tamaño: el ancho y el alto siguen al widget de forma independiente, mientras que el texto mantiene sus proporciones.
 
 ## Changelog
+### 2.0.2 (2026-11-18)
+* (ssbingo) SigenMicro: nueva barra de pestañas — "Resumen" mantiene su ancho, las pestañas de los dispositivos se reparten el resto en columnas iguales y ya no se salen del widget; hasta 3 dispositivos las pestañas muestran los nombres, con más dispositivos números compactos 01, 02 … (como en los nodos, nombre como información emergente); más de 10 dispositivos en dos filas como los nodos
+* (ssbingo) SigenMicro: las etiquetas quedan exactamente debajo de sus nodos, cada fila de etiquetas justo debajo de su fila de nodos; un clic en un nodo o una etiqueta abre la pestaña de detalle del dispositivo; mejor contraste de los textos de los mosaicos; si varios dispositivos seleccionados informan el mismo nombre, se muestra el número de serie
+* (ssbingo) Widgets estirados: los textos ya no se comprimen dos veces, los textos centrados permanecen centrados y los títulos de los cargadores AC/DC, del inversor y de la batería, así como la insignia de estado y el encabezado de sección de SigenMicro, conservan sus proporciones
+
 ### 2.0.1 (2026-11-17)
 * (ssbingo) Capturas de pantalla del README renovadas: todos los widgets tal como los muestra el conjunto de widgets React en vis-2 2.20, con textos en inglés
 * (ssbingo) Dependencias actualizadas (vite 7.3.8, `@iobroker/gui-components` 10.4.6, `@iobroker/testing` 6.3.2)

@@ -180,6 +180,11 @@ Toont een configureerbaar voertuigafbeelding (bijv. Fiat 500e) als centraal visu
 Alle widgets ondersteunen een **lichte en donkere modus**, die kan worden omgeschakeld via de widget-instelling `Donkere modus`. De widgets schalen mee met hun grootte: breedte en hoogte volgen de widget onafhankelijk van elkaar, terwijl de tekst zijn verhoudingen behoudt.
 
 ## Changelog
+### 2.0.2 (2026-11-18)
+* (ssbingo) SigenMicro: nieuwe tabbalk — "Overzicht" behoudt zijn breedte, de apparaattabbladen delen de rest in gelijke kolommen en lopen niet meer uit de widget; tot 3 apparaten tonen de tabbladen de namen, bij meer apparaten compacte nummers 01, 02 … (zoals bij de knooppunten, naam als knopinfo); boven 10 apparaten twee rijen zoals de knooppunten
+* (ssbingo) SigenMicro: de labels staan precies onder hun knooppunten, elke labelrij direct onder haar knooppuntrij; een klik op een knooppunt of label opent het detailtabblad van het apparaat; beter contrast van de tegelteksten; melden meerdere geselecteerde apparaten dezelfde apparaatnaam, dan wordt het serienummer getoond
+* (ssbingo) Uitgerekte widgets: teksten worden niet meer dubbel samengedrukt, gecentreerde teksten blijven gecentreerd, en de titels van AC-/DC-lader, omvormer en batterij evenals de statusbadge en sectiekop van SigenMicro behouden hun verhoudingen
+
 ### 2.0.1 (2026-11-17)
 * (ssbingo) README-schermafbeeldingen vernieuwd: alle widgets zoals de React-widgetset ze in vis-2 2.20 weergeeft, met Engelse teksten
 * (ssbingo) Afhankelijkheden bijgewerkt (vite 7.3.8, `@iobroker/gui-components` 10.4.6, `@iobroker/testing` 6.3.2)

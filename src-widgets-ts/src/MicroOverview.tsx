@@ -74,6 +74,8 @@ const LAYOUTS = [
     { max: 20, rows: 2, imgW: 40, imgH: 46 },
 ];
 const IMG = 'widgets/vis-2-widgets-sigenergy/img/SigenMicroInverter.png';
+/** Up to this many devices the tabs show the device names, above that compact number tabs. */
+const NAMED_TABS_MAX = 3;
 
 /** "sigenergy.0.sigenmicro.SN1.pv1.power" → prefix "sigenergy.0.sigenmicro.SN1", ns "sigenergy.0" */
 export function parseAnchor(oid: string): { prefix: string; ns: string; serial: string } {
@@ -219,8 +221,23 @@ export default class MicroOverview extends SigWidget<MicroRxData, MicroState> {
         return ids;
     }
 
+    /**
+     * Display name: own name from the widget settings, else the name of the device object, else the
+     * serial number. The cloud may report the name of the parent group for every micro-inverter, so
+     * a device-object name shared by several selected devices does not identify one and is skipped.
+     */
     private name(d: Device, nr: number): string {
-        return d.name || this.state.devNames[d.prefix] || d.serial || `Micro ${String(nr).padStart(2, '0')}`;
+        if (d.name) {
+            return d.name;
+        }
+        const own = this.state.devNames[d.prefix];
+        if (own && own !== d.serial) {
+            const shared = this.devices().some(o => o.prefix !== d.prefix && this.state.devNames[o.prefix] === own);
+            if (!shared) {
+                return own;
+            }
+        }
+        return d.serial || `Micro ${String(nr).padStart(2, '0')}`;
     }
 
     componentDidMount(): void {
@@ -287,7 +304,6 @@ export default class MicroOverview extends SigWidget<MicroRxData, MicroState> {
         return <div className="sig-sm-cloud-warn">⚠ {this.t('sm_cloud_lost')}</div>;
     }
 
-    // eslint-disable-next-line class-methods-use-this
     private busRow(
         stats: Status[],
         startNr: number,
@@ -342,7 +358,11 @@ export default class MicroOverview extends SigWidget<MicroRxData, MicroState> {
                     const x = Math.round(spc * j + spc / 2);
                     const dim = si.key === 'offline' || si.key === 'nodata';
                     return (
-                        <g key={j}>
+                        <g
+                            key={j}
+                            className="sig-sm-node"
+                            onClick={() => this.setState({ tab: startNr + j })}
+                        >
                             <line
                                 x1={x}
                                 y1={busY}
@@ -492,43 +512,49 @@ export default class MicroOverview extends SigWidget<MicroRxData, MicroState> {
         return (
             <>
                 {this.cloudBanner(devices[0])}
-                {rows.map(r =>
-                    this.busRow(stats.slice(r * perRow, (r + 1) * perRow), r * perRow + 1, lay.imgW, lay.imgH, r),
-                )}
+                {/* each row of nodes is directly followed by its labels */}
                 {rows.map(r => (
-                    <div
-                        key={`l${r}`}
-                        className="sig-sm-labels"
-                    >
-                        {devices.slice(r * perRow, (r + 1) * perRow).map((d, k) => {
-                            const i = r * perRow + k;
-                            const si = stats[i];
-                            const p = toNum(this.ev(`${d.prefix}.activePower`));
-                            return (
-                                <div
-                                    key={d.prefix + i}
-                                    className="sig-sm-label"
-                                >
+                    <React.Fragment key={r}>
+                        {this.busRow(stats.slice(r * perRow, (r + 1) * perRow), r * perRow + 1, lay.imgW, lay.imgH, r)}
+                        <div
+                            className="sig-sm-labels"
+                            style={{
+                                gridTemplateColumns: `repeat(${Math.min(perRow, devices.length - r * perRow)}, minmax(0, 1fr))`,
+                            }}
+                        >
+                            {devices.slice(r * perRow, (r + 1) * perRow).map((d, k) => {
+                                const i = r * perRow + k;
+                                const si = stats[i];
+                                const p = toNum(this.ev(`${d.prefix}.activePower`));
+                                const nm = this.name(d, i + 1);
+                                return (
                                     <div
-                                        className="sig-sm-label-id"
-                                        style={{ color: si.col }}
+                                        key={d.prefix + i}
+                                        className="sig-sm-label"
+                                        title={nm}
+                                        onClick={() => this.setState({ tab: i + 1 })}
                                     >
-                                        {this.name(d, i + 1)}
+                                        <div
+                                            className="sig-sm-label-id"
+                                            style={{ color: si.col }}
+                                        >
+                                            {nm}
+                                        </div>
+                                        {si.key !== 'offline' && si.key !== 'nodata' && p !== null ? (
+                                            <div className="sig-sm-label-pwr">{p.toFixed(2)} kW</div>
+                                        ) : null}
+                                        <div
+                                            className="sig-sm-label-st"
+                                            style={{ color: si.col }}
+                                        >
+                                            {si.key === 'producing' ? '● ' : si.key === 'online' ? '◐ ' : '○ '}
+                                            {this.statusLabel(si)}
+                                        </div>
                                     </div>
-                                    {si.key !== 'offline' && si.key !== 'nodata' && p !== null ? (
-                                        <div className="sig-sm-label-pwr">{p.toFixed(2)} kW</div>
-                                    ) : null}
-                                    <div
-                                        className="sig-sm-label-st"
-                                        style={{ color: si.col }}
-                                    >
-                                        {si.key === 'producing' ? '● ' : si.key === 'online' ? '◐ ' : '○ '}
-                                        {this.statusLabel(si)}
-                                    </div>
-                                </div>
-                            );
-                        })}
-                    </div>
+                                );
+                            })}
+                        </div>
+                    </React.Fragment>
                 ))}
                 <div className="sig-sm-kacheln">
                     {tile(this.t('sm_ac_power'), totalP !== null ? totalP.toFixed(2) : '--', 'kW', '#2ecc8a', pSub)}
@@ -645,28 +671,43 @@ export default class MicroOverview extends SigWidget<MicroRxData, MicroState> {
         const devices = this.devices();
         const tab = Math.min(this.state.tab, devices.length);
         const title = this.state.rxData.sig_title || 'SigenMicro';
+        // device tabs in the same rows as the nodes of the overview (two rows above 10 devices)
+        const tabRows = (LAYOUTS.find(l => devices.length <= l.max) || LAYOUTS[LAYOUTS.length - 1]).rows;
+        const tabCols = Math.max(1, Math.ceil(devices.length / tabRows));
 
         return (
             <Scaled designWidth={380}>
                 <div className="sig-w">
                     <div className={dark ? 'sig-sm-wrap' : 'sig-sm-wrap light'}>
                         <div className="sig-sm-title">⚡ {title}</div>
-                        <div className="sig-sm-tabbar">
+                        <div
+                            className="sig-sm-tabbar"
+                            style={{ gridTemplateColumns: `auto repeat(${tabCols}, minmax(0, 1fr))` }}
+                        >
                             <div
-                                className={`sig-sm-tab${tab === 0 ? ' active' : ''}`}
+                                className={`sig-sm-tab sig-no-comp sig-sm-tab-ov${tab === 0 ? ' active' : ''}`}
+                                style={{ gridRow: `1 / span ${tabRows}` }}
                                 onClick={() => this.setState({ tab: 0 })}
                             >
-                                {this.t('sm_overview')}
+                                <span className="sig-sm-tab-txt">{this.t('sm_overview')}</span>
                             </div>
-                            {devices.map((d, i) => (
-                                <div
-                                    key={d.prefix + i}
-                                    className={`sig-sm-tab${tab === i + 1 ? ' active' : ''}`}
-                                    onClick={() => this.setState({ tab: i + 1 })}
-                                >
-                                    {this.name(d, i + 1)}
-                                </div>
-                            ))}
+                            {devices.map((d, i) => {
+                                // Up to three devices the tab shows the name; more devices get compact
+                                // number tabs (the numbers match the nodes of the overview), name as tooltip.
+                                const nr = String(i + 1).padStart(2, '0');
+                                const nm = this.name(d, i + 1);
+                                const named = devices.length <= NAMED_TABS_MAX;
+                                return (
+                                    <div
+                                        key={d.prefix + i}
+                                        className={`sig-sm-tab sig-no-comp ${named ? 'sig-sm-tab-name' : 'sig-sm-tab-nr'}${tab === i + 1 ? ' active' : ''}`}
+                                        title={`${nr} · ${nm}`}
+                                        onClick={() => this.setState({ tab: i + 1 })}
+                                    >
+                                        <span className="sig-sm-tab-txt">{named ? nm : nr}</span>
+                                    </div>
+                                );
+                            })}
                         </div>
                         <div className="sig-sm-panel active">
                             {tab === 0 ? this.renderOverview(devices) : this.renderDetail(devices[tab - 1], tab, dark)}

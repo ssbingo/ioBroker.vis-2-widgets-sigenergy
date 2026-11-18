@@ -32,6 +32,9 @@ const TEXT_SELECTOR = [
     "[class*='-model']",
     "[class*='-serial']",
     "[class*='-fw']",
+    "[class*='-sect']",
+    "[class*='-head'] > .title",
+    "[class*='-head'] > .icon",
     '.sig-sm-label-id',
     '.sig-sm-label-pwr',
     '.sig-sm-label-st',
@@ -65,19 +68,46 @@ export default function Scaled({ designWidth, children }: ScaledProps): React.JS
 
         const comp = sx >= sy ? `scaleX(${sy / sx})` : `scaleY(${sx / sy})`;
         const texts = inner.querySelectorAll<HTMLElement>(TEXT_SELECTOR);
+        const done = new Set<HTMLElement>();
         for (let i = 0; i < texts.length; i++) {
             // Flex/grid containers are not compensated, their children would move.
             // MUI elements bring their own transforms (slider thumb, ripple) — leave them alone.
+            // `.sig-no-comp` marks boxes (e.g. tabs with border) whose text child is compensated instead.
             const el = texts[i];
             if (el.closest('.MuiSlider-root')) {
                 continue;
             }
-            const d = getComputedStyle(el).display;
-            if (d === 'flex' || d === 'grid' || d === 'inline-flex' || d === 'inline-grid') {
+            const st = getComputedStyle(el);
+            const d = st.display;
+            if (
+                el.classList.contains('sig-no-comp') ||
+                d === 'flex' ||
+                d === 'grid' ||
+                d === 'inline-flex' ||
+                d === 'inline-grid'
+            ) {
+                // reset: an earlier pass may have compensated it (e.g. before the stylesheet applied)
+                el.style.transform = '';
                 continue;
             }
+            // An element inside an already compensated one (".sig-sm-label" › ".sig-sm-label-id")
+            // inherits that counter-scale; compensating it again would squeeze the text twice.
+            let nested = false;
+            for (let p = el.parentElement; p && p !== inner; p = p.parentElement) {
+                if (done.has(p)) {
+                    nested = true;
+                    break;
+                }
+            }
+            if (nested) {
+                el.style.transform = '';
+                continue;
+            }
+            done.add(el);
             el.style.transform = comp;
-            el.style.transformOrigin = '0 50%';
+            // scale around the point the text is aligned to, so centred text stays centred
+            const a = st.textAlign;
+            el.style.transformOrigin = a === 'center' ? '50% 50%' : a === 'right' || a === 'end' ? '100% 50%' : '0 50%';
         }
     }, [designWidth]);
 

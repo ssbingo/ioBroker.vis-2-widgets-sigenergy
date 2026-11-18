@@ -180,6 +180,11 @@ Affiche une image de véhicule configurable (p. ex. Fiat 500e) comme élément v
 Tous les widgets prennent en charge un **mode clair et sombre**, commutable via le paramètre de widget `Mode sombre`. Les widgets s'adaptent à leur taille : la largeur et la hauteur suivent le widget indépendamment l'une de l'autre, tandis que le texte conserve ses proportions.
 
 ## Changelog
+### 2.0.2 (2026-11-18)
+* (ssbingo) SigenMicro : nouvelle barre d'onglets — « Vue d'ensemble » garde sa largeur, les onglets des appareils se partagent le reste en colonnes égales et ne débordent plus du widget ; jusqu'à 3 appareils les onglets affichent les noms, au-delà des numéros compacts 01, 02 … (comme sur les nœuds, nom en infobulle) ; au-delà de 10 appareils deux lignes comme les nœuds
+* (ssbingo) SigenMicro : les libellés se trouvent exactement sous leurs nœuds, chaque ligne de libellés directement sous sa ligne de nœuds ; un clic sur un nœud ou un libellé ouvre l'onglet de détail de l'appareil ; meilleur contraste des textes des tuiles ; si plusieurs appareils sélectionnés signalent le même nom, le numéro de série est affiché
+* (ssbingo) Widgets étirés : les textes ne sont plus compressés deux fois, les textes centrés restent centrés, et les titres des chargeurs AC/DC, de l'onduleur et de la batterie ainsi que le badge d'état et l'en-tête de section de SigenMicro gardent leurs proportions
+
 ### 2.0.1 (2026-11-17)
 * (ssbingo) Captures d'écran du README renouvelées : tous les widgets tels que le jeu de widgets React les affiche dans vis-2 2.20, avec des textes en anglais
 * (ssbingo) Dépendances mises à jour (vite 7.3.8, `@iobroker/gui-components` 10.4.6, `@iobroker/testing` 6.3.2)

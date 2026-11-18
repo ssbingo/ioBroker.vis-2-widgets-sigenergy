@@ -190,6 +190,11 @@ Zeigt ein konfigurierbares Fahrzeugbild (z.B. Fiat 500e) als zentrales Sichtelem
 Alle Widgets unterstützen einen **Hell- und Dunkelmodus**, der über die Widget-Einstellung `Dunkelmodus` umgeschaltet werden kann. Die Widgets skalieren mit ihrer Größe: Breite und Höhe folgen dem Widget unabhängig voneinander, die Schrift behält ihre Proportionen.
 
 ## Changelog
+### 2.0.2 (2026-11-18)
+* (ssbingo) SigenMicro: neue Tab-Leiste — „Übersicht“ behält ihre Breite, die Geräte-Tabs teilen sich den Rest in gleich breiten Spalten und laufen nicht mehr aus dem Widget; bis 3 Geräte zeigen die Tabs die Namen, bei mehr Geräten kompakte Nummern 01, 02 … (wie an den Knoten, Name als Tooltip); über 10 Geräte zwei Zeilen wie die Knoten
+* (ssbingo) SigenMicro: Die Beschriftungen stehen genau unter ihren Knoten, jede Beschriftungsreihe direkt unter ihrer Knotenreihe; ein Klick auf Knoten oder Beschriftung öffnet den Detail-Tab des Geräts; besserer Kontrast der Kacheltexte; melden mehrere ausgewählte Geräte denselben Gerätenamen, wird die Seriennummer angezeigt
+* (ssbingo) Gestreckte Widgets: Texte werden nicht mehr doppelt gestaucht, zentrierte Texte bleiben zentriert, und die Titel von AC-/DC-Lader, Wechselrichter und Batterie sowie Status-Badge und Abschnittsüberschrift von SigenMicro behalten ihre Proportionen
+
 ### 2.0.1 (2026-11-17)
 * (ssbingo) README-Screenshots erneuert: alle Widgets so, wie das React-Widget-Set sie in vis-2 2.20 darstellt, mit englischen Texten
 * (ssbingo) Abhängigkeiten aktualisiert (vite 7.3.8, `@iobroker/gui-components` 10.4.6, `@iobroker/testing` 6.3.2)

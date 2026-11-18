@@ -181,6 +181,11 @@ Wyświetla konfigurowalne zdjęcie pojazdu (np. Fiat 500e) jako centralny elemen
 Wszystkie widżety obsługują **tryb jasny i ciemny**, przełączany przez ustawienie widżetu `Tryb ciemny`. Widżety skalują się wraz ze swoim rozmiarem: szerokość i wysokość dopasowują się do widżetu niezależnie od siebie, a tekst zachowuje swoje proporcje.
 
 ## Changelog
+### 2.0.2 (2026-11-18)
+* (ssbingo) SigenMicro: nowy pasek kart — „Przegląd” zachowuje swoją szerokość, karty urządzeń dzielą resztę na równe kolumny i nie wychodzą już poza widżet; do 3 urządzeń karty pokazują nazwy, przy większej liczbie kompaktowe numery 01, 02 … (jak przy węzłach, nazwa jako podpowiedź); powyżej 10 urządzeń dwa wiersze jak węzły
+* (ssbingo) SigenMicro: etykiety znajdują się dokładnie pod swoimi węzłami, każdy wiersz etykiet bezpośrednio pod swoim wierszem węzłów; kliknięcie węzła lub etykiety otwiera kartę szczegółów urządzenia; lepszy kontrast tekstów kafelków; jeśli kilka wybranych urządzeń zgłasza tę samą nazwę, wyświetlany jest numer seryjny
+* (ssbingo) Rozciągnięte widżety: teksty nie są już ściskane podwójnie, teksty wyśrodkowane pozostają wyśrodkowane, a tytuły ładowarek AC/DC, falownika i baterii oraz znaczek stanu i nagłówek sekcji SigenMicro zachowują proporcje
+
 ### 2.0.1 (2026-11-17)
 * (ssbingo) Odnowione zrzuty ekranu w README: wszystkie widżety w postaci wyświetlanej przez zestaw widżetów React w vis-2 2.20, z tekstami w języku angielskim
 * (ssbingo) Zaktualizowano zależności (vite 7.3.8, `@iobroker/gui-components` 10.4.6, `@iobroker/testing` 6.3.2)

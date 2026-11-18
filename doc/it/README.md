@@ -181,6 +181,11 @@ Mostra un'immagine del veicolo configurabile (ad es. Fiat 500e) come elemento vi
 Tutti i widget supportano una **modalità chiara e scura**, commutabile tramite l'impostazione widget `Modalità scura`. I widget si adattano alle loro dimensioni: larghezza e altezza seguono il widget in modo indipendente, mentre il testo mantiene le sue proporzioni.
 
 ## Changelog
+### 2.0.2 (2026-11-18)
+* (ssbingo) SigenMicro: nuova barra delle schede — "Panoramica" mantiene la sua larghezza, le schede dei dispositivi si dividono il resto in colonne uguali e non escono più dal widget; fino a 3 dispositivi le schede mostrano i nomi, con più dispositivi numeri compatti 01, 02 … (come sui nodi, nome come suggerimento); oltre 10 dispositivi due righe come i nodi
+* (ssbingo) SigenMicro: le etichette si trovano esattamente sotto i loro nodi, ogni riga di etichette subito sotto la sua riga di nodi; un clic su un nodo o un'etichetta apre la scheda di dettaglio del dispositivo; contrasto migliore dei testi dei riquadri; se più dispositivi selezionati riportano lo stesso nome, viene mostrato il numero di serie
+* (ssbingo) Widget allungati: i testi non vengono più compressi due volte, i testi centrati restano centrati e i titoli di caricatore AC/DC, inverter e batteria, nonché il badge di stato e l'intestazione di sezione di SigenMicro, mantengono le proporzioni
+
 ### 2.0.1 (2026-11-17)
 * (ssbingo) Screenshot del README rinnovati: tutti i widget come li mostra il set di widget React in vis-2 2.20, con testi in inglese
 * (ssbingo) Dipendenze aggiornate (vite 7.3.8, `@iobroker/gui-components` 10.4.6, `@iobroker/testing` 6.3.2)
