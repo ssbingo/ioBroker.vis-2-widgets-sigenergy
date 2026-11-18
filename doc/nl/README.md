@@ -13,7 +13,7 @@
 ## vis-2-widgets-sigenergy adapter voor ioBroker
 
 VIS-2 widget-set voor de Sigenergy energieopslag-adapter (`ioBroker.sigenergy`).
-Bevat 10 widgets voor visualisatie en besturing van energiestroom, batterijstatus, realtime vermogen, dagstatistieken, AC-lader, DC-lader, omvormer, SigenMicro-micro-omvormeroverzicht, PV-strings en laadniveau van het voertuig.
+Bevat 11 widgets voor visualisatie en besturing van energiestroom, energiehuis, batterijstatus, realtime vermogen, dagstatistieken, AC-lader, DC-lader, omvormer, SigenMicro-micro-omvormeroverzicht, PV-strings en laadniveau van het voertuig.
 
 Sinds versie 2.0.0 zijn de widgets een native vis-2-React-widgetset (React 19, MUI 9).
 
@@ -47,6 +47,20 @@ Toont de huidige energiestroom tussen zonnepanelen, batterij, net en huis als ge
 | `gridActivePower` | Netafname → pijl van net naar midden | Teruglevering → pijl van midden naar net |
 | `pvPower` | PV produceert → pijl van PV naar midden | — |
 | `housePower` | Huis verbruikt → pijl van midden naar huis | — |
+
+### Energiehuis
+Toont de energiestroom als isometrisch huis met garage, auto en de Sigenergy-apparaten: PV op het dak, SigenStor-batterij en gateway aan de gevel, AC-wallbox aan de garage, DC-lader ervoor, een balkoncentrale met SigenMicro op het garagedak en de netaansluiting. Geanimeerde streepjes lopen langs de kabels in de richting van de energiestroom, sneller naarmate het vermogen groter is. Dag en nacht volgen de zon op de locatie uit de ioBroker-systeeminstellingen. Alles is als vectorafbeelding getekend, daardoor blijft de widget in elke grootte scherp en behoudt hij zijn verhoudingen.
+
+**OIDs:** `pvPower`, `housePower`, `essPower`, `essSoc`, `gridActivePower`, `acCharger.chargingPower`, `acCharger.systemState`, `dcCharger.outputPower`, `dcCharger.runningState`, `sigenmicro.totalPower`; optioneel: buitentemperatuur (`oid_temp`) en een statustekst (`oid_status`)
+
+![Energiehuis overdag](../../img/widget-energiehaus.png)
+![Energiehuis ’s nachts](../../img/widget-energiehaus-nacht.png)
+
+| Instelling | Standaard | Beschrijving |
+|---|---|---|
+| sig_daynight | Automatisch | Automatisch (zonnestand), altijd dag of altijd nacht |
+| sig_animation | aan | Geanimeerde stroom langs de kabels |
+| `sig_show_garage`, `sig_show_car`, `sig_show_ac`, `sig_show_dc`, `sig_show_micro` | aan | Garage, auto, AC-lader, DC-lader en balkoncentrale tonen of verbergen. De balkoncentrale vereist de garage; zonder garage hangt de AC-wallbox aan de gevel |
 
 ### Batterijstatus & prognoses
 Toont SOC, SOH, laadvermogen en prognoses voor laadtijd, resterende looptijd, eigenverbruik en zelfredzaamheidsgraad.
@@ -180,6 +194,9 @@ Toont een configureerbaar voertuigafbeelding (bijv. Fiat 500e) als centraal visu
 Alle widgets ondersteunen een **lichte en donkere modus**, die kan worden omgeschakeld via de widget-instelling `Donkere modus`. De widgets schalen mee met hun grootte: breedte en hoogte volgen de widget onafhankelijk van elkaar, terwijl de tekst zijn verhoudingen behoudt.
 
 ## Changelog
+### 2.1.0 (2026-11-18)
+* (ssbingo) **Nieuwe widget "Energiehuis":** de energiestroom als isometrisch huis met garage, auto, PV op het dak, SigenStor en gateway aan de gevel, AC-wallbox, DC-lader, een balkoncentrale met SigenMicro op het garagedak en de netaansluiting; geanimeerde kabels in stroomrichting, dag en nacht volgens de zonnestand, optioneel buitentemperatuur en statustekst, elk onderdeel kan worden verborgen
+
 ### 2.0.2 (2026-11-18)
 * (ssbingo) SigenMicro: nieuwe tabbalk — "Overzicht" behoudt zijn breedte, de apparaattabbladen delen de rest in gelijke kolommen en lopen niet meer uit de widget; tot 3 apparaten tonen de tabbladen de namen, bij meer apparaten compacte nummers 01, 02 … (zoals bij de knooppunten, naam als knopinfo); boven 10 apparaten twee rijen zoals de knooppunten
 * (ssbingo) SigenMicro: de labels staan precies onder hun knooppunten, elke labelrij direct onder haar knooppuntrij; een klik op een knooppunt of label opent het detailtabblad van het apparaat; beter contrast van de tegelteksten; melden meerdere geselecteerde apparaten dezelfde apparaatnaam, dan wordt het serienummer getoond

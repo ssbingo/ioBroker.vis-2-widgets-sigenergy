@@ -13,7 +13,7 @@
 ## Adaptateur vis-2-widgets-sigenergy pour ioBroker
 
 Ensemble de widgets VIS-2 pour l'adaptateur de stockage d'énergie Sigenergy (`ioBroker.sigenergy`).
-Contient 10 widgets pour la visualisation et le contrôle du flux d'énergie, de l'état de la batterie, de la puissance en temps réel, des statistiques journalières, du chargeur AC, du chargeur DC, de l'onduleur, de la vue d'ensemble des micro-onduleurs SigenMicro, des chaînes photovoltaïques et du niveau de charge du véhicule.
+Contient 11 widgets pour la visualisation et le contrôle du flux d'énergie, de la maison énergie, de l'état de la batterie, de la puissance en temps réel, des statistiques journalières, du chargeur AC, du chargeur DC, de l'onduleur, de la vue d'ensemble des micro-onduleurs SigenMicro, des chaînes photovoltaïques et du niveau de charge du véhicule.
 
 Depuis la version 2.0.0, les widgets forment un ensemble de widgets React natif pour vis-2 (React 19, MUI 9).
 
@@ -47,6 +47,20 @@ Affiche le flux d'énergie actuel entre les panneaux solaires, la batterie, le r
 | `gridActivePower` | Soutirage réseau → flèche du réseau vers le centre | Injection réseau → flèche du centre vers le réseau |
 | `pvPower` | PV produit → flèche du PV vers le centre | — |
 | `housePower` | Maison consomme → flèche du centre vers la maison | — |
+
+### Maison énergie
+Affiche le flux d'énergie sous la forme d'une maison isométrique avec garage, voiture et les appareils Sigenergy : PV sur le toit, batterie SigenStor et passerelle sur le mur de la maison, borne AC sur le garage, chargeur DC devant, une centrale de balcon avec SigenMicro sur le toit du garage et le raccordement au réseau. Des tirets animés parcourent les câbles dans le sens du flux d'énergie, d'autant plus vite que la puissance est élevée. Le jour et la nuit suivent le soleil au lieu indiqué dans les paramètres système d'ioBroker. Tout est dessiné en graphiques vectoriels : le widget reste net à toute taille et garde ses proportions.
+
+**OIDs :** `pvPower`, `housePower`, `essPower`, `essSoc`, `gridActivePower`, `acCharger.chargingPower`, `acCharger.systemState`, `dcCharger.outputPower`, `dcCharger.runningState`, `sigenmicro.totalPower` ; facultatif : température extérieure (`oid_temp`) et un texte d'état (`oid_status`)
+
+![Maison énergie de jour](../../img/widget-energiehaus.png)
+![Maison énergie de nuit](../../img/widget-energiehaus-nacht.png)
+
+| Paramètre | Défaut | Description |
+|---|---|---|
+| sig_daynight | Automatique | Automatique (position du soleil), toujours jour ou toujours nuit |
+| sig_animation | activé | Flux animé le long des câbles |
+| `sig_show_garage`, `sig_show_car`, `sig_show_ac`, `sig_show_dc`, `sig_show_micro` | activé | Afficher ou masquer garage, voiture, borne AC, chargeur DC et centrale de balcon. La centrale de balcon nécessite le garage ; sans garage, la borne AC est fixée au mur de la maison |
 
 ### État de la batterie & prévisions
 Affiche SOC, SOH, puissance de charge et prévisions pour le temps de charge, l'autonomie restante, l'autoconsommation et le taux d'autarcie.
@@ -180,6 +194,9 @@ Affiche une image de véhicule configurable (p. ex. Fiat 500e) comme élément v
 Tous les widgets prennent en charge un **mode clair et sombre**, commutable via le paramètre de widget `Mode sombre`. Les widgets s'adaptent à leur taille : la largeur et la hauteur suivent le widget indépendamment l'une de l'autre, tandis que le texte conserve ses proportions.
 
 ## Changelog
+### 2.1.0 (2026-11-18)
+* (ssbingo) **Nouveau widget « Maison énergie » :** le flux d'énergie sous forme de maison isométrique avec garage, voiture, PV sur le toit, SigenStor et passerelle au mur, borne AC, chargeur DC, une centrale de balcon avec SigenMicro sur le toit du garage et le raccordement au réseau ; câbles animés dans le sens du flux, jour et nuit selon la position du soleil, température extérieure et texte d'état facultatifs, chaque élément peut être masqué
+
 ### 2.0.2 (2026-11-18)
 * (ssbingo) SigenMicro : nouvelle barre d'onglets — « Vue d'ensemble » garde sa largeur, les onglets des appareils se partagent le reste en colonnes égales et ne débordent plus du widget ; jusqu'à 3 appareils les onglets affichent les noms, au-delà des numéros compacts 01, 02 … (comme sur les nœuds, nom en infobulle) ; au-delà de 10 appareils deux lignes comme les nœuds
 * (ssbingo) SigenMicro : les libellés se trouvent exactement sous leurs nœuds, chaque ligne de libellés directement sous sa ligne de nœuds ; un clic sur un nœud ou un libellé ouvre l'onglet de détail de l'appareil ; meilleur contraste des textes des tuiles ; si plusieurs appareils sélectionnés signalent le même nom, le numéro de série est affiché

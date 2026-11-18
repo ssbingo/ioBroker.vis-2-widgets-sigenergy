@@ -13,7 +13,7 @@
 ## Adapter vis-2-widgets-sigenergy dla ioBroker
 
 Zestaw widżetów VIS-2 dla adaptera magazynowania energii Sigenergy (`ioBroker.sigenergy`).
-Zawiera 10 widżetów do wizualizacji i sterowania przepływem energii, stanem baterii, mocą w czasie rzeczywistym, statystykami dziennymi, ładowarką AC, ładowarką DC, falownikiem, przeglądem mikrofalowników SigenMicro, łańcuchami PV i poziomem naładowania pojazdu.
+Zawiera 11 widżetów do wizualizacji i sterowania przepływem energii, domem energii, stanem baterii, mocą w czasie rzeczywistym, statystykami dziennymi, ładowarką AC, ładowarką DC, falownikiem, przeglądem mikrofalowników SigenMicro, łańcuchami PV i poziomem naładowania pojazdu.
 
 Od wersji 2.0.0 widżety są natywnym zestawem widżetów React dla vis-2 (React 19, MUI 9).
 
@@ -48,6 +48,20 @@ Animowane strzałki wizualizują aktywne połączenia w czasie rzeczywistym.
 | `gridActivePower` | Pobór z sieci → strzałka od sieci do środka | Oddawanie do sieci → strzałka od środka do sieci |
 | `pvPower` | PV produkuje → strzałka od PV do środka | — |
 | `housePower` | Dom zużywa → strzałka od środka do domu | — |
+
+### Dom energii
+Pokazuje przepływ energii jako izometryczny dom z garażem, samochodem i urządzeniami Sigenergy: PV na dachu, bateria SigenStor i bramka na ścianie domu, wallbox AC na garażu, ładowarka DC przed nim, elektrownia balkonowa z SigenMicro na dachu garażu oraz przyłącze sieciowe. Animowane kreski biegną wzdłuż przewodów w kierunku przepływu energii, tym szybciej, im większa moc. Dzień i noc podążają za słońcem w lokalizacji z ustawień systemowych ioBroker. Całość jest rysowana jako grafika wektorowa, dlatego widżet pozostaje ostry w każdym rozmiarze i zachowuje proporcje.
+
+**OIDs:** `pvPower`, `housePower`, `essPower`, `essSoc`, `gridActivePower`, `acCharger.chargingPower`, `acCharger.systemState`, `dcCharger.outputPower`, `dcCharger.runningState`, `sigenmicro.totalPower`; opcjonalnie: temperatura zewnętrzna (`oid_temp`) i tekst statusu (`oid_status`)
+
+![Dom energii w dzień](../../img/widget-energiehaus.png)
+![Dom energii w nocy](../../img/widget-energiehaus-nacht.png)
+
+| Ustawienie | Domyślnie | Opis |
+|---|---|---|
+| sig_daynight | Automatycznie | Automatycznie (położenie słońca), zawsze dzień lub zawsze noc |
+| sig_animation | wł. | Animowany przepływ wzdłuż przewodów |
+| `sig_show_garage`, `sig_show_car`, `sig_show_ac`, `sig_show_dc`, `sig_show_micro` | wł. | Pokazuje lub ukrywa garaż, samochód, ładowarkę AC, ładowarkę DC i elektrownię balkonową. Elektrownia balkonowa wymaga garażu; bez garażu wallbox AC wisi na ścianie domu |
 
 ### Stan baterii i prognozy
 Wyświetla SOC, SOH, moc ładowania oraz prognozy czasu do pełnego naładowania, pozostałego czasu pracy, autokonsumpcji i stopnia autarki.
@@ -181,6 +195,9 @@ Wyświetla konfigurowalne zdjęcie pojazdu (np. Fiat 500e) jako centralny elemen
 Wszystkie widżety obsługują **tryb jasny i ciemny**, przełączany przez ustawienie widżetu `Tryb ciemny`. Widżety skalują się wraz ze swoim rozmiarem: szerokość i wysokość dopasowują się do widżetu niezależnie od siebie, a tekst zachowuje swoje proporcje.
 
 ## Changelog
+### 2.1.0 (2026-11-18)
+* (ssbingo) **Nowy widżet „Dom energii”:** przepływ energii jako izometryczny dom z garażem, samochodem, PV na dachu, SigenStor i bramką na ścianie, wallboxem AC, ładowarką DC, elektrownią balkonową z SigenMicro na dachu garażu i przyłączem sieciowym; animowane przewody w kierunku przepływu, dzień i noc według położenia słońca, opcjonalnie temperatura zewnętrzna i tekst statusu, każdą część można ukryć
+
 ### 2.0.2 (2026-11-18)
 * (ssbingo) SigenMicro: nowy pasek kart — „Przegląd” zachowuje swoją szerokość, karty urządzeń dzielą resztę na równe kolumny i nie wychodzą już poza widżet; do 3 urządzeń karty pokazują nazwy, przy większej liczbie kompaktowe numery 01, 02 … (jak przy węzłach, nazwa jako podpowiedź); powyżej 10 urządzeń dwa wiersze jak węzły
 * (ssbingo) SigenMicro: etykiety znajdują się dokładnie pod swoimi węzłami, każdy wiersz etykiet bezpośrednio pod swoim wierszem węzłów; kliknięcie węzła lub etykiety otwiera kartę szczegółów urządzenia; lepszy kontrast tekstów kafelków; jeśli kilka wybranych urządzeń zgłasza tę samą nazwę, wyświetlany jest numer seryjny

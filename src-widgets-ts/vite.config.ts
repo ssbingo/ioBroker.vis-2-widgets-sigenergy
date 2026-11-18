@@ -23,6 +23,7 @@ const config = {
                 './MicroOverview': './src/MicroOverview',
                 './PvStrings': './src/PvStrings',
                 './EvSoc': './src/EvSoc',
+                './EnergyHouse': './src/EnergyHouse',
                 './translations': './src/translations',
             },
             remotes: {},

@@ -13,7 +13,7 @@
 ## Adaptador vis-2-widgets-sigenergy para ioBroker
 
 Conjunto de widgets VIS-2 para el adaptador de almacenamiento de energía Sigenergy (`ioBroker.sigenergy`).
-Contiene 10 widgets para la visualización y el control del flujo de energía, el estado de la batería, la potencia en tiempo real, las estadísticas diarias, el cargador AC, el cargador DC, el inversor, la vista general de los microinversores SigenMicro, los strings fotovoltaicos y el nivel de carga del vehículo.
+Contiene 11 widgets para la visualización y el control del flujo de energía, la casa energética, el estado de la batería, la potencia en tiempo real, las estadísticas diarias, el cargador AC, el cargador DC, el inversor, la vista general de los microinversores SigenMicro, los strings fotovoltaicos y el nivel de carga del vehículo.
 
 Desde la versión 2.0.0, los widgets son un conjunto de widgets React nativo de vis-2 (React 19, MUI 9).
 
@@ -48,6 +48,20 @@ Las flechas animadas visualizan las conexiones activas en tiempo real.
 | `gridActivePower` | Consumo de red → flecha de la red al centro | Inyección a la red → flecha del centro a la red |
 | `pvPower` | PV produciendo → flecha del PV al centro | — |
 | `housePower` | Hogar consumiendo → flecha del centro al hogar | — |
+
+### Casa energética
+Muestra el flujo de energía como una casa isométrica con garaje, coche y los dispositivos Sigenergy: PV en el tejado, batería SigenStor y pasarela en la pared de la casa, wallbox AC en el garaje, cargador DC delante, una planta solar de balcón con SigenMicro en el tejado del garaje y la conexión a la red. Trazos animados recorren los cables en la dirección del flujo de energía, más rápido cuanto mayor es la potencia. El día y la noche siguen al sol en la ubicación de la configuración del sistema de ioBroker. Todo está dibujado con gráficos vectoriales, por lo que el widget se ve nítido en cualquier tamaño y conserva sus proporciones.
+
+**OIDs:** `pvPower`, `housePower`, `essPower`, `essSoc`, `gridActivePower`, `acCharger.chargingPower`, `acCharger.systemState`, `dcCharger.outputPower`, `dcCharger.runningState`, `sigenmicro.totalPower`; opcional: temperatura exterior (`oid_temp`) y un texto de estado (`oid_status`)
+
+![Casa energética de día](../../img/widget-energiehaus.png)
+![Casa energética de noche](../../img/widget-energiehaus-nacht.png)
+
+| Ajuste | Predeterminado | Descripción |
+|---|---|---|
+| sig_daynight | Automático | Automático (posición del sol), siempre día o siempre noche |
+| sig_animation | activado | Flujo animado a lo largo de los cables |
+| `sig_show_garage`, `sig_show_car`, `sig_show_ac`, `sig_show_dc`, `sig_show_micro` | activado | Mostrar u ocultar garaje, coche, cargador AC, cargador DC y planta de balcón. La planta de balcón requiere el garaje; sin garaje, la wallbox AC cuelga de la pared de la casa |
 
 ### Estado de la batería y previsiones
 Muestra SOC, SOH, potencia de carga y previsiones de tiempo de carga completa, autonomía restante, autoconsumo y tasa de autarquía.
@@ -181,6 +195,9 @@ Muestra una imagen de vehículo configurable (p. ej. Fiat 500e) como elemento vi
 Todos los widgets admiten un **modo claro y oscuro**, conmutable mediante el ajuste de widget `Modo oscuro`. Los widgets se escalan con su tamaño: el ancho y el alto siguen al widget de forma independiente, mientras que el texto mantiene sus proporciones.
 
 ## Changelog
+### 2.1.0 (2026-11-18)
+* (ssbingo) **Nuevo widget "Casa energética":** el flujo de energía como casa isométrica con garaje, coche, PV en el tejado, SigenStor y pasarela en la pared, wallbox AC, cargador DC, una planta de balcón con SigenMicro en el tejado del garaje y la conexión a la red; cables animados en la dirección del flujo, día y noche según la posición del sol, temperatura exterior y texto de estado opcionales, cada parte se puede ocultar
+
 ### 2.0.2 (2026-11-18)
 * (ssbingo) SigenMicro: nueva barra de pestañas — "Resumen" mantiene su ancho, las pestañas de los dispositivos se reparten el resto en columnas iguales y ya no se salen del widget; hasta 3 dispositivos las pestañas muestran los nombres, con más dispositivos números compactos 01, 02 … (como en los nodos, nombre como información emergente); más de 10 dispositivos en dos filas como los nodos
 * (ssbingo) SigenMicro: las etiquetas quedan exactamente debajo de sus nodos, cada fila de etiquetas justo debajo de su fila de nodos; un clic en un nodo o una etiqueta abre la pestaña de detalle del dispositivo; mejor contraste de los textos de los mosaicos; si varios dispositivos seleccionados informan el mismo nombre, se muestra el número de serie

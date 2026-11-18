@@ -13,7 +13,7 @@
 ## vis-2-widgets-sigenergy adapter for ioBroker
 
 VIS-2 widget set for the Sigenergy energy storage adapter (`ioBroker.sigenergy`).
-Contains 10 widgets for visualisation and control of energy flow, battery status, real-time power, daily statistics, AC charger, DC charger, inverter, SigenMicro micro-inverter overview, PV strings and vehicle charge level.
+Contains 11 widgets for visualisation and control of energy flow, energy house, battery status, real-time power, daily statistics, AC charger, DC charger, inverter, SigenMicro micro-inverter overview, PV strings and vehicle charge level.
 
 Since version 2.0.0 the widgets are a native vis-2 React widget set (React 19, MUI 9).
 
@@ -48,6 +48,20 @@ Animated arrows visualise active connections in real time.
 | `gridActivePower` | Grid consumption → arrow from grid to centre | Grid feed-in → arrow from centre to grid |
 | `pvPower` | PV producing → arrow from PV to centre | — |
 | `housePower` | House consuming → arrow from centre to house | — |
+
+### Energy House
+Shows the energy flow as an isometric house with garage, car and the Sigenergy devices: PV on the roof, SigenStor battery and gateway on the house wall, AC wallbox on the garage, DC charger in front of it, a balcony power plant with SigenMicro on the garage roof and the grid connection. Animated dashes run along the cables in the direction of the energy flow, faster with more power. Day and night follow the sun at the location of the ioBroker system settings. Everything is drawn as vector graphics, so the widget stays sharp at any size and keeps its proportions.
+
+**OIDs:** `pvPower`, `housePower`, `essPower`, `essSoc`, `gridActivePower`, `acCharger.chargingPower`, `acCharger.systemState`, `dcCharger.outputPower`, `dcCharger.runningState`, `sigenmicro.totalPower`; optional: outdoor temperature (`oid_temp`) and a status text (`oid_status`)
+
+![Energy house by day](img/widget-energiehaus.png)
+![Energy house at night](img/widget-energiehaus-nacht.png)
+
+| Setting | Default | Description |
+|---|---|---|
+| sig_daynight | Automatic | Automatic (position of the sun), always day or always night |
+| sig_animation | on | Animated flow along the cables |
+| `sig_show_garage`, `sig_show_car`, `sig_show_ac`, `sig_show_dc`, `sig_show_micro` | on | Show or hide garage, car, AC charger, DC charger and the balcony power plant. The balcony power plant needs the garage; without the garage the AC wallbox hangs on the house wall |
 
 ### Battery Status & Forecasts
 Displays SOC, SOH, charging power and forecasts for time to full charge, remaining runtime, self-consumption and autarky rate.
@@ -190,6 +204,9 @@ Displays a configurable vehicle image (e.g. Fiat 500e) as the central visual ele
 All widgets support a **light and dark mode**, switchable via the widget setting `Dark mode`. The widgets scale with their size: width and height follow the widget independently, while the text keeps its proportions.
 
 ## Changelog
+### 2.1.0 (2026-11-18)
+* (ssbingo) **New widget "Energy house":** the energy flow as an isometric house with garage, car, PV on the roof, SigenStor and gateway on the house wall, AC wallbox, DC charger, a balcony power plant with SigenMicro on the garage roof and the grid connection; animated cables in the direction of the flow, day and night after the position of the sun, optional outdoor temperature and status text, every part can be hidden
+
 ### 2.0.2 (2026-11-18)
 * (ssbingo) SigenMicro: new tab bar — "Overview" keeps its width, the device tabs share the rest in equal columns and no longer run out of the widget; up to 3 devices the tabs show the names, with more devices compact numbers 01, 02 … (as on the nodes, name as tooltip); above 10 devices two rows like the nodes
 * (ssbingo) SigenMicro: the labels sit exactly below their nodes, each label row directly below its node row; a click on a node or label opens the detail tab of the device; better contrast of the tile texts; if several selected devices report the same device name, the serial number is shown

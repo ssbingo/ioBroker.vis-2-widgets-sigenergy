@@ -13,7 +13,7 @@
 ## vis-2-widgets-sigenergy Adapter für ioBroker
 
 VIS-2 Widget-Set für den Sigenergy-Energiespeicher-Adapter (`ioBroker.sigenergy`).
-Enthält 10 Widgets zur Visualisierung und Steuerung von Energiefluss, Batteriestatus, Echtzeit-Leistung, Tagesstatistiken, AC-Lader, DC-Lader, Wechselrichter, SigenMicro-Mikrowechselrichter-Übersicht, PV-Strings und Fahrzeug-Ladestand.
+Enthält 11 Widgets zur Visualisierung und Steuerung von Energiefluss, Energiehaus, Batteriestatus, Echtzeit-Leistung, Tagesstatistiken, AC-Lader, DC-Lader, Wechselrichter, SigenMicro-Mikrowechselrichter-Übersicht, PV-Strings und Fahrzeug-Ladestand.
 
 Seit Version 2.0.0 sind die Widgets ein natives vis-2-React-Widget-Set (React 19, MUI 9).
 
@@ -48,6 +48,20 @@ Fließende Pfeile visualisieren aktive Verbindungen in Echtzeit.
 | `gridActivePower` | Netzbezug → Pfeil vom Netz zur Mitte | Einspeisung → Pfeil von Mitte zum Netz |
 | `pvPower` | PV erzeugt → Pfeil von PV zur Mitte | — |
 | `housePower` | Haus verbraucht → Pfeil von Mitte zum Haus | — |
+
+### Energiehaus
+Zeigt den Energiefluss als isometrisches Haus mit Garage, Auto und den Sigenergy-Geräten: PV auf dem Dach, SigenStor-Batterie und Gateway an der Hauswand, AC-Wallbox an der Garage, DC-Lader davor, ein Balkonkraftwerk mit SigenMicro auf dem Garagendach und der Netzanschluss. Animierte Striche laufen in Richtung des Energieflusses an den Leitungen entlang, je mehr Leistung, desto schneller. Tag und Nacht folgen der Sonne am Standort aus den ioBroker-Systemeinstellungen. Alles ist als Vektorgrafik gezeichnet, das Widget bleibt daher in jeder Größe scharf und behält seine Proportionen.
+
+**OIDs:** `pvPower`, `housePower`, `essPower`, `essSoc`, `gridActivePower`, `acCharger.chargingPower`, `acCharger.systemState`, `dcCharger.outputPower`, `dcCharger.runningState`, `sigenmicro.totalPower`; optional: Außentemperatur (`oid_temp`) und ein Statustext (`oid_status`)
+
+![Energiehaus am Tag](../../img/widget-energiehaus.png)
+![Energiehaus in der Nacht](../../img/widget-energiehaus-nacht.png)
+
+| Einstellung | Vorgabe | Beschreibung |
+|---|---|---|
+| sig_daynight | Automatisch | Automatisch (Sonnenstand), immer Tag oder immer Nacht |
+| sig_animation | an | Animierter Fluss an den Leitungen |
+| `sig_show_garage`, `sig_show_car`, `sig_show_ac`, `sig_show_dc`, `sig_show_micro` | an | Garage, Auto, AC-Lader, DC-Lader und Balkonkraftwerk ein- oder ausblenden. Das Balkonkraftwerk benötigt die Garage; ohne Garage hängt die AC-Wallbox an der Hauswand |
 
 ### Akku-Status & Prognosen
 Zeigt SOC, SOH, Ladeleistung sowie Prognosen für Ladezeit, Restlaufzeit, Eigenverbrauch und Autarkierate.
@@ -190,6 +204,9 @@ Zeigt ein konfigurierbares Fahrzeugbild (z.B. Fiat 500e) als zentrales Sichtelem
 Alle Widgets unterstützen einen **Hell- und Dunkelmodus**, der über die Widget-Einstellung `Dunkelmodus` umgeschaltet werden kann. Die Widgets skalieren mit ihrer Größe: Breite und Höhe folgen dem Widget unabhängig voneinander, die Schrift behält ihre Proportionen.
 
 ## Changelog
+### 2.1.0 (2026-11-18)
+* (ssbingo) **Neues Widget „Energiehaus“:** der Energiefluss als isometrisches Haus mit Garage, Auto, PV auf dem Dach, SigenStor und Gateway an der Hauswand, AC-Wallbox, DC-Lader, einem Balkonkraftwerk mit SigenMicro auf dem Garagendach und dem Netzanschluss; animierte Leitungen in Flussrichtung, Tag und Nacht nach Sonnenstand, optional Außentemperatur und Statustext, jedes Bauteil ausblendbar
+
 ### 2.0.2 (2026-11-18)
 * (ssbingo) SigenMicro: neue Tab-Leiste — „Übersicht“ behält ihre Breite, die Geräte-Tabs teilen sich den Rest in gleich breiten Spalten und laufen nicht mehr aus dem Widget; bis 3 Geräte zeigen die Tabs die Namen, bei mehr Geräten kompakte Nummern 01, 02 … (wie an den Knoten, Name als Tooltip); über 10 Geräte zwei Zeilen wie die Knoten
 * (ssbingo) SigenMicro: Die Beschriftungen stehen genau unter ihren Knoten, jede Beschriftungsreihe direkt unter ihrer Knotenreihe; ein Klick auf Knoten oder Beschriftung öffnet den Detail-Tab des Geräts; besserer Kontrast der Kacheltexte; melden mehrere ausgewählte Geräte denselben Gerätenamen, wird die Seriennummer angezeigt

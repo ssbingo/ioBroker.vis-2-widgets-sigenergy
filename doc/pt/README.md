@@ -13,7 +13,7 @@
 ## Adaptador vis-2-widgets-sigenergy para ioBroker
 
 Conjunto de widgets VIS-2 para o adaptador de armazenamento de energia Sigenergy (`ioBroker.sigenergy`).
-Contém 10 widgets para visualização e controlo do fluxo de energia, estado da bateria, potência em tempo real, estatísticas diárias, carregador AC, carregador DC, inversor, visão geral dos micro-inversores SigenMicro, strings fotovoltaicas e nível de carga do veículo.
+Contém 11 widgets para visualização e controlo do fluxo de energia, casa de energia, estado da bateria, potência em tempo real, estatísticas diárias, carregador AC, carregador DC, inversor, visão geral dos micro-inversores SigenMicro, strings fotovoltaicas e nível de carga do veículo.
 
 Desde a versão 2.0.0, os widgets são um conjunto de widgets React nativo do vis-2 (React 19, MUI 9).
 
@@ -48,6 +48,20 @@ Setas animadas visualizam as ligações ativas em tempo real.
 | `gridActivePower` | Consumo da rede → seta da rede para o centro | Injeção na rede → seta do centro para a rede |
 | `pvPower` | PV a produzir → seta do PV para o centro | — |
 | `housePower` | Casa a consumir → seta do centro para a casa | — |
+
+### Casa de energia
+Mostra o fluxo de energia como uma casa isométrica com garagem, carro e os dispositivos Sigenergy: PV no telhado, bateria SigenStor e gateway na parede da casa, wallbox AC na garagem, carregador DC à frente, uma central solar de varanda com SigenMicro no telhado da garagem e a ligação à rede. Traços animados percorrem os cabos no sentido do fluxo de energia, mais depressa quanto maior a potência. Dia e noite seguem o sol no local das definições de sistema do ioBroker. Tudo é desenhado em gráficos vetoriais, pelo que o widget fica nítido em qualquer tamanho e mantém as proporções.
+
+**OIDs:** `pvPower`, `housePower`, `essPower`, `essSoc`, `gridActivePower`, `acCharger.chargingPower`, `acCharger.systemState`, `dcCharger.outputPower`, `dcCharger.runningState`, `sigenmicro.totalPower`; opcional: temperatura exterior (`oid_temp`) e um texto de estado (`oid_status`)
+
+![Casa de energia de dia](../../img/widget-energiehaus.png)
+![Casa de energia à noite](../../img/widget-energiehaus-nacht.png)
+
+| Definição | Predefinição | Descrição |
+|---|---|---|
+| sig_daynight | Automático | Automático (posição do sol), sempre dia ou sempre noite |
+| sig_animation | ligado | Fluxo animado ao longo dos cabos |
+| `sig_show_garage`, `sig_show_car`, `sig_show_ac`, `sig_show_dc`, `sig_show_micro` | ligado | Mostrar ou ocultar garagem, carro, carregador AC, carregador DC e a central de varanda. A central de varanda requer a garagem; sem garagem a wallbox AC fica na parede da casa |
 
 ### Estado da bateria e previsões
 Apresenta SOC, SOH, potência de carga e previsões do tempo até carga completa, autonomia restante, autoconsumo e taxa de autarcia.
@@ -181,6 +195,9 @@ Mostra uma imagem de veículo configurável (p. ex. Fiat 500e) como elemento vis
 Todos os widgets suportam um **modo claro e escuro**, comutável através da definição do widget `Modo escuro`. Os widgets escalam com o seu tamanho: a largura e a altura acompanham o widget de forma independente, enquanto o texto mantém as suas proporções.
 
 ## Changelog
+### 2.1.0 (2026-11-18)
+* (ssbingo) **Novo widget "Casa de energia":** o fluxo de energia como casa isométrica com garagem, carro, PV no telhado, SigenStor e gateway na parede, wallbox AC, carregador DC, uma central de varanda com SigenMicro no telhado da garagem e a ligação à rede; cabos animados no sentido do fluxo, dia e noite pela posição do sol, temperatura exterior e texto de estado opcionais, cada parte pode ser ocultada
+
 ### 2.0.2 (2026-11-18)
 * (ssbingo) SigenMicro: nova barra de separadores — "Visão geral" mantém a sua largura, os separadores dos dispositivos partilham o resto em colunas iguais e já não saem do widget; até 3 dispositivos os separadores mostram os nomes, com mais dispositivos números compactos 01, 02 … (como nos nós, nome como dica); acima de 10 dispositivos duas linhas como os nós
 * (ssbingo) SigenMicro: as legendas ficam exatamente por baixo dos seus nós, cada linha de legendas logo abaixo da sua linha de nós; um clique num nó ou legenda abre o separador de detalhe do dispositivo; melhor contraste dos textos dos mosaicos; se vários dispositivos selecionados comunicarem o mesmo nome, é mostrado o número de série

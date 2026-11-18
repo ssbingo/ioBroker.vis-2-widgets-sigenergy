@@ -13,7 +13,7 @@
 ## ioBroker 的 vis-2-widgets-sigenergy 适配器
 
 用于 Sigenergy 储能适配器的 VIS-2 小部件集 (`ioBroker.sigenergy`).
-包含 10 个小部件,用于可视化和控制能量流、电池状态、实时功率、每日统计、AC 充电器、DC 充电器、逆变器、SigenMicro 微型逆变器概览、光伏组串和车辆电量。
+包含 11 个小部件,用于可视化和控制能量流、能源之家、电池状态、实时功率、每日统计、AC 充电器、DC 充电器、逆变器、SigenMicro 微型逆变器概览、光伏组串和车辆电量。
 
 自 2.0.0 版本起,这些小部件是原生的 vis-2 React 小部件集(React 19、MUI 9)。
 
@@ -48,6 +48,20 @@ Animated arrows visualise active connections in real time.
 | `gridActivePower` | Grid consumption → arrow from grid to centre | Grid feed-in → arrow from centre to grid |
 | `pvPower` | PV producing → arrow from PV to centre | — |
 | `housePower` | House consuming → arrow from centre to house | — |
+
+### 能源之家
+以带车库、汽车和 Sigenergy 设备的等轴测房屋显示能量流：屋顶上的光伏、房屋外墙上的 SigenStor 电池和网关、车库上的交流充电桩、车库前的直流充电桩、车库屋顶上带 SigenMicro 的阳台电站以及电网连接。动画虚线沿电缆按能量流方向移动，功率越大移动越快。白天和夜晚按 ioBroker 系统设置中的位置跟随太阳。全部以矢量图形绘制，因此小部件在任何尺寸下都保持清晰并保持比例。
+
+**OIDs：** `pvPower`, `housePower`, `essPower`, `essSoc`, `gridActivePower`, `acCharger.chargingPower`, `acCharger.systemState`, `dcCharger.outputPower`, `dcCharger.runningState`, `sigenmicro.totalPower`；可选：室外温度（`oid_temp`）和状态文本（`oid_status`）
+
+![白天的能源之家](../../img/widget-energiehaus.png)
+![夜晚的能源之家](../../img/widget-energiehaus-nacht.png)
+
+| 设置 | 默认值 | 说明 |
+|---|---|---|
+| sig_daynight | 自动 | 自动（太阳位置）、始终白天或始终夜晚 |
+| sig_animation | 开 | 沿电缆的动画流动 |
+| `sig_show_garage`, `sig_show_car`, `sig_show_ac`, `sig_show_dc`, `sig_show_micro` | 开 | 显示或隐藏车库、汽车、交流充电桩、直流充电桩和阳台电站。阳台电站需要车库；没有车库时交流充电桩挂在房屋外墙上 |
 
 ### 电池状态与预测
 Displays SOC, SOH, charging power and forecasts for time to full charge, remaining runtime, self-consumption and autarky rate.
@@ -190,6 +204,9 @@ online, activePower, reactivePower, pvPower, pv1…pv4.voltage / current / power
 所有小部件均支持**浅色和深色模式**,可通过小部件设置 `Dark mode` 切换。小部件会随其尺寸缩放:宽度和高度分别独立跟随小部件,而文字保持其比例。
 
 ## 更新日志
+### 2.1.0 (2026-11-18)
+* (ssbingo) **新小部件“能源之家”：** 以等轴测房屋显示能量流，包含车库、汽车、屋顶光伏、外墙上的 SigenStor 和网关、交流充电桩、直流充电桩、车库屋顶上带 SigenMicro 的阳台电站以及电网连接；电缆按能量流方向动画显示，白天和夜晚按太阳位置切换，可选室外温度和状态文本，每个部分均可隐藏
+
 ### 2.0.2 (2026-11-18)
 * (ssbingo) SigenMicro：新的标签栏——“概览”保持其宽度，设备标签以等宽列分享其余空间，不再超出小部件；最多 3 台设备时标签显示名称，设备更多时显示紧凑编号 01、02 …（与节点一致，名称作为工具提示）；超过 10 台设备时与节点一样分两行
 * (ssbingo) SigenMicro：标签准确位于其节点下方，每行标签紧接在其节点行下方；点击节点或标签可打开该设备的详情标签；磁贴文字对比度更好；如果多台所选设备报告相同的设备名称，则显示序列号
