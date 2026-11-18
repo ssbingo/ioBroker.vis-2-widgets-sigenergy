@@ -264,5 +264,19 @@
   "sig_show_ac": "Показувати зарядку AC",
   "sig_show_dc": "Показувати зарядку DC",
   "sig_show_micro": "Показувати балконну електростанцію",
-  "sig_show_micro_tooltip": "Модулі SigenMicro на даху гаража (потрібен гараж)"
+  "sig_show_micro_tooltip": "Модулі SigenMicro на даху гаража (потрібен гараж)",
+  "group_weather": "Погода",
+  "oid_weather": "Погодні умови",
+  "oid_weather_tooltip": "Необов'язково: погодні умови з погодного адаптера — код WMO, значок або ID OpenWeatherMap, символ DasWetter, значок AccuWeather або англійський текст",
+  "sig_weather_code": "Числовий код погоди",
+  "sig_weather_code_tooltip": "Як читається число в погодних умовах",
+  "sig_weather_code_auto": "Автоматично (WMO, ID OpenWeatherMap)",
+  "sig_weather_code_wmo": "Код WMO (Open-Meteo, DWD)",
+  "sig_weather_code_owm": "ID OpenWeatherMap",
+  "sig_weather_code_meteored": "Символ DasWetter (Meteored)",
+  "sig_weather_code_accu": "Значок AccuWeather",
+  "oid_clouds": "Хмарність (%)",
+  "oid_clouds_tooltip": "Необов'язково: хмарність у відсотках, уточнює або замінює погодні умови",
+  "oid_precip": "Опади (мм/год)",
+  "oid_precip_tooltip": "Необов'язково: кількість опадів; показується як дощ, при 1 °C і нижче як сніг"
 }

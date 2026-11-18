@@ -264,5 +264,19 @@
   "sig_show_ac": "显示交流充电桩",
   "sig_show_dc": "显示直流充电桩",
   "sig_show_micro": "显示阳台电站",
-  "sig_show_micro_tooltip": "车库屋顶上的 SigenMicro 组件（需要显示车库）"
+  "sig_show_micro_tooltip": "车库屋顶上的 SigenMicro 组件（需要显示车库）",
+  "group_weather": "天气",
+  "oid_weather": "天气状况",
+  "oid_weather_tooltip": "可选：天气适配器的天气状况 — WMO 代码、OpenWeatherMap 图标或 ID、DasWetter 符号、AccuWeather 图标或英文文本",
+  "sig_weather_code": "数字天气代码",
+  "sig_weather_code_tooltip": "如何解读天气状况中的数字",
+  "sig_weather_code_auto": "自动（WMO、OpenWeatherMap ID）",
+  "sig_weather_code_wmo": "WMO 代码（Open-Meteo、DWD）",
+  "sig_weather_code_owm": "OpenWeatherMap ID",
+  "sig_weather_code_meteored": "DasWetter 符号（Meteored）",
+  "sig_weather_code_accu": "AccuWeather 图标",
+  "oid_clouds": "云量 (%)",
+  "oid_clouds_tooltip": "可选：以百分比表示的云量，细化或替代天气状况",
+  "oid_precip": "降水量 (mm/h)",
+  "oid_precip_tooltip": "可选：降水量；显示为雨，1 °C 及以下显示为雪"
 }

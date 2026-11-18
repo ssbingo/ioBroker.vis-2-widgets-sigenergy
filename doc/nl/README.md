@@ -55,12 +55,25 @@ Toont de energiestroom als isometrisch huis met garage, auto en de Sigenergy-app
 
 ![Energiehuis overdag](../../img/widget-energiehaus.png)
 ![Energiehuis ’s nachts](../../img/widget-energiehaus-nacht.png)
+![Energiehuis in de regen](../../img/widget-energiehaus-regen.png)
 
 | Instelling | Standaard | Beschrijving |
 |---|---|---|
 | sig_daynight | Automatisch | Automatisch (zonnestand), altijd dag of altijd nacht |
 | sig_animation | aan | Geanimeerde stroom langs de kabels |
 | `sig_show_garage`, `sig_show_car`, `sig_show_ac`, `sig_show_dc`, `sig_show_micro` | aan | Garage, auto, AC-lader, DC-lader en balkoncentrale tonen of verbergen. De balkoncentrale vereist de garage; zonder garage hangt de AC-wallbox aan de gevel |
+
+**Weer (optioneel):** met een weerdatapunt volgt de lucht het echte weer — zon, wolken, regen, sneeuw, mist of onweer; zonder blijft hij helder. Gebruikt wordt de taalonafhankelijke code van de weeradapter; Engelse weerteksten worden ook herkend.
+
+| Adapter | Weersituatie | Bewolking (%) | Neerslag (mm/u) | Numerieke weercode |
+|---|---|---|---|---|
+| open-meteo-weather | `…weather.current.weather_code` | `…weather.current.cloud_cover` | `…weather.current.precipitation` | Automatisch |
+| openweathermap | `forecast.current.icon` | `forecast.current.clouds` | `forecast.current.precipitation` | Automatisch |
+| daswetter | `location_1.ForecastHourly.Current.symbol` | `…Current.clouds` | `…Current.rain` | DasWetter-symbool |
+
+daswetter schrijft het kanaal `Current` alleen met de optie om het huidige uur te kopiëren; gebruik anders `ForecastHourly.Hour_1`. `symbol_URL` werkt ook, met de weercode op Automatisch.
+
+Bewolking en neerslag verfijnen de weersituatie of vervangen die; neerslag bij 1 °C of lager wordt als sneeuw getekend.
 
 ### Batterijstatus & prognoses
 Toont SOC, SOH, laadvermogen en prognoses voor laadtijd, resterende looptijd, eigenverbruik en zelfredzaamheidsgraad.
@@ -194,6 +207,9 @@ Toont een configureerbaar voertuigafbeelding (bijv. Fiat 500e) als centraal visu
 Alle widgets ondersteunen een **lichte en donkere modus**, die kan worden omgeschakeld via de widget-instelling `Donkere modus`. De widgets schalen mee met hun grootte: breedte en hoogte volgen de widget onafhankelijk van elkaar, terwijl de tekst zijn verhoudingen behoudt.
 
 ## Changelog
+### 2.2.0 (2026-11-18)
+* (ssbingo) **Energiehuis toont het echte weer:** met een weerdatapunt (WMO-code van open-meteo-weather, OpenWeatherMap-pictogram of -id, DasWetter-symbool, AccuWeather-pictogram of een Engelse tekst), optioneel bewolking en neerslag, toont de lucht zon, wolken, regen, sneeuw, mist of onweer in plaats van altijd de zon; het symbool naast de temperatuur volgt het weer
+
 ### 2.1.0 (2026-11-18)
 * (ssbingo) **Nieuwe widget "Energiehuis":** de energiestroom als isometrisch huis met garage, auto, PV op het dak, SigenStor en gateway aan de gevel, AC-wallbox, DC-lader, een balkoncentrale met SigenMicro op het garagedak en de netaansluiting; geanimeerde kabels in stroomrichting, dag en nacht volgens de zonnestand, optioneel buitentemperatuur en statustekst, elk onderdeel kan worden verborgen
 

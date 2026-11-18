@@ -56,12 +56,25 @@ Pokazuje przepływ energii jako izometryczny dom z garażem, samochodem i urząd
 
 ![Dom energii w dzień](../../img/widget-energiehaus.png)
 ![Dom energii w nocy](../../img/widget-energiehaus-nacht.png)
+![Dom energii w deszczu](../../img/widget-energiehaus-regen.png)
 
 | Ustawienie | Domyślnie | Opis |
 |---|---|---|
 | sig_daynight | Automatycznie | Automatycznie (położenie słońca), zawsze dzień lub zawsze noc |
 | sig_animation | wł. | Animowany przepływ wzdłuż przewodów |
 | `sig_show_garage`, `sig_show_car`, `sig_show_ac`, `sig_show_dc`, `sig_show_micro` | wł. | Pokazuje lub ukrywa garaż, samochód, ładowarkę AC, ładowarkę DC i elektrownię balkonową. Elektrownia balkonowa wymaga garażu; bez garażu wallbox AC wisi na ścianie domu |
+
+**Pogoda (opcjonalnie):** z punktem danych pogody niebo odpowiada prawdziwej pogodzie — słońce, chmury, deszcz, śnieg, mgła lub burza; bez niego pozostaje bezchmurne. Używany jest niezależny od języka kod adaptera pogody; angielskie teksty pogodowe są również rozpoznawane.
+
+| Adapter | Warunki pogodowe | Zachmurzenie (%) | Opady (mm/h) | Liczbowy kod pogody |
+|---|---|---|---|---|
+| open-meteo-weather | `…weather.current.weather_code` | `…weather.current.cloud_cover` | `…weather.current.precipitation` | Automatycznie |
+| openweathermap | `forecast.current.icon` | `forecast.current.clouds` | `forecast.current.precipitation` | Automatycznie |
+| daswetter | `location_1.ForecastHourly.Current.symbol` | `…Current.clouds` | `…Current.rain` | Symbol DasWetter |
+
+daswetter zapisuje kanał `Current` tylko z opcją kopiowania bieżącej godziny; w przeciwnym razie użyj `ForecastHourly.Hour_1`. Działa też `symbol_URL`, z kodem pogody ustawionym na Automatycznie.
+
+Zachmurzenie i opady uściślają warunki lub je zastępują; opady przy 1 °C lub mniej rysowane są jako śnieg.
 
 ### Stan baterii i prognozy
 Wyświetla SOC, SOH, moc ładowania oraz prognozy czasu do pełnego naładowania, pozostałego czasu pracy, autokonsumpcji i stopnia autarki.
@@ -195,6 +208,9 @@ Wyświetla konfigurowalne zdjęcie pojazdu (np. Fiat 500e) jako centralny elemen
 Wszystkie widżety obsługują **tryb jasny i ciemny**, przełączany przez ustawienie widżetu `Tryb ciemny`. Widżety skalują się wraz ze swoim rozmiarem: szerokość i wysokość dopasowują się do widżetu niezależnie od siebie, a tekst zachowuje swoje proporcje.
 
 ## Changelog
+### 2.2.0 (2026-11-18)
+* (ssbingo) **Dom energii pokazuje prawdziwą pogodę:** z punktem danych pogody (kod WMO z open-meteo-weather, ikona lub id OpenWeatherMap, symbol DasWetter, ikona AccuWeather lub tekst angielski), opcjonalnie zachmurzenie i opady, niebo pokazuje słońce, chmury, deszcz, śnieg, mgłę lub burzę zamiast zawsze słońca; symbol obok temperatury odpowiada pogodzie
+
 ### 2.1.0 (2026-11-18)
 * (ssbingo) **Nowy widżet „Dom energii”:** przepływ energii jako izometryczny dom z garażem, samochodem, PV na dachu, SigenStor i bramką na ścianie, wallboxem AC, ładowarką DC, elektrownią balkonową z SigenMicro na dachu garażu i przyłączem sieciowym; animowane przewody w kierunku przepływu, dzień i noc według położenia słońca, opcjonalnie temperatura zewnętrzna i tekst statusu, każdą część można ukryć
 

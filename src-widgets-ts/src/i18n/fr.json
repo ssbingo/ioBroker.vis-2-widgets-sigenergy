@@ -264,5 +264,19 @@
   "sig_show_ac": "Afficher la borne AC",
   "sig_show_dc": "Afficher la borne DC",
   "sig_show_micro": "Afficher la centrale de balcon",
-  "sig_show_micro_tooltip": "Modules SigenMicro sur le toit du garage (nécessite le garage)"
+  "sig_show_micro_tooltip": "Modules SigenMicro sur le toit du garage (nécessite le garage)",
+  "group_weather": "Météo",
+  "oid_weather": "Conditions météo",
+  "oid_weather_tooltip": "Facultatif : conditions d'un adaptateur météo — code WMO, icône ou id OpenWeatherMap, symbole DasWetter, icône AccuWeather ou un texte en anglais",
+  "sig_weather_code": "Code météo numérique",
+  "sig_weather_code_tooltip": "Comment un nombre dans les conditions météo est lu",
+  "sig_weather_code_auto": "Automatique (WMO, id OpenWeatherMap)",
+  "sig_weather_code_wmo": "Code WMO (Open-Meteo, DWD)",
+  "sig_weather_code_owm": "Id OpenWeatherMap",
+  "sig_weather_code_meteored": "Symbole DasWetter (Meteored)",
+  "sig_weather_code_accu": "Icône AccuWeather",
+  "oid_clouds": "Couverture nuageuse (%)",
+  "oid_clouds_tooltip": "Facultatif : couverture nuageuse en pour cent, précise ou remplace les conditions",
+  "oid_precip": "Précipitations (mm/h)",
+  "oid_precip_tooltip": "Facultatif : quantité de précipitations ; affichée comme pluie, à 1 °C ou moins comme neige"
 }

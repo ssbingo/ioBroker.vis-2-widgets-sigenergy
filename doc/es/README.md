@@ -56,12 +56,25 @@ Muestra el flujo de energía como una casa isométrica con garaje, coche y los d
 
 ![Casa energética de día](../../img/widget-energiehaus.png)
 ![Casa energética de noche](../../img/widget-energiehaus-nacht.png)
+![Casa energética bajo la lluvia](../../img/widget-energiehaus-regen.png)
 
 | Ajuste | Predeterminado | Descripción |
 |---|---|---|
 | sig_daynight | Automático | Automático (posición del sol), siempre día o siempre noche |
 | sig_animation | activado | Flujo animado a lo largo de los cables |
 | `sig_show_garage`, `sig_show_car`, `sig_show_ac`, `sig_show_dc`, `sig_show_micro` | activado | Mostrar u ocultar garaje, coche, cargador AC, cargador DC y planta de balcón. La planta de balcón requiere el garaje; sin garaje, la wallbox AC cuelga de la pared de la casa |
+
+**Tiempo (opcional):** con un estado meteorológico el cielo sigue el tiempo real — sol, nubes, lluvia, nieve, niebla o tormenta; sin él permanece despejado. Se usa el código independiente del idioma del adaptador meteorológico; los textos meteorológicos en inglés también se reconocen.
+
+| Adaptador | Condición meteorológica | Nubosidad (%) | Precipitación (mm/h) | Código meteorológico numérico |
+|---|---|---|---|---|
+| open-meteo-weather | `…weather.current.weather_code` | `…weather.current.cloud_cover` | `…weather.current.precipitation` | Automático |
+| openweathermap | `forecast.current.icon` | `forecast.current.clouds` | `forecast.current.precipitation` | Automático |
+| daswetter | `location_1.ForecastHourly.Current.symbol` | `…Current.clouds` | `…Current.rain` | Símbolo de DasWetter |
+
+daswetter solo escribe el canal `Current` con la opción de copiar la hora actual; si no, use `ForecastHourly.Hour_1`. `symbol_URL` también funciona, con el código en Automático.
+
+La nubosidad y la precipitación precisan la condición o la sustituyen; la precipitación a 1 °C o menos se dibuja como nieve.
 
 ### Estado de la batería y previsiones
 Muestra SOC, SOH, potencia de carga y previsiones de tiempo de carga completa, autonomía restante, autoconsumo y tasa de autarquía.
@@ -195,6 +208,9 @@ Muestra una imagen de vehículo configurable (p. ej. Fiat 500e) como elemento vi
 Todos los widgets admiten un **modo claro y oscuro**, conmutable mediante el ajuste de widget `Modo oscuro`. Los widgets se escalan con su tamaño: el ancho y el alto siguen al widget de forma independiente, mientras que el texto mantiene sus proporciones.
 
 ## Changelog
+### 2.2.0 (2026-11-18)
+* (ssbingo) **La casa energética muestra el tiempo real:** con un estado meteorológico (código WMO de open-meteo-weather, icono o id de OpenWeatherMap, símbolo de DasWetter, icono de AccuWeather o un texto en inglés), opcionalmente nubosidad y precipitación, el cielo muestra sol, nubes, lluvia, nieve, niebla o tormenta en lugar de siempre el sol; el símbolo junto a la temperatura sigue el tiempo
+
 ### 2.1.0 (2026-11-18)
 * (ssbingo) **Nuevo widget "Casa energética":** el flujo de energía como casa isométrica con garaje, coche, PV en el tejado, SigenStor y pasarela en la pared, wallbox AC, cargador DC, una planta de balcón con SigenMicro en el tejado del garaje y la conexión a la red; cables animados en la dirección del flujo, día y noche según la posición del sol, temperatura exterior y texto de estado opcionales, cada parte se puede ocultar
 

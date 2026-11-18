@@ -56,12 +56,25 @@ Animated arrows visualise active connections in real time.
 
 ![白天的能源之家](../../img/widget-energiehaus.png)
 ![夜晚的能源之家](../../img/widget-energiehaus-nacht.png)
+![雨中的能源之家](../../img/widget-energiehaus-regen.png)
 
 | 设置 | 默认值 | 说明 |
 |---|---|---|
 | sig_daynight | 自动 | 自动（太阳位置）、始终白天或始终夜晚 |
 | sig_animation | 开 | 沿电缆的动画流动 |
 | `sig_show_garage`, `sig_show_car`, `sig_show_ac`, `sig_show_dc`, `sig_show_micro` | 开 | 显示或隐藏车库、汽车、交流充电桩、直流充电桩和阳台电站。阳台电站需要车库；没有车库时交流充电桩挂在房屋外墙上 |
+
+**天气（可选）：** 关联天气数据点后，天空会随真实天气变化 — 太阳、云、雨、雪、雾或雷暴；未关联时保持晴朗。使用天气适配器与语言无关的代码；也能识别英文天气文本。
+
+| 适配器 | 天气状况 | 云量 (%) | 降水量 (mm/h) | 数字天气代码 |
+|---|---|---|---|---|
+| open-meteo-weather | `…weather.current.weather_code` | `…weather.current.cloud_cover` | `…weather.current.precipitation` | 自动 |
+| openweathermap | `forecast.current.icon` | `forecast.current.clouds` | `forecast.current.precipitation` | 自动 |
+| daswetter | `location_1.ForecastHourly.Current.symbol` | `…Current.clouds` | `…Current.rain` | DasWetter 符号 |
+
+daswetter 仅在启用复制当前小时的选项时才写入 `Current` 通道；否则请使用 `ForecastHourly.Hour_1`。`symbol_URL` 同样可用，此时天气代码设为自动。
+
+云量和降水量可细化或替代天气状况；1 °C 及以下的降水绘制为雪。
 
 ### 电池状态与预测
 Displays SOC, SOH, charging power and forecasts for time to full charge, remaining runtime, self-consumption and autarky rate.
@@ -204,6 +217,9 @@ online, activePower, reactivePower, pvPower, pv1…pv4.voltage / current / power
 所有小部件均支持**浅色和深色模式**,可通过小部件设置 `Dark mode` 切换。小部件会随其尺寸缩放:宽度和高度分别独立跟随小部件,而文字保持其比例。
 
 ## 更新日志
+### 2.2.0 (2026-11-18)
+* (ssbingo) **能源之家显示真实天气：** 关联天气数据点（open-meteo-weather 的 WMO 代码、OpenWeatherMap 图标或 ID、DasWetter 符号、AccuWeather 图标或英文文本），可选云量和降水量后，天空显示太阳、云、雨、雪、雾或雷暴，而不再总是太阳；温度旁的符号随天气变化
+
 ### 2.1.0 (2026-11-18)
 * (ssbingo) **新小部件“能源之家”：** 以等轴测房屋显示能量流，包含车库、汽车、屋顶光伏、外墙上的 SigenStor 和网关、交流充电桩、直流充电桩、车库屋顶上带 SigenMicro 的阳台电站以及电网连接；电缆按能量流方向动画显示，白天和夜晚按太阳位置切换，可选室外温度和状态文本，每个部分均可隐藏
 

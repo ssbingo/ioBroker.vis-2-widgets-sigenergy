@@ -264,5 +264,19 @@
   "sig_show_ac": "Mostrar carregador AC",
   "sig_show_dc": "Mostrar carregador DC",
   "sig_show_micro": "Mostrar central solar de varanda",
-  "sig_show_micro_tooltip": "Módulos SigenMicro no telhado da garagem (requer a garagem)"
+  "sig_show_micro_tooltip": "Módulos SigenMicro no telhado da garagem (requer a garagem)",
+  "group_weather": "Tempo",
+  "oid_weather": "Condição meteorológica",
+  "oid_weather_tooltip": "Opcional: condição meteorológica de um adaptador — código WMO, ícone ou id OpenWeatherMap, símbolo DasWetter, ícone AccuWeather ou um texto em inglês",
+  "sig_weather_code": "Código meteorológico numérico",
+  "sig_weather_code_tooltip": "Como é lido um número na condição meteorológica",
+  "sig_weather_code_auto": "Automático (WMO, id OpenWeatherMap)",
+  "sig_weather_code_wmo": "Código WMO (Open-Meteo, DWD)",
+  "sig_weather_code_owm": "Id OpenWeatherMap",
+  "sig_weather_code_meteored": "Símbolo DasWetter (Meteored)",
+  "sig_weather_code_accu": "Ícone AccuWeather",
+  "oid_clouds": "Nebulosidade (%)",
+  "oid_clouds_tooltip": "Opcional: nebulosidade em percentagem, refina ou substitui a condição",
+  "oid_precip": "Precipitação (mm/h)",
+  "oid_precip_tooltip": "Opcional: quantidade de precipitação; mostrada como chuva, a 1 °C ou menos como neve"
 }

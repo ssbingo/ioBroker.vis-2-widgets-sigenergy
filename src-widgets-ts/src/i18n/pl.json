@@ -264,5 +264,19 @@
   "sig_show_ac": "Pokaż ładowarkę AC",
   "sig_show_dc": "Pokaż ładowarkę DC",
   "sig_show_micro": "Pokaż elektrownię balkonową",
-  "sig_show_micro_tooltip": "Moduły SigenMicro na dachu garażu (wymaga garażu)"
+  "sig_show_micro_tooltip": "Moduły SigenMicro na dachu garażu (wymaga garażu)",
+  "group_weather": "Pogoda",
+  "oid_weather": "Warunki pogodowe",
+  "oid_weather_tooltip": "Opcjonalnie: warunki z adaptera pogody — kod WMO, ikona lub id OpenWeatherMap, symbol DasWetter, ikona AccuWeather lub tekst angielski",
+  "sig_weather_code": "Liczbowy kod pogody",
+  "sig_weather_code_tooltip": "Jak odczytywana jest liczba w warunkach pogodowych",
+  "sig_weather_code_auto": "Automatycznie (WMO, id OpenWeatherMap)",
+  "sig_weather_code_wmo": "Kod WMO (Open-Meteo, DWD)",
+  "sig_weather_code_owm": "Id OpenWeatherMap",
+  "sig_weather_code_meteored": "Symbol DasWetter (Meteored)",
+  "sig_weather_code_accu": "Ikona AccuWeather",
+  "oid_clouds": "Zachmurzenie (%)",
+  "oid_clouds_tooltip": "Opcjonalnie: zachmurzenie w procentach, uściśla lub zastępuje warunki",
+  "oid_precip": "Opady (mm/h)",
+  "oid_precip_tooltip": "Opcjonalnie: wielkość opadów; pokazywane jako deszcz, przy 1 °C lub mniej jako śnieg"
 }

@@ -4,6 +4,8 @@ import type { RxRenderWidgetProps, RxWidgetInfo, VisRxWidgetProps } from '@iobro
 
 import SigWidget, { oidField, SET_COLOR, SET_ICON, VIS_SET, type SigRxData, type SigState } from './SigWidget';
 import { num0, toNum, type StateVal } from './common';
+import { parseCondition, resolveWeather, type Weather, type WeatherCode } from './weather';
+import { drawPrecip, drawSky, SKY_DAY, SKY_NIGHT, SUB_DAY_DARK, weatherIcon } from './weatherDraw';
 
 /**
  * Energy house: the energy flow drawn as an isometric house with garage, car and the Sigenergy
@@ -26,6 +28,10 @@ interface EnergyHouseRxData extends SigRxData {
     oid_micro: string;
     oid_temp: string;
     oid_status: string;
+    oid_weather: string;
+    oid_clouds: string;
+    oid_precip: string;
+    sig_weather_code: WeatherCode;
     sig_daynight: 'auto' | 'day' | 'night';
     sig_animation: boolean | string;
     sig_show_garage: boolean | string;
@@ -282,6 +288,29 @@ export default class EnergyHouse extends SigWidget<EnergyHouseRxData, EnergyHous
                     ],
                 },
                 {
+                    name: 'weather',
+                    label: 'group_weather',
+                    fields: [
+                        { name: 'oid_weather', type: 'id', label: 'oid_weather', tooltip: 'oid_weather_tooltip' },
+                        {
+                            name: 'sig_weather_code',
+                            type: 'select',
+                            label: 'sig_weather_code',
+                            tooltip: 'sig_weather_code_tooltip',
+                            options: [
+                                { value: 'auto', label: 'sig_weather_code_auto' },
+                                { value: 'wmo', label: 'sig_weather_code_wmo' },
+                                { value: 'owm', label: 'sig_weather_code_owm' },
+                                { value: 'meteored', label: 'sig_weather_code_meteored' },
+                                { value: 'accu', label: 'sig_weather_code_accu' },
+                            ],
+                            default: 'auto',
+                        },
+                        { name: 'oid_clouds', type: 'id', label: 'oid_clouds', tooltip: 'oid_clouds_tooltip' },
+                        { name: 'oid_precip', type: 'id', label: 'oid_precip', tooltip: 'oid_precip_tooltip' },
+                    ],
+                },
+                {
                     name: 'appearance',
                     label: 'group_appearance',
                     fields: [
@@ -389,7 +418,19 @@ export default class EnergyHouse extends SigWidget<EnergyHouseRxData, EnergyHous
         super.renderWidgetBody(props);
         const rx = this.state.rxData;
         const day = this.isDay();
-        const c = day ? DAY : NIGHT;
+        const temp = this.oid('oid_temp') ? toNum(this.v('oid_temp')) : null;
+        const hasWeather = !!(this.oid('oid_weather') || this.oid('oid_clouds') || this.oid('oid_precip'));
+        const weather: Weather = resolveWeather(
+            this.oid('oid_weather') ? parseCondition(this.v('oid_weather'), rx.sig_weather_code || 'auto') : null,
+            this.oid('oid_clouds') ? toNum(this.v('oid_clouds')) : null,
+            this.oid('oid_precip') ? toNum(this.v('oid_precip')) : null,
+            temp,
+        );
+        const sky = (day ? SKY_DAY : SKY_NIGHT)[weather];
+        const c: Palette = { ...(day ? DAY : NIGHT), ...(sky ? { sky1: sky[0], sky2: sky[1] } : {}) };
+        if (day && (weather === 'rain' || weather === 'storm')) {
+            c.sub = SUB_DAY_DARK;
+        }
         const anim = flag(rx.sig_animation, true);
         const showGarage = flag(rx.sig_show_garage, true);
         const showCar = flag(rx.sig_show_car, true);
@@ -406,7 +447,6 @@ export default class EnergyHouse extends SigWidget<EnergyHouseRxData, EnergyHous
         const ac = num0(this.v('oid_ac_power'));
         const dc = num0(this.v('oid_dc_power'));
         const micro = num0(this.v('oid_micro'));
-        const temp = this.oid('oid_temp') ? toNum(this.v('oid_temp')) : null;
         const statusRaw = this.oid('oid_status') ? this.v('oid_status') : undefined;
         const status = statusRaw === undefined || statusRaw === null ? '' : String(statusRaw);
 
@@ -456,65 +496,8 @@ export default class EnergyHouse extends SigWidget<EnergyHouseRxData, EnergyHous
             }
         };
 
-        /* ── sky ornaments ── */
-        if (day) {
-            els.push(
-                <g key={k++}>
-                    <circle
-                        cx="588"
-                        cy="40"
-                        r="28"
-                        fill="#ffd166"
-                        opacity=".18"
-                    />
-                    <circle
-                        cx="588"
-                        cy="40"
-                        r="18"
-                        fill="#ffd166"
-                    />
-                </g>,
-            );
-        } else {
-            [
-                [60, 140],
-                [110, 30],
-                [200, 120],
-                [560, 90],
-                [610, 160],
-                [470, 20],
-                [300, 12],
-                [520, 130],
-                [30, 230],
-            ].forEach(([x, y], i) =>
-                els.push(
-                    <circle
-                        key={k++}
-                        cx={x}
-                        cy={y}
-                        r={i % 3 ? 0.9 : 1.4}
-                        fill="#cfd8e3"
-                        opacity=".55"
-                    />,
-                ),
-            );
-            els.push(
-                <g key={k++}>
-                    <circle
-                        cx="590"
-                        cy="38"
-                        r="13"
-                        fill="#e7e2cf"
-                    />
-                    <circle
-                        cx="596"
-                        cy="33"
-                        r="12"
-                        fill={c.sky1}
-                    />
-                </g>,
-            );
-        }
+        /* ── sky: sun or moon and stars, clouds, lightning ── */
+        drawSky(els, () => k++, weather, day, anim, c.sky1);
 
         /* ── ground, driveway ── */
         poly(topF(-9, 18, -3, 16, 0), c.ground);
@@ -862,12 +845,7 @@ export default class EnergyHouse extends SigWidget<EnergyHouseRxData, EnergyHous
         if (temp !== null) {
             els.push(
                 <g key={k++}>
-                    <circle
-                        cx="34"
-                        cy="38"
-                        r="9"
-                        fill={day ? '#ffd166' : '#e7e2cf'}
-                    />
+                    {weatherIcon(34, 38, weather, day)}
                     <text
                         x="52"
                         y="44"
@@ -879,6 +857,9 @@ export default class EnergyHouse extends SigWidget<EnergyHouseRxData, EnergyHous
                     </text>
                 </g>,
             );
+        }
+        if (temp === null && hasWeather) {
+            els.push(<g key={k++}>{weatherIcon(34, 38, weather, day)}</g>);
         }
         if (status) {
             els.push(
@@ -894,6 +875,9 @@ export default class EnergyHouse extends SigWidget<EnergyHouseRxData, EnergyHous
                 </text>,
             );
         }
+
+        /* ── rain, snow and fog in front of the scene, the callouts stay on top ── */
+        drawPrecip(els, () => k++, weather, day, anim, String(this.props.id));
 
         /* ── callouts ── */
         const kw = (v: number): string => `${Math.abs(v).toFixed(2)} kW`;

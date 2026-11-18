@@ -264,5 +264,19 @@
   "sig_show_ac": "AC-lader tonen",
   "sig_show_dc": "DC-lader tonen",
   "sig_show_micro": "Balkoncentrale tonen",
-  "sig_show_micro_tooltip": "SigenMicro-panelen op het garagedak (vereist de garage)"
+  "sig_show_micro_tooltip": "SigenMicro-panelen op het garagedak (vereist de garage)",
+  "group_weather": "Weer",
+  "oid_weather": "Weersituatie",
+  "oid_weather_tooltip": "Optioneel: weersituatie van een weeradapter — WMO-code, OpenWeatherMap-pictogram of -id, DasWetter-symbool, AccuWeather-pictogram of een Engelse tekst",
+  "sig_weather_code": "Numerieke weercode",
+  "sig_weather_code_tooltip": "Hoe een getal in de weersituatie wordt gelezen",
+  "sig_weather_code_auto": "Automatisch (WMO, OpenWeatherMap-id)",
+  "sig_weather_code_wmo": "WMO-code (Open-Meteo, DWD)",
+  "sig_weather_code_owm": "OpenWeatherMap-id",
+  "sig_weather_code_meteored": "DasWetter-symbool (Meteored)",
+  "sig_weather_code_accu": "AccuWeather-pictogram",
+  "oid_clouds": "Bewolking (%)",
+  "oid_clouds_tooltip": "Optioneel: bewolking in procent, verfijnt of vervangt de weersituatie",
+  "oid_precip": "Neerslag (mm/u)",
+  "oid_precip_tooltip": "Optioneel: hoeveelheid neerslag; getoond als regen, bij 1 °C of lager als sneeuw"
 }

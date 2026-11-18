@@ -855,3 +855,13 @@
 .sig-eh-flow.rev { animation-direction: reverse; }
 @keyframes sig-eh-run { to { stroke-dashoffset: -10; } }
 @media (prefers-reduced-motion: reduce) { .sig-eh-flow { animation: none; } }
+.sig-eh-clouds { animation: sig-eh-drift 60s ease-in-out infinite alternate; }
+@keyframes sig-eh-drift { from { transform: translateX(-14px); } to { transform: translateX(14px); } }
+.sig-eh-drop { animation: sig-eh-fall .9s linear infinite; }
+@keyframes sig-eh-fall { from { transform: translate(0, -40px); opacity: 0; } 15% { opacity: 1; } to { transform: translate(-14px, 40px); opacity: 0; } }
+.sig-eh-flake { animation: sig-eh-snow 5s linear infinite; }
+@keyframes sig-eh-snow { from { transform: translate(0, -50px); opacity: 0; } 15% { opacity: 1; } 50% { transform: translate(8px, 0); } to { transform: translate(-4px, 50px); opacity: 0; } }
+.sig-eh-fog { animation: sig-eh-drift 40s ease-in-out infinite alternate; }
+.sig-eh-bolt { animation: sig-eh-flash 5s steps(1) infinite; }
+@keyframes sig-eh-flash { 0%, 100% { opacity: 0; } 62% { opacity: 1; } 64% { opacity: 0; } 67% { opacity: 1; } 70% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .sig-eh-clouds, .sig-eh-drop, .sig-eh-flake, .sig-eh-fog { animation: none; } .sig-eh-bolt { animation: none; opacity: 1; } }

@@ -56,12 +56,25 @@ Shows the energy flow as an isometric house with garage, car and the Sigenergy d
 
 ![Energy house by day](img/widget-energiehaus.png)
 ![Energy house at night](img/widget-energiehaus-nacht.png)
+![Energy house in the rain](img/widget-energiehaus-regen.png)
 
 | Setting | Default | Description |
 |---|---|---|
 | sig_daynight | Automatic | Automatic (position of the sun), always day or always night |
 | sig_animation | on | Animated flow along the cables |
 | `sig_show_garage`, `sig_show_car`, `sig_show_ac`, `sig_show_dc`, `sig_show_micro` | on | Show or hide garage, car, AC charger, DC charger and the balcony power plant. The balcony power plant needs the garage; without the garage the AC wallbox hangs on the house wall |
+
+**Weather (optional):** with a weather state the sky follows the real weather — sun, clouds, rain, snow, fog or thunderstorm; without one it stays clear. Use the language-independent code of the weather adapter; English condition texts are read as well.
+
+| Adapter | Weather condition | Cloud cover (%) | Precipitation (mm/h) | Numeric weather code |
+|---|---|---|---|---|
+| open-meteo-weather | `…weather.current.weather_code` | `…weather.current.cloud_cover` | `…weather.current.precipitation` | Automatic |
+| openweathermap | `forecast.current.icon` | `forecast.current.clouds` | `forecast.current.precipitation` | Automatic |
+| daswetter | `location_1.ForecastHourly.Current.symbol` | `…Current.clouds` | `…Current.rain` | DasWetter symbol |
+
+daswetter writes the `Current` channel only with the option to copy the current hour; otherwise use `ForecastHourly.Hour_1`. `symbol_URL` works as well, with the code setting on Automatic.
+
+Cloud cover and precipitation refine the condition or stand in for it; precipitation at or below 1 °C is drawn as snow.
 
 ### Battery Status & Forecasts
 Displays SOC, SOH, charging power and forecasts for time to full charge, remaining runtime, self-consumption and autarky rate.
@@ -204,6 +217,9 @@ Displays a configurable vehicle image (e.g. Fiat 500e) as the central visual ele
 All widgets support a **light and dark mode**, switchable via the widget setting `Dark mode`. The widgets scale with their size: width and height follow the widget independently, while the text keeps its proportions.
 
 ## Changelog
+### 2.2.0 (2026-11-18)
+* (ssbingo) **Energy house shows the real weather:** with a weather state (WMO code of open-meteo-weather, OpenWeatherMap icon or id, DasWetter symbol, AccuWeather icon or an English text), optionally cloud cover and precipitation, the sky shows sun, clouds, rain, snow, fog or thunderstorm instead of always the sun; the symbol next to the temperature follows the weather
+
 ### 2.1.0 (2026-11-18)
 * (ssbingo) **New widget "Energy house":** the energy flow as an isometric house with garage, car, PV on the roof, SigenStor and gateway on the house wall, AC wallbox, DC charger, a balcony power plant with SigenMicro on the garage roof and the grid connection; animated cables in the direction of the flow, day and night after the position of the sun, optional outdoor temperature and status text, every part can be hidden
 

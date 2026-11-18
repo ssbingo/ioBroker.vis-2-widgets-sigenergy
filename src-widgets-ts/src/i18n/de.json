@@ -264,5 +264,19 @@
   "sig_show_ac": "AC-Lader anzeigen",
   "sig_show_dc": "DC-Lader anzeigen",
   "sig_show_micro": "Balkonkraftwerk anzeigen",
-  "sig_show_micro_tooltip": "SigenMicro-Module auf dem Garagendach (benötigt die Garage)"
+  "sig_show_micro_tooltip": "SigenMicro-Module auf dem Garagendach (benötigt die Garage)",
+  "group_weather": "Wetter",
+  "oid_weather": "Wetterlage",
+  "oid_weather_tooltip": "Optional: Wetterlage eines Wetter-Adapters — WMO-Code, OpenWeatherMap-Symbol oder -ID, DasWetter-Symbol, AccuWeather-Symbol oder ein englischer Text",
+  "sig_weather_code": "Numerischer Wettercode",
+  "sig_weather_code_tooltip": "Wie eine Zahl in der Wetterlage gelesen wird",
+  "sig_weather_code_auto": "Automatisch (WMO, OpenWeatherMap-ID)",
+  "sig_weather_code_wmo": "WMO-Code (Open-Meteo, DWD)",
+  "sig_weather_code_owm": "OpenWeatherMap-ID",
+  "sig_weather_code_meteored": "DasWetter-Symbol (Meteored)",
+  "sig_weather_code_accu": "AccuWeather-Symbol",
+  "oid_clouds": "Bewölkung (%)",
+  "oid_clouds_tooltip": "Optional: Bewölkung in Prozent, verfeinert oder ersetzt die Wetterlage",
+  "oid_precip": "Niederschlag (mm/h)",
+  "oid_precip_tooltip": "Optional: Niederschlagsmenge; als Regen angezeigt, bei 1 °C oder weniger als Schnee"
 }

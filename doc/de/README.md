@@ -56,12 +56,25 @@ Zeigt den Energiefluss als isometrisches Haus mit Garage, Auto und den Sigenergy
 
 ![Energiehaus am Tag](../../img/widget-energiehaus.png)
 ![Energiehaus in der Nacht](../../img/widget-energiehaus-nacht.png)
+![Energiehaus im Regen](../../img/widget-energiehaus-regen.png)
 
 | Einstellung | Vorgabe | Beschreibung |
 |---|---|---|
 | sig_daynight | Automatisch | Automatisch (Sonnenstand), immer Tag oder immer Nacht |
 | sig_animation | an | Animierter Fluss an den Leitungen |
 | `sig_show_garage`, `sig_show_car`, `sig_show_ac`, `sig_show_dc`, `sig_show_micro` | an | Garage, Auto, AC-Lader, DC-Lader und Balkonkraftwerk ein- oder ausblenden. Das Balkonkraftwerk benötigt die Garage; ohne Garage hängt die AC-Wallbox an der Hauswand |
+
+**Wetter (optional):** mit einem Wetter-Datenpunkt folgt der Himmel dem echten Wetter — Sonne, Wolken, Regen, Schnee, Nebel oder Gewitter; ohne bleibt er klar. Verwendet wird der sprachunabhängige Code des Wetter-Adapters; englische Wettertexte werden ebenfalls erkannt.
+
+| Adapter | Wetterlage | Bewölkung (%) | Niederschlag (mm/h) | Numerischer Wettercode |
+|---|---|---|---|---|
+| open-meteo-weather | `…weather.current.weather_code` | `…weather.current.cloud_cover` | `…weather.current.precipitation` | Automatisch |
+| openweathermap | `forecast.current.icon` | `forecast.current.clouds` | `forecast.current.precipitation` | Automatisch |
+| daswetter | `location_1.ForecastHourly.Current.symbol` | `…Current.clouds` | `…Current.rain` | DasWetter-Symbol |
+
+daswetter schreibt den Kanal `Current` nur mit der Option, die aktuelle Stunde zu kopieren; sonst `ForecastHourly.Hour_1` verwenden. `symbol_URL` funktioniert ebenfalls, mit dem Wettercode auf Automatisch.
+
+Bewölkung und Niederschlag verfeinern die Wetterlage oder ersetzen sie; Niederschlag bei 1 °C oder weniger wird als Schnee gezeichnet.
 
 ### Akku-Status & Prognosen
 Zeigt SOC, SOH, Ladeleistung sowie Prognosen für Ladezeit, Restlaufzeit, Eigenverbrauch und Autarkierate.
@@ -204,6 +217,9 @@ Zeigt ein konfigurierbares Fahrzeugbild (z.B. Fiat 500e) als zentrales Sichtelem
 Alle Widgets unterstützen einen **Hell- und Dunkelmodus**, der über die Widget-Einstellung `Dunkelmodus` umgeschaltet werden kann. Die Widgets skalieren mit ihrer Größe: Breite und Höhe folgen dem Widget unabhängig voneinander, die Schrift behält ihre Proportionen.
 
 ## Changelog
+### 2.2.0 (2026-11-18)
+* (ssbingo) **Energiehaus zeigt das echte Wetter:** mit einem Wetter-Datenpunkt (WMO-Code von open-meteo-weather, OpenWeatherMap-Symbol oder -ID, DasWetter-Symbol, AccuWeather-Symbol oder ein englischer Text), optional Bewölkung und Niederschlag, zeigt der Himmel Sonne, Wolken, Regen, Schnee, Nebel oder Gewitter statt immer die Sonne; das Symbol neben der Temperatur folgt dem Wetter
+
 ### 2.1.0 (2026-11-18)
 * (ssbingo) **Neues Widget „Energiehaus“:** der Energiefluss als isometrisches Haus mit Garage, Auto, PV auf dem Dach, SigenStor und Gateway an der Hauswand, AC-Wallbox, DC-Lader, einem Balkonkraftwerk mit SigenMicro auf dem Garagendach und dem Netzanschluss; animierte Leitungen in Flussrichtung, Tag und Nacht nach Sonnenstand, optional Außentemperatur und Statustext, jedes Bauteil ausblendbar
 

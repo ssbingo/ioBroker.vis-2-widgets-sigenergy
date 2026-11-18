@@ -264,5 +264,19 @@
   "sig_show_ac": "Show AC charger",
   "sig_show_dc": "Show DC charger",
   "sig_show_micro": "Show balcony power plant",
-  "sig_show_micro_tooltip": "SigenMicro modules on the garage roof (needs the garage)"
+  "sig_show_micro_tooltip": "SigenMicro modules on the garage roof (needs the garage)",
+  "group_weather": "Weather",
+  "oid_weather": "Weather condition",
+  "oid_weather_tooltip": "Optional: weather condition of a weather adapter — WMO code, OpenWeatherMap icon or id, DasWetter symbol, AccuWeather icon or an English text",
+  "sig_weather_code": "Numeric weather code",
+  "sig_weather_code_tooltip": "How a number in the weather condition is read",
+  "sig_weather_code_auto": "Automatic (WMO, OpenWeatherMap id)",
+  "sig_weather_code_wmo": "WMO code (Open-Meteo, DWD)",
+  "sig_weather_code_owm": "OpenWeatherMap id",
+  "sig_weather_code_meteored": "DasWetter symbol (Meteored)",
+  "sig_weather_code_accu": "AccuWeather icon",
+  "oid_clouds": "Cloud cover (%)",
+  "oid_clouds_tooltip": "Optional: cloud cover in percent, refines or replaces the condition",
+  "oid_precip": "Precipitation (mm/h)",
+  "oid_precip_tooltip": "Optional: precipitation amount; shown as rain, at or below 1 °C as snow"
 }
